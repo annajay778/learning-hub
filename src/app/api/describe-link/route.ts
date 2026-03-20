@@ -32,12 +32,9 @@ export async function POST(req: NextRequest) {
       .trim()
       .slice(0, 6000);
 
-    if (!text || text.length < 20) {
-      return NextResponse.json(
-        { error: "Not enough content found on the page" },
-        { status: 422 }
-      );
-    }
+    // If the page is a client-rendered SPA, we'll get very little text.
+    // Use a higher threshold and fall back to URL-only description.
+    const hasContent = text.length >= 100;
 
     const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) {
@@ -46,6 +43,10 @@ export async function POST(req: NextRequest) {
         { status: 500 }
       );
     }
+
+    const prompt = hasContent
+      ? `Based on this page content, write a 1-2 sentence description of the demo or prototype. Be specific about features shown. No hype, no filler.\n\nURL: ${url}\nPage content:\n${text}`
+      : `This URL points to a web app but I couldn't extract its content (it's likely a client-rendered SPA). Based only on the URL, write a 1-2 sentence description of what this demo or prototype likely does. Be specific if the URL gives clues. If you truly can't tell, say "Could not auto-detect — please add a description manually."\n\nURL: ${url}`;
 
     const completion = await fetch(
       "https://api.anthropic.com/v1/messages",
@@ -62,7 +63,7 @@ export async function POST(req: NextRequest) {
           messages: [
             {
               role: "user",
-              content: `Based on this page content, write a 1-2 sentence description of the demo or prototype. Be specific about features shown. No hype, no filler.\n\nPage content:\n${text}`,
+              content: prompt,
             },
           ],
         }),
