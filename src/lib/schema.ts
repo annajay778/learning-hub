@@ -25,6 +25,7 @@ export const lhPages = pgTable("lh_pages", {
   type: text("type", { enum: ["playbook", "learning"] }).notNull(),
   author: text("author").notNull().default("Anna"),
   pinned: boolean("pinned").notNull().default(false),
+  moduleSlug: text("module_slug"),
   notionPageId: text("notion_page_id").unique(),
   notionLastEdited: timestamp("notion_last_edited"),
   source: text("source", { enum: ["manual", "notion"] })
@@ -32,6 +33,14 @@ export const lhPages = pgTable("lh_pages", {
     .default("manual"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const lhCoachNotes = pgTable("lh_coach_notes", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  author: text("author").notNull().default("Stephanie"),
+  body: text("body").notNull(),
+  reviewed: boolean("reviewed").notNull().default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const lhSyncLog = pgTable("lh_sync_log", {

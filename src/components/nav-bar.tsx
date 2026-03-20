@@ -2,15 +2,22 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Lightbulb, Home, GitCommit } from "lucide-react";
+import {
+  Compass,
+  GraduationCap,
+  Newspaper,
+  MessageCircle,
+  GitCommit,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SyncButton } from "@/components/sync-button";
 
 const links = [
-  { href: "/", label: "Home", icon: Home },
-  { href: "/playbooks", label: "Playbooks", icon: BookOpen },
-  { href: "/learnings", label: "Learnings", icon: Lightbulb },
-  { href: "/journey", label: "Journey", icon: GitCommit },
+  { href: "/", label: "Start Here", icon: Compass },
+  { href: "/learn", label: "Learning Path", icon: GraduationCap },
+  { href: "/whats-new", label: "What's New", icon: Newspaper },
+  { href: "/coach", label: "Coach's Corner", icon: MessageCircle },
+  { href: "/timeline", label: "Timeline", icon: GitCommit },
 ];
 
 export function NavBar({ lastSyncedAt }: { lastSyncedAt: string | null }) {

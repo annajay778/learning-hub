@@ -1,11 +1,17 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { lhPages, lhCategories, lhSyncLog, lhPageSnapshots } from "@/lib/schema";
-import { eq, desc, and } from "drizzle-orm";
+import {
+  lhPages,
+  lhCategories,
+  lhSyncLog,
+  lhPageSnapshots,
+  lhCoachNotes,
+} from "@/lib/schema";
+import { eq, desc, and, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
-// ── Queries ─────────────────────────────────────────────────────
+// ── Page Queries ────────────────────────────────────────────────
 
 export async function getPages(type?: "playbook" | "learning") {
   const conditions = type ? eq(lhPages.type, type) : undefined;
@@ -18,6 +24,7 @@ export async function getPages(type?: "playbook" | "learning") {
       type: lhPages.type,
       author: lhPages.author,
       pinned: lhPages.pinned,
+      moduleSlug: lhPages.moduleSlug,
       createdAt: lhPages.createdAt,
       updatedAt: lhPages.updatedAt,
       categoryName: lhCategories.name,
@@ -39,6 +46,7 @@ export async function getPage(id: string) {
       type: lhPages.type,
       author: lhPages.author,
       pinned: lhPages.pinned,
+      moduleSlug: lhPages.moduleSlug,
       createdAt: lhPages.createdAt,
       updatedAt: lhPages.updatedAt,
       categoryName: lhCategories.name,
@@ -62,6 +70,7 @@ export async function getPinnedPlaybooks() {
       type: lhPages.type,
       author: lhPages.author,
       pinned: lhPages.pinned,
+      moduleSlug: lhPages.moduleSlug,
       createdAt: lhPages.createdAt,
       updatedAt: lhPages.updatedAt,
       categoryName: lhCategories.name,
@@ -80,7 +89,68 @@ export async function getCategories() {
     .orderBy(lhCategories.name);
 }
 
-// ── Mutations ───────────────────────────────────────────────────
+export async function getModulePages(slug: string) {
+  return db
+    .select({
+      id: lhPages.id,
+      title: lhPages.title,
+      body: lhPages.body,
+      categoryId: lhPages.categoryId,
+      type: lhPages.type,
+      author: lhPages.author,
+      pinned: lhPages.pinned,
+      moduleSlug: lhPages.moduleSlug,
+      createdAt: lhPages.createdAt,
+      updatedAt: lhPages.updatedAt,
+      categoryName: lhCategories.name,
+      categoryColor: lhCategories.color,
+    })
+    .from(lhPages)
+    .leftJoin(lhCategories, eq(lhPages.categoryId, lhCategories.id))
+    .where(eq(lhPages.moduleSlug, slug))
+    .orderBy(desc(lhPages.updatedAt));
+}
+
+export async function getModulePageCounts() {
+  const rows = await db
+    .select({
+      moduleSlug: lhPages.moduleSlug,
+      count: sql<number>`count(*)::int`,
+    })
+    .from(lhPages)
+    .where(sql`${lhPages.moduleSlug} IS NOT NULL`)
+    .groupBy(lhPages.moduleSlug);
+
+  const counts: Record<string, number> = {};
+  for (const row of rows) {
+    if (row.moduleSlug) counts[row.moduleSlug] = row.count;
+  }
+  return counts;
+}
+
+// ── What's New ──────────────────────────────────────────────────
+
+export async function getWhatsNew(limit = 30) {
+  const snapshots = await db
+    .select({
+      id: lhPageSnapshots.id,
+      pageId: lhPageSnapshots.pageId,
+      title: lhPageSnapshots.title,
+      snapshotAt: lhPageSnapshots.snapshotAt,
+      changeType: lhPageSnapshots.changeType,
+      pageTitle: lhPages.title,
+      pageType: lhPages.type,
+      source: lhPages.source,
+    })
+    .from(lhPageSnapshots)
+    .leftJoin(lhPages, eq(lhPageSnapshots.pageId, lhPages.id))
+    .orderBy(desc(lhPageSnapshots.snapshotAt))
+    .limit(limit);
+
+  return snapshots;
+}
+
+// ── Page Mutations ──────────────────────────────────────────────
 
 export async function createPage(formData: FormData) {
   const title = formData.get("title") as string;
@@ -88,6 +158,7 @@ export async function createPage(formData: FormData) {
   const type = formData.get("type") as "playbook" | "learning";
   const author = formData.get("author") as string;
   const categoryId = formData.get("categoryId") as string | null;
+  const moduleSlug = formData.get("moduleSlug") as string | null;
 
   if (!title?.trim()) return { error: "Title is required" };
   if (!type) return { error: "Type is required" };
@@ -100,10 +171,13 @@ export async function createPage(formData: FormData) {
       type,
       author: author || "Anna",
       categoryId: categoryId || null,
+      moduleSlug: moduleSlug || null,
     })
     .returning();
 
   revalidatePath("/");
+  revalidatePath("/learn");
+  revalidatePath("/whats-new");
   revalidatePath("/playbooks");
   revalidatePath("/learnings");
 
@@ -114,6 +188,7 @@ export async function updatePage(id: string, formData: FormData) {
   const title = formData.get("title") as string;
   const body = formData.get("body") as string;
   const categoryId = formData.get("categoryId") as string | null;
+  const moduleSlug = formData.get("moduleSlug") as string | null;
 
   if (!title?.trim()) return { error: "Title is required" };
 
@@ -123,6 +198,7 @@ export async function updatePage(id: string, formData: FormData) {
       title: title.trim(),
       body: body?.trim() || "",
       categoryId: categoryId || null,
+      moduleSlug: moduleSlug || null,
       updatedAt: new Date(),
     })
     .where(eq(lhPages.id, id))
@@ -137,10 +213,12 @@ export async function updatePage(id: string, formData: FormData) {
   });
 
   revalidatePath("/");
+  revalidatePath("/learn");
+  revalidatePath("/whats-new");
+  revalidatePath("/timeline");
   revalidatePath("/playbooks");
   revalidatePath("/learnings");
   revalidatePath(`/pages/${id}`);
-  revalidatePath("/journey");
 
   return { page };
 }
@@ -149,6 +227,8 @@ export async function deletePage(id: string) {
   await db.delete(lhPages).where(eq(lhPages.id, id));
 
   revalidatePath("/");
+  revalidatePath("/learn");
+  revalidatePath("/whats-new");
   revalidatePath("/playbooks");
   revalidatePath("/learnings");
 }
@@ -186,6 +266,51 @@ export async function createCategory(formData: FormData) {
   revalidatePath("/playbooks");
 
   return { category };
+}
+
+// ── Coach Notes ─────────────────────────────────────────────────
+
+export async function getCoachNotes() {
+  return db
+    .select()
+    .from(lhCoachNotes)
+    .orderBy(desc(lhCoachNotes.createdAt));
+}
+
+export async function createCoachNote(formData: FormData) {
+  const body = formData.get("body") as string;
+  const author = (formData.get("author") as string) || "Stephanie";
+
+  if (!body?.trim()) return { error: "Body is required" };
+
+  const [note] = await db
+    .insert(lhCoachNotes)
+    .values({
+      body: body.trim(),
+      author,
+    })
+    .returning();
+
+  revalidatePath("/coach");
+
+  return { note };
+}
+
+export async function toggleCoachNoteReviewed(id: string) {
+  const note = await db
+    .select({ reviewed: lhCoachNotes.reviewed })
+    .from(lhCoachNotes)
+    .where(eq(lhCoachNotes.id, id))
+    .limit(1);
+
+  if (!note[0]) return;
+
+  await db
+    .update(lhCoachNotes)
+    .set({ reviewed: !note[0].reviewed })
+    .where(eq(lhCoachNotes.id, id));
+
+  revalidatePath("/coach");
 }
 
 // ── Sync & Journey Queries ──────────────────────────────────────

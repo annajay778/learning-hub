@@ -31,6 +31,7 @@ async function setup() {
       type TEXT NOT NULL CHECK (type IN ('playbook', 'learning')),
       author TEXT NOT NULL DEFAULT 'Anna',
       pinned BOOLEAN NOT NULL DEFAULT false,
+      module_slug TEXT,
       notion_page_id TEXT UNIQUE,
       notion_last_edited TIMESTAMP,
       source TEXT NOT NULL DEFAULT 'manual',
@@ -62,8 +63,19 @@ async function setup() {
     )
   `;
 
+  console.log("Creating lh_coach_notes table...");
+  await sql`
+    CREATE TABLE IF NOT EXISTS lh_coach_notes (
+      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      author TEXT NOT NULL DEFAULT 'Stephanie',
+      body TEXT NOT NULL,
+      reviewed BOOLEAN NOT NULL DEFAULT false,
+      created_at TIMESTAMP DEFAULT NOW() NOT NULL
+    )
+  `;
+
   // Add new columns to existing lh_pages table (safe if already exists)
-  console.log("Adding Notion columns to lh_pages (if missing)...");
+  console.log("Adding columns to lh_pages (if missing)...");
   await sql`
     DO $$ BEGIN
       ALTER TABLE lh_pages ADD COLUMN notion_page_id TEXT UNIQUE;
@@ -79,6 +91,12 @@ async function setup() {
   await sql`
     DO $$ BEGIN
       ALTER TABLE lh_pages ADD COLUMN source TEXT NOT NULL DEFAULT 'manual';
+    EXCEPTION WHEN duplicate_column THEN NULL;
+    END $$
+  `;
+  await sql`
+    DO $$ BEGIN
+      ALTER TABLE lh_pages ADD COLUMN module_slug TEXT;
     EXCEPTION WHEN duplicate_column THEN NULL;
     END $$
   `;
@@ -102,6 +120,39 @@ async function setup() {
       VALUES (${cat.name}, ${cat.color})
       ON CONFLICT (name) DO NOTHING
     `;
+  }
+
+  // Assign modules to existing pages based on title patterns
+  console.log("Assigning modules to existing pages...");
+  const moduleAssignments = [
+    { pattern: "%Technical Setup%", slug: "getting-set-up" },
+    { pattern: "%Environment%", slug: "getting-set-up" },
+    { pattern: "%Working with an AI Engineer%", slug: "working-with-ai-engineer" },
+    { pattern: "%AI Engineer%", slug: "working-with-ai-engineer" },
+    { pattern: "%Move Fast%", slug: "moving-fast" },
+    { pattern: "%Moving Fast%", slug: "moving-fast" },
+    { pattern: "%Product Discovery%", slug: "discovery-with-ai" },
+    { pattern: "%Discovery with AI%", slug: "discovery-with-ai" },
+    { pattern: "%Customer Engagement%", slug: "customer-engagement" },
+    { pattern: "%Beta%", slug: "customer-engagement" },
+    { pattern: "%Mistake%", slug: "mistakes" },
+    { pattern: "%Course Correction%", slug: "mistakes" },
+    { pattern: "%Prototype Hub%", slug: "prototypes" },
+    { pattern: "%Architecture%", slug: "prototypes" },
+    { pattern: "%Extra Playbook%", slug: "prototypes" },
+  ];
+
+  for (const { pattern, slug } of moduleAssignments) {
+    const result = await sql`
+      UPDATE lh_pages
+      SET module_slug = ${slug}
+      WHERE title LIKE ${pattern}
+        AND module_slug IS NULL
+        AND type = 'playbook'
+    `;
+    if (result.count > 0) {
+      console.log(`  Assigned ${result.count} page(s) to "${slug}" via "${pattern}"`);
+    }
   }
 
   console.log("Done! All tables created and seeded.");

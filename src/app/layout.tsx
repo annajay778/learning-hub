@@ -15,8 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Learning Hub",
-  description: "Playbooks and daily learnings for the Smart Nudges experiment",
+  title: "Learning Hub — Knowledge Transfer Platform",
+  description:
+    "From zero to AI-powered PM in a day. Playbooks, learnings, and the full journey.",
 };
 
 export default async function RootLayout({

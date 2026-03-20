@@ -15,7 +15,13 @@ interface Category {
   color: string;
 }
 
-export function PlaybookForm({ categories }: { categories: Category[] }) {
+export function PlaybookForm({
+  categories,
+  defaultModuleSlug,
+}: {
+  categories: Category[];
+  defaultModuleSlug?: string;
+}) {
   const formRef = useRef<HTMLFormElement>(null);
   const [body, setBody] = useState("");
   const [categoryId, setCategoryId] = useState<string | null>(null);
@@ -27,6 +33,7 @@ export function PlaybookForm({ categories }: { categories: Category[] }) {
     formData.set("type", "playbook");
     formData.set("body", body);
     if (categoryId) formData.set("categoryId", categoryId);
+    if (defaultModuleSlug) formData.set("moduleSlug", defaultModuleSlug);
     await createPage(formData);
     formRef.current?.reset();
     setBody("");
@@ -38,7 +45,7 @@ export function PlaybookForm({ categories }: { categories: Category[] }) {
   if (!open) {
     return (
       <Button onClick={() => setOpen(true)} variant="outline" className="w-full">
-        <Plus className="mr-1.5 h-4 w-4" /> New Playbook
+        <Plus className="mr-1.5 h-4 w-4" /> Add a Page
       </Button>
     );
   }
@@ -47,12 +54,12 @@ export function PlaybookForm({ categories }: { categories: Category[] }) {
     <Card>
       <CardHeader className="pb-3">
         <CardTitle className="text-base font-semibold">
-          New Playbook
+          New Page
         </CardTitle>
       </CardHeader>
       <CardContent>
         <form ref={formRef} action={handleSubmit} className="space-y-4">
-          <Input name="title" placeholder="Playbook title" required />
+          <Input name="title" placeholder="Page title" required />
           <CategoryPicker
             categories={categories}
             value={categoryId}
@@ -61,7 +68,7 @@ export function PlaybookForm({ categories }: { categories: Category[] }) {
           <MarkdownEditor
             value={body}
             onChange={setBody}
-            placeholder="Write your playbook in markdown..."
+            placeholder="Write your content in markdown..."
             minRows={6}
           />
           <div className="flex items-center justify-between">
@@ -83,7 +90,7 @@ export function PlaybookForm({ categories }: { categories: Category[] }) {
                 Cancel
               </Button>
               <Button type="submit" size="sm" disabled={submitting}>
-                {submitting ? "Saving..." : "Create Playbook"}
+                {submitting ? "Saving..." : "Create Page"}
               </Button>
             </div>
           </div>
