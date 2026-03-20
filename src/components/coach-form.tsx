@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { createCoachNote } from "@/lib/actions";
@@ -35,16 +36,12 @@ export function CoachForm() {
             required
           />
           <div className="flex items-center justify-between">
-            <select
+            <Input
               name="author"
-              className="rounded-md border border-border bg-card px-3 py-1.5 text-sm"
-              defaultValue="Stephanie"
-            >
-              <option value="Stephanie">Stephanie</option>
-              <option value="Anna">Anna</option>
-              <option value="Spencer">Spencer</option>
-              <option value="Other">Other</option>
-            </select>
+              placeholder="Your name"
+              required
+              className="w-40"
+            />
             <Button type="submit" size="sm" disabled={submitting}>
               {submitting ? "Saving..." : "Post Note"}
             </Button>

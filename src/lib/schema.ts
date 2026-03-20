@@ -43,6 +43,15 @@ export const lhCoachNotes = pgTable("lh_coach_notes", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const lhDemoLinks = pgTable("lh_demo_links", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  title: text("title").notNull(),
+  url: text("url").notNull(),
+  description: text("description").notNull().default(""),
+  author: text("author").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const lhSyncLog = pgTable("lh_sync_log", {
   id: uuid("id").defaultRandom().primaryKey(),
   syncedAt: timestamp("synced_at").defaultNow().notNull(),

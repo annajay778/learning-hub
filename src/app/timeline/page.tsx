@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { getSnapshots, getSyncLogs } from "@/lib/actions";
-import { JourneyTimeline } from "@/components/journey-timeline";
+import { TimelineCalendar } from "@/components/timeline-calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Clock, GitCommit } from "lucide-react";
@@ -73,14 +73,8 @@ export default async function TimelinePage() {
         </Card>
       )}
 
-      {/* Full timeline */}
-      <div>
-        <h2 className="mb-3 flex items-center gap-2 text-base font-semibold">
-          <GitCommit className="h-4 w-4 text-primary" />
-          Content Timeline
-        </h2>
-        <JourneyTimeline snapshots={snapshots} />
-      </div>
+      {/* Calendar view */}
+      <TimelineCalendar snapshots={snapshots} />
     </div>
   );
 }

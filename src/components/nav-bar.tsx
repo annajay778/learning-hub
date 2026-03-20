@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   Compass,
   GraduationCap,
-  Newspaper,
+  Rocket,
   MessageCircle,
   GitCommit,
 } from "lucide-react";
@@ -15,7 +15,7 @@ import { SyncButton } from "@/components/sync-button";
 const links = [
   { href: "/", label: "Start Here", icon: Compass },
   { href: "/learn", label: "Learning Path", icon: GraduationCap },
-  { href: "/whats-new", label: "What's New", icon: Newspaper },
+  { href: "/whats-new", label: "Demos & Prototypes", icon: Rocket },
   { href: "/coach", label: "Coach's Corner", icon: MessageCircle },
   { href: "/timeline", label: "Timeline", icon: GitCommit },
 ];

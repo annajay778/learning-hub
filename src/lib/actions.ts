@@ -7,6 +7,7 @@ import {
   lhSyncLog,
   lhPageSnapshots,
   lhCoachNotes,
+  lhDemoLinks,
 } from "@/lib/schema";
 import { eq, desc, and, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -311,6 +312,45 @@ export async function toggleCoachNoteReviewed(id: string) {
     .where(eq(lhCoachNotes.id, id));
 
   revalidatePath("/coach");
+}
+
+// ── Demo Links ──────────────────────────────────────────────────
+
+export async function getDemoLinks() {
+  return db
+    .select()
+    .from(lhDemoLinks)
+    .orderBy(desc(lhDemoLinks.createdAt));
+}
+
+export async function createDemoLink(formData: FormData) {
+  const title = formData.get("title") as string;
+  const url = formData.get("url") as string;
+  const description = (formData.get("description") as string) || "";
+  const author = formData.get("author") as string;
+
+  if (!title?.trim()) return { error: "Title is required" };
+  if (!url?.trim()) return { error: "URL is required" };
+  if (!author?.trim()) return { error: "Name is required" };
+
+  const [link] = await db
+    .insert(lhDemoLinks)
+    .values({
+      title: title.trim(),
+      url: url.trim(),
+      description: description.trim(),
+      author: author.trim(),
+    })
+    .returning();
+
+  revalidatePath("/whats-new");
+
+  return { link };
+}
+
+export async function deleteDemoLink(id: string) {
+  await db.delete(lhDemoLinks).where(eq(lhDemoLinks.id, id));
+  revalidatePath("/whats-new");
 }
 
 // ── Sync & Journey Queries ──────────────────────────────────────

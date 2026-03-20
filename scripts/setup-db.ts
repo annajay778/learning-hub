@@ -74,6 +74,18 @@ async function setup() {
     )
   `;
 
+  console.log("Creating lh_demo_links table...");
+  await sql`
+    CREATE TABLE IF NOT EXISTS lh_demo_links (
+      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      title TEXT NOT NULL,
+      url TEXT NOT NULL,
+      description TEXT NOT NULL DEFAULT '',
+      author TEXT NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW() NOT NULL
+    )
+  `;
+
   // Add new columns to existing lh_pages table (safe if already exists)
   console.log("Adding columns to lh_pages (if missing)...");
   await sql`
