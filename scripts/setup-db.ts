@@ -31,20 +31,72 @@ async function setup() {
       type TEXT NOT NULL CHECK (type IN ('playbook', 'learning')),
       author TEXT NOT NULL DEFAULT 'Anna',
       pinned BOOLEAN NOT NULL DEFAULT false,
+      notion_page_id TEXT UNIQUE,
+      notion_last_edited TIMESTAMP,
+      source TEXT NOT NULL DEFAULT 'manual',
       created_at TIMESTAMP DEFAULT NOW() NOT NULL,
       updated_at TIMESTAMP DEFAULT NOW() NOT NULL
     )
   `;
 
-  console.log("Seeding default categories...");
-  const defaults = [
+  console.log("Creating lh_sync_log table...");
+  await sql`
+    CREATE TABLE IF NOT EXISTS lh_sync_log (
+      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      synced_at TIMESTAMP DEFAULT NOW() NOT NULL,
+      pages_added INTEGER NOT NULL DEFAULT 0,
+      pages_updated INTEGER NOT NULL DEFAULT 0,
+      details JSONB
+    )
+  `;
+
+  console.log("Creating lh_page_snapshots table...");
+  await sql`
+    CREATE TABLE IF NOT EXISTS lh_page_snapshots (
+      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      page_id UUID REFERENCES lh_pages(id) ON DELETE CASCADE NOT NULL,
+      title TEXT NOT NULL,
+      body TEXT NOT NULL,
+      snapshot_at TIMESTAMP DEFAULT NOW() NOT NULL,
+      change_type TEXT NOT NULL CHECK (change_type IN ('created', 'updated', 'manual_edit'))
+    )
+  `;
+
+  // Add new columns to existing lh_pages table (safe if already exists)
+  console.log("Adding Notion columns to lh_pages (if missing)...");
+  await sql`
+    DO $$ BEGIN
+      ALTER TABLE lh_pages ADD COLUMN notion_page_id TEXT UNIQUE;
+    EXCEPTION WHEN duplicate_column THEN NULL;
+    END $$
+  `;
+  await sql`
+    DO $$ BEGIN
+      ALTER TABLE lh_pages ADD COLUMN notion_last_edited TIMESTAMP;
+    EXCEPTION WHEN duplicate_column THEN NULL;
+    END $$
+  `;
+  await sql`
+    DO $$ BEGIN
+      ALTER TABLE lh_pages ADD COLUMN source TEXT NOT NULL DEFAULT 'manual';
+    EXCEPTION WHEN duplicate_column THEN NULL;
+    END $$
+  `;
+
+  console.log("Seeding categories...");
+  const categories = [
     { name: "Outreach", color: "#3B82F6" },
     { name: "Onboarding", color: "#10B981" },
     { name: "Data", color: "#F59E0B" },
     { name: "Internal Process", color: "#8B5CF6" },
+    { name: "Technical", color: "#0EA5E9" },
+    { name: "Content", color: "#EC4899" },
+    { name: "Strategy", color: "#6366F1" },
+    { name: "Planning", color: "#F97316" },
+    { name: "Prototype", color: "#14B8A6" },
   ];
 
-  for (const cat of defaults) {
+  for (const cat of categories) {
     await sql`
       INSERT INTO lh_categories (name, color)
       VALUES (${cat.name}, ${cat.color})
@@ -52,7 +104,7 @@ async function setup() {
     `;
   }
 
-  console.log("Done! Tables created and seeded.");
+  console.log("Done! All tables created and seeded.");
   await sql.end();
 }
 

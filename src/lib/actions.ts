@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { lhPages, lhCategories } from "@/lib/schema";
+import { lhPages, lhCategories, lhSyncLog, lhPageSnapshots } from "@/lib/schema";
 import { eq, desc, and } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -128,10 +128,19 @@ export async function updatePage(id: string, formData: FormData) {
     .where(eq(lhPages.id, id))
     .returning();
 
+  // Save snapshot for journey tracking
+  await db.insert(lhPageSnapshots).values({
+    pageId: id,
+    title: title.trim(),
+    body: body?.trim() || "",
+    changeType: "manual_edit",
+  });
+
   revalidatePath("/");
   revalidatePath("/playbooks");
   revalidatePath("/learnings");
   revalidatePath(`/pages/${id}`);
+  revalidatePath("/journey");
 
   return { page };
 }
@@ -177,4 +186,39 @@ export async function createCategory(formData: FormData) {
   revalidatePath("/playbooks");
 
   return { category };
+}
+
+// ── Sync & Journey Queries ──────────────────────────────────────
+
+export async function getLastSync() {
+  const rows = await db
+    .select()
+    .from(lhSyncLog)
+    .orderBy(desc(lhSyncLog.syncedAt))
+    .limit(1);
+  return rows[0] ?? null;
+}
+
+export async function getSnapshots() {
+  return db
+    .select({
+      id: lhPageSnapshots.id,
+      pageId: lhPageSnapshots.pageId,
+      title: lhPageSnapshots.title,
+      snapshotAt: lhPageSnapshots.snapshotAt,
+      changeType: lhPageSnapshots.changeType,
+      pageTitle: lhPages.title,
+      pageType: lhPages.type,
+      source: lhPages.source,
+    })
+    .from(lhPageSnapshots)
+    .leftJoin(lhPages, eq(lhPageSnapshots.pageId, lhPages.id))
+    .orderBy(desc(lhPageSnapshots.snapshotAt));
+}
+
+export async function getSyncLogs() {
+  return db
+    .select()
+    .from(lhSyncLog)
+    .orderBy(desc(lhSyncLog.syncedAt));
 }

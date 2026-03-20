@@ -4,6 +4,8 @@ import {
   timestamp,
   uuid,
   boolean,
+  integer,
+  jsonb,
 } from "drizzle-orm/pg-core";
 
 export const lhCategories = pgTable("lh_categories", {
@@ -23,6 +25,32 @@ export const lhPages = pgTable("lh_pages", {
   type: text("type", { enum: ["playbook", "learning"] }).notNull(),
   author: text("author").notNull().default("Anna"),
   pinned: boolean("pinned").notNull().default(false),
+  notionPageId: text("notion_page_id").unique(),
+  notionLastEdited: timestamp("notion_last_edited"),
+  source: text("source", { enum: ["manual", "notion"] })
+    .notNull()
+    .default("manual"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const lhSyncLog = pgTable("lh_sync_log", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  syncedAt: timestamp("synced_at").defaultNow().notNull(),
+  pagesAdded: integer("pages_added").notNull().default(0),
+  pagesUpdated: integer("pages_updated").notNull().default(0),
+  details: jsonb("details"),
+});
+
+export const lhPageSnapshots = pgTable("lh_page_snapshots", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  pageId: uuid("page_id")
+    .references(() => lhPages.id, { onDelete: "cascade" })
+    .notNull(),
+  title: text("title").notNull(),
+  body: text("body").notNull(),
+  snapshotAt: timestamp("snapshot_at").defaultNow().notNull(),
+  changeType: text("change_type", {
+    enum: ["created", "updated", "manual_edit"],
+  }).notNull(),
 });
