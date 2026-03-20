@@ -21,12 +21,12 @@ You don't need to become an engineer. But you need to learn enough to not be a b
 ## Step 1: Install Your Tools
 
 1. **Download and install [VS Code](https://code.visualstudio.com/)**
-   - This is non-negotiable for the whole product team. Other editors hide \`.env\` files, which blocks you from a whole class of setup tasks.
+   - This is non-negotiable. Other editors hide \`.env\` files, which means you can't see or edit API keys and credentials. VS Code shows everything.
 
 2. **Download and install [Git](https://git-scm.com/downloads)**
 
 3. **Create a [GitHub](https://github.com) account** if you don't have one
-   - Ask Spencer to add you to the team's GitHub organization
+   - Ask your engineer to add you to the team's GitHub organization
 
 4. **Install [Node.js](https://nodejs.org/)** (LTS version)
    - This runs the development server and build tools
@@ -35,9 +35,9 @@ You don't need to become an engineer. But you need to learn enough to not be a b
    - Also install the **Claude Chrome extension** — but note: you can only use one at a time. The desktop app and Chrome extension fight for the same connection.
    - **Workaround:** Fully quit Claude Desktop when doing design iteration with Claude Chrome.
 
-## Step 2: Clone the Starter Pack
+## Step 2: Clone Your First Project
 
-Ask Spencer to give you the repo URL, then open your terminal and run:
+Ask your engineer for the repo URL, then open your terminal and run:
 
 \`\`\`bash
 git clone <repo-url>
@@ -45,11 +45,19 @@ cd <project-name>
 npm install
 \`\`\`
 
+Then start the dev server:
+
+\`\`\`bash
+npm run dev
+\`\`\`
+
+Open [http://localhost:3000](http://localhost:3000) in your browser. You should see the app running.
+
 ## Step 3: Set Up Environment Variables
 
 1. In VS Code, open the project folder
 2. Look for a file called \`.env.example\` — copy it to \`.env.local\`
-3. Ask Spencer for the actual values (API keys, database URLs, auth tokens)
+3. Ask your engineer for the actual values (API keys, database URLs, auth tokens)
 4. **Never commit \`.env.local\` to GitHub.** It's in \`.gitignore\` for a reason.
 
 > **Naming convention:** Prefix all cloud resources with your initials from day one (e.g., "AJ-Smart-Nudge"). Simple habit, real organizational payoff.
@@ -67,14 +75,22 @@ You only need 4 concepts:
 
 That's it. You can learn the rest as you go.
 
+**Try it now:** Open any file in VS Code, make a small text change, then run:
+
+\`\`\`bash
+git add .
+git commit -m "my first commit"
+git push
+\`\`\`
+
 ## Step 5: Set Up Context Seven (MCP Server)
 
 Here's the irony: Claude's training data doesn't include recent AI patterns. It defaults to old models and deprecated APIs.
 
 1. Install the Context Seven MCP server in Claude Code
-2. This gives Claude access to current documentation for the tools you're using
+2. This gives Claude access to current, up-to-date documentation for the frameworks you're using
 
-> *We're still a little hazy on the exact install steps here — Spencer, can you add the specific commands?*
+> *Spencer — can you add the exact install commands here?*
 
 ## Step 6: Learn the Starter Pack Workflow
 
@@ -86,21 +102,23 @@ Spencer's starter pack includes slash commands for a full development loop:
 4. **\`/review\`** — Code review
 5. **\`/compound\`** — Document what you learned ← *most people skip this, but it's critical*
 
-Compound updates Claude's persistent understanding of your project, so every future brainstorm and plan is more accurate.
+**Why compound matters:** It updates Claude's persistent understanding of your project. Every future brainstorm and plan gets more accurate because Claude remembers what you've already tried and learned.
+
+> **Try it now:** Open Claude Code in your project directory and type \`/brainstorm\`. See what happens.
 
 ---
 
-## Things to Know
+## Quick Reference
 
-- **Scheduled tasks: use CoWork, not Claude Code cron.** Claude Code cron jobs expire after 3 days (security feature). Use CoWork scheduled tasks for daily automations.
-
-- **Agentic browsers have real security risks.** Hidden prompt injections on web pages can override Claude's instructions. Always keep your terminal visible to monitor what Claude Chrome is doing.
-
-- **WiFi kills AI features at camp.** Any feature requiring real-time API calls is useless without strong facility WiFi. Always ask "what happens if there's no internet?"
-
-- **External approvals are invisible blockers.** Twilio campaign approval stalled the form validator for days. Start approval processes the same day you decide on a feature direction.
-
-- **AI doesn't understand time.** Code handles *when* (cron jobs, rules engine), AI handles *what* (drafting, personalization). Don't ask AI to schedule things.`;
+| Tool | What it's for | Link |
+|------|--------------|------|
+| VS Code | Edit code + see .env files | [code.visualstudio.com](https://code.visualstudio.com/) |
+| Git + GitHub | Version control + collaboration | [github.com](https://github.com) |
+| Node.js | Run the dev server | [nodejs.org](https://nodejs.org/) |
+| Claude Code | AI-assisted development (CLI) | [docs.anthropic.com](https://docs.anthropic.com/en/docs/claude-code) |
+| Claude Chrome | AI-assisted design iteration (browser) | Chrome Web Store |
+| Vercel | Hosting + auto-deploy from GitHub | [vercel.com](https://vercel.com/) |
+| Neon | PostgreSQL database | [neon.tech](https://neon.tech/) |`;
 
 const WORKING_WITH_AI_ENGINEER = `*How the PM/engineer dynamic changes when your partner builds at 10x speed.*
 
@@ -108,256 +126,277 @@ const WORKING_WITH_AI_ENGINEER = `*How the PM/engineer dynamic changes when your
 
 Forget "PM specs, engineer builds." The new model is **engineer prototypes, PM steers.**
 
-On day one, Spencer had a working form validator — 99% accuracy, handwritten form processing, SMS notifications — before Anna had finished analyzing which use case to pursue. That prototype became the discovery artifact. It generated more useful feedback in 15 minutes of standup than a one-pager ever would.
+When your engineer can have a working prototype before you've finished analyzing the problem space, the prototype becomes your discovery artifact. Showing a working thing generates more useful feedback in 15 minutes than a spec document ever would.
 
 ---
 
 ## Step 1: Divide by Superpowers
 
-Don't divide work by component. Divide by what each person is best at:
+Don't divide work by component ("you do backend, I do frontend"). Divide by what each person is best at:
 
 | PM Handles | Engineer Handles |
 |-----------|-----------------|
-| Branding and design iteration | AI logic and model selection |
-| Stakeholder communication | API integrations |
-| Scope decisions | Infrastructure and deployment |
-| Using Claude Chrome to match existing app styling | Building the "Update Playbook" automation |
+| Design iteration (using Claude Chrome to match existing styling) | AI logic and model selection |
+| Stakeholder communication and demos | API integrations and infrastructure |
+| Scope decisions and prioritization | Deployment and DevOps |
+| Content, copy, and UX writing | Automated documentation tooling |
 
-Neither person waits for the other. The unlock: **a PM who learns basic Git can directly contribute to the codebase.** Anna learned this in one pairing session and was pushing design changes the same day.
+The key: **neither person waits for the other.** The PM who learns basic Git (Step 4 in Module 1) can push design changes directly. No handoff needed.
 
-## Step 2: Set Up Shared Documentation
+## Step 2: Set Up Automated Documentation
 
-Your engineer should be your documentarian too. Here's the system Spencer built:
+Don't rely on manual status updates. Build documentation into the engineer's workflow:
 
-1. **"Update Playbook" command** — auto-captures session progress after each Claude Code session
-2. **Notion meeting table** — every meeting recorded and structured automatically
-3. **Automated daily Slack posts** — both people post yesterday's work, Claude generates a daily plan
+1. **"Update Playbook" slash command** — Auto-captures what happened after each Claude Code session
+2. **Meeting recordings** — Every meeting auto-recorded and transcribed to a shared Notion table
+3. **Learning Hub entries** — Daily learnings captured at the source, searchable later
 
-> **Why this matters:** The PM doesn't have to chase the engineer for status. Data capture is baked into the workflow.
+> **The goal:** The PM never has to ask "what did you work on yesterday?" The data is already there.
 
-## Step 3: Set Your Communication Cadence
+## Step 3: Find Your Communication Cadence
 
-The 15-minute standup broke by day 2. Both people had too much to share.
+Traditional standups will break at AI-prototype speed. Expect to iterate.
 
-**What works:**
-- Automated daily Slack posts (async status)
-- Pairing sessions as needed throughout the day
-- A merged standup/alignment meeting (longer than 15 min)
+**What we learned works:**
+- **Async daily posts** — Both people post what they did yesterday (to Slack or a shared doc)
+- **Pairing sessions as needed** — Not scheduled, just "hey can you look at this"
+- **One longer alignment meeting** — Replace the 15-min standup with 30 min of actual discussion
 
-**Pro tip:** Run Claude in parallel during meetings. Anna called this a "10/10" technique — while Spencer demoed the parent handbook, Anna had Claude scrubbing Salesforce docs. By meeting's end, she had a full execution plan.
+**Pro tip:** Run Claude in parallel during meetings. While someone demos, have Claude researching or drafting in the background. By meeting's end, you'll have a head start on whatever was discussed.
 
-## Step 4: Know Where AI Actually Belongs
+## Step 4: Understand Where AI Belongs in a Feature
 
-Your engineer will tell you, but here's the mental model:
+This is the most common point of confusion for stakeholders. Here's the mental model:
 
-- **AI does:** Drafting text, personalizing messages, synthesizing data, generating insights
-- **Code does:** Scheduling, timing, business rules, sending messages
-- **"AI feature" often means:** Code feature with one AI component
+| AI does | Code does |
+|---------|----------|
+| Draft text and personalize messages | Schedule when things happen |
+| Synthesize data and generate insights | Enforce business rules |
+| Classify and categorize content | Handle timing and triggers |
+| Match tone and style | Send emails/SMS/notifications |
 
-Example: "Smart nudges" sounds like AI decides when to send. Actually, code handles cadence. AI handles drafting the message in the camp's tone.
+**When someone says "AI feature," they usually mean:** a code feature with one AI-powered component inside it.
 
-## Step 5: Split Build Tracks (When Ready)
+## Step 5: Split Build Tracks When You're Ready
 
-When two viable concepts exist, each person owns one track independently. Results:
-- Double the learning surface
-- Deep firsthand knowledge of two problem spaces instead of one
-- But: budget a deliberate setup session (starter pack, Vercel, Neon DB, blob storage, auth)
+When two viable ideas exist, each person can own one track independently:
 
-> Coach Stephanie Tanzar recommended this approach when Anna and Spencer had both nudges and AI handbook as viable concepts.`;
+1. Agree on the two directions
+2. **Budget a setup session** — the PM needs to be provisioned (starter pack, Vercel environment, database, auth)
+3. Each person builds and learns independently
+4. Reconvene to compare and decide
+
+**Result:** Double the learning in the same amount of time.`;
 
 const MOVING_FAST = `*What to skip, what not to skip, and how to stay aligned when everything ships in hours instead of sprints.*
 
 ## The Core Change
 
-We killed the Kanban board on day one. Anna's reasoning: in traditional sprints, updating stories consumed half her week. The new approach: **capture data comprehensively, shape it later.**
+We killed the Kanban board on day one. Updating stories and keeping a board current was consuming half the PM's week. The new approach: **capture everything, shape it later.**
 
 ---
 
-## Step 1: Set the Mantra
+## Step 1: Set the Expectations
 
-Say this loudly and often: **"Build for speed, not scale."**
+Say this loudly and often to everyone who sees the work: **"Build for speed, not scale. Every prototype is disposable."**
 
-Every prototype is disposable. Say so before anyone gets attached. Kevin McKeever warned that stakeholders will see a working prototype and want to ship it to everyone. His framing:
+Stakeholders will see a working prototype and want to ship it to everyone. Get ahead of this. Frame it early:
 
-> "We can use this pig for this summer. We should try to not use this pig for next summer."
+> "We're building to learn, not to ship. The goal is to prove what works, then rebuild it properly."
 
 ## Step 2: Don't Build on Day One
 
-The temptation is to start coding immediately. Don't.
+The temptation is to start coding immediately. Resist it.
 
 **Day one checklist:**
-- [ ] ROAM risk assessment
-- [ ] Interim governance model
-- [ ] Ensure nothing falls through the cracks
-- [ ] Align on what "done" means for the first sprint
+- [ ] Align on what problem you're solving and for whom
+- [ ] Identify the biggest risks (what could kill this?)
+- [ ] Agree on what "done" means for the first sprint
+- [ ] Set up your communication rituals (see Step 4)
+- [ ] Ensure nothing from your existing work falls through the cracks
 
 Building starts on day two.
 
-## Step 3: Get a Coach
+## Step 3: Get a Coach or Thinking Partner
 
-This isn't optional for ambiguous, high-stakes projects. Anna started coaching sessions with Stephanie Tanzar the same week the original use case got killed.
+When the project is ambiguous and high-stakes, you need a forcing function for reflection. A coach (internal or external) gives you structured time to think when the pace makes it feel impossible.
 
-A coach is a forcing function for reflection when you're moving too fast to think.
+**What to bring to coaching:**
+- What you're stuck on
+- Decisions you're avoiding
+- What feels wrong but you can't articulate
 
-## Step 4: Rebuild Your Communication Rituals
+## Step 4: Build Your Communication Rituals
 
-Your standup format from traditional sprints will break at this pace. Expect to iterate on it.
+Your standup format from traditional sprints will break within 48 hours. Plan to iterate on it.
 
-**Week 1 evolution:**
-1. Started with 15-min standups — too short by day 2
-2. Moved to automated daily Slack posts + merged standup/alignment meeting
-3. Added pairing sessions as needed
+**A starting point:**
+1. **Automated daily Slack posts** — Each person writes 3 bullets: what I did, what I'm doing, what's blocking me
+2. **One 30-min alignment meeting** — Replace the 15-min standup. You'll have too much to share.
+3. **Pairing sessions as needed** — Don't schedule these, just do them when something needs two brains
 
-> *Spencer, what's the current standup format and Slack automation? Can you document the exact setup?*
+> *Spencer — can you document the exact Slack automation setup you built? Step-by-step so someone could recreate it.*
 
-## Step 5: Always Have a Backup Use Case
+## Step 5: Always Have a Backup Direction
 
-Your first use case might get killed before you start. Dan killed the forms project on Friday. By Monday, the team had pivoted to a broader AI Lab with 5 new options.
+Your first use case might get killed before you start. Leadership can change direction overnight.
 
-**Lesson:** Don't over-invest in a single path until you've survived at least one leadership review with it intact.
+**How to protect yourself:**
+- Keep a "wider option set" — 3-5 viable directions at all times
+- Don't over-invest in one path until it's survived at least one leadership review
+- When a pivot happens, you can move in hours, not weeks
 
 ---
 
-## How We Capture Work (Instead of a Kanban Board)
+## How to Capture Work Without a Kanban Board
 
-| What | How | Why |
-|------|-----|-----|
-| Daily learnings | Learning Hub entries | Searchable, timestamped |
-| Meeting notes | Auto-recorded to Notion | No manual transcription |
-| Session progress | Spencer's "Update Playbook" command | Captured at the source |
-| Decisions | Playbook pages | Durable reference |
+| What you need to track | Where it goes | Why this works |
+|----------------------|--------------|---------------|
+| Daily learnings | Learning Hub | Searchable, timestamped, visible to leadership |
+| Meeting decisions | Notion (auto-recorded) | No manual transcription |
+| Session progress | \`/compound\` in Claude Code | Captured at the source, improves future AI sessions |
+| Key decisions | Playbook pages | Durable reference anyone can find later |
 
-The data is always there. We just shape it into whatever form is needed — standups, stakeholder updates, playbooks — after the fact.`;
+The trick: data capture is baked into the tools you're already using. You don't maintain a separate board — you just shape the captured data into whatever form someone needs (standups, stakeholder updates, playbooks) after the fact.`;
 
-const DISCOVERY_WITH_AI = `*How AI changes the discovery loop — from research synthesis to prototype testing.*
+const DISCOVERY_WITH_AI = `*How to use AI to compress weeks of research into hours.*
 
 ## The Big Unlock
 
-Anna fed Claude 55 sources in a single day — conference data, competitor release notes, camp director feedback, domain scoring analysis, industry articles. Claude produced 5 scored AI use case options with competitive analysis. This would have taken weeks. It took hours.
+You can feed Claude 50+ sources in a single session — conference data, competitor release notes, customer feedback, internal analytics — and get scored, structured analysis back the same day. This would take weeks of manual synthesis. It takes hours.
 
-> Stephanie Tanzar said the most significant thing Anna had done wasn't the 5 options — it was synthesizing 55 sources in a single afternoon. **The speed of synthesis IS the capability to demonstrate.**
+**The speed of synthesis IS the capability to demonstrate.** When you show stakeholders how fast you got there, that's often more impressive than what you found.
 
 ---
 
 ## Step 1: Build Your Source Library
 
-Before you start asking Claude anything, gather your inputs:
+Before you ask Claude anything, gather your raw inputs. The more diverse the sources, the better the synthesis.
 
-1. **Competitor data** — Release notes, feature announcements, pricing pages (Campfront, CampBrain, UltraCamp, CampDoc, etc.)
-2. **Customer feedback** — Conference notes, support tickets, sales call transcripts
-3. **Internal data** — Domain scoring, usage analytics, product roadmap
-4. **Industry context** — Articles, analyst reports, market trends
+**Types of sources to collect:**
+- Competitor feature announcements and release notes
+- Customer feedback (conference notes, support tickets, sales call transcripts)
+- Internal analytics and usage data
+- Industry articles and analyst reports
+- Meeting transcripts where stakeholders described the problem
 
-> **Prompt to use:** Drop all sources into a Claude Project and ask:
-> *"Synthesize these sources. Identify the top 5 AI use cases for our product, scored by customer impact, feasibility, and competitive differentiation. Include a competitive analysis for each."*
+**How to organize:** Drop everything into a [Claude Project](https://claude.ai). Each project can hold many files as persistent context.
 
-## Step 2: Show Prototypes, Not Specs
+## Step 2: Run Your First Synthesis
 
-**Prototypes ARE discovery artifacts.** Spencer's marketing drip campaign tool — built in 9 hours with real API data — expanded the option set beyond what research alone produced.
+Once your sources are in a Claude Project, use this prompt as a starting point:
 
-When Scott saw the demo, he said: *"This is far more than a drip campaign — this is a marketing team in a box."*
+> *"Synthesize all the sources I've uploaded. Identify the top 5 opportunities, scored by: (1) customer impact, (2) feasibility with current tech, and (3) competitive differentiation. For each opportunity, include a brief competitive analysis."*
 
-**The rule:** Show, don't spec. A working prototype generates more useful feedback in 15 minutes than a one-pager ever would.
+**What to look for:**
+- Themes that appear across multiple source types (strongest signal)
+- Themes you expected that DIDN'T appear (absence is data — it tells you what your sources actually contain)
+- Surprising connections between sources
 
-## Step 3: Design for the Bimodal Reaction
+## Step 3: Use Prototypes as Discovery Artifacts
 
-Camp directors split into two clear groups on AI:
-- **Early adopters:** "I want it tomorrow"
-- **Conservatives:** "I'd rather answer a thousand emails by hand than get one wrong"
+**Stop writing specs. Build something and show it.**
 
-**What to do:**
-- Run fast with the early adopters
-- Design human-in-the-loop for the conservatives
-- Never force AI on the second group
+A working prototype — even one built in a single day — generates more useful feedback than any document. When you demo something real:
+- Stakeholders react to what it IS, not what they imagine it could be
+- You discover adjacent opportunities ("this is more than X — it's Y")
+- You get feedback on actual UX, not theoretical flows
 
-## Step 4: Know Enough About RAG
+**The workflow:**
+1. Run your synthesis (Step 2)
+2. Pick the most promising option
+3. Have your engineer prototype it (even a rough version)
+4. Demo it to stakeholders
+5. Use feedback to refine or pivot
 
-You don't need to implement RAG. You do need to understand **chunking** — the core design decision in any RAG implementation.
+## Step 4: Learn Enough About RAG to Make Product Decisions
 
-**The PM question to ask:** "Is our chunking strategy right for this content type?"
+If your prototype involves AI answering questions from a knowledge base, you'll encounter RAG (Retrieval-Augmented Generation). You don't need to implement it. You need to understand one key concept: **chunking.**
 
-> *Spencer, can you add a simple explainer of chunking here? Like: what it is, why it matters, and what a bad chunking decision looks like in practice?*
+Chunking is how documents get split into pieces for the AI to search. The wrong chunking strategy means the AI finds the wrong pieces and gives bad answers.
 
-## Step 5: Plan Analytics Before You Ship
+**The PM question to ask your engineer:** "Is our chunking strategy right for this content type? Are we splitting things in a way that preserves meaning?"
 
-The analytics layer on top of a chatbot is often higher strategic value than the chatbot itself. Design it from day one — retrofitting is expensive.
+> *Spencer — can you add a concrete example here? Like what bad chunking looks like vs good chunking, maybe using a camp handbook page as an example?*
 
-**What to capture:**
-- What are parents/staff asking about?
-- What topics have no good answer?
-- What time of day/season do questions spike?
-- Which responses get follow-up questions (indicating a bad answer)?
+## Step 5: Design the Analytics Layer Before You Ship
+
+If you're building any kind of chatbot or AI assistant, the analytics layer is often more strategically valuable than the chatbot itself. Design it from day one.
+
+**What to plan to capture:**
+- What questions are people asking? (topic clustering)
+- What topics have no good answer? (content gaps)
+- Which responses get follow-up questions? (signal of a bad answer)
+- Usage patterns over time (when, how often, by whom)
+
+Retrofitting analytics after launch is expensive. Planning it upfront is nearly free.`;
+
+const MISTAKES = `*What went wrong, what we'd do differently, and why it matters for anyone doing this work.*
 
 ---
 
-## Things to Remember
+## Mistake 1: Your First Idea Will Probably Get Killed
 
-- **Physical discovery still matters.** The "camp in your pocket" idea came from Anna physically visiting camps and seeing 3 staff in an office out of 3,000 on-site. AI accelerates synthesis but can't replace walking the floor.
+**What happened:** Our original use case was killed by the executive sponsor on a Friday. By Monday, we'd pivoted to 5 new options.
 
-- **Absence is data.** When Claude doesn't surface an expected theme in synthesis, that tells you something about what your data actually contains.`;
+**Lesson for you:**
+- Don't over-invest emotionally or technically in your first direction
+- Always keep a wider option set (3-5 viable paths)
+- Treat the first use case as expendable until it survives at least one leadership review
 
-const MISTAKES = `*What went wrong, what we'd do differently, and why it matters.*
+## Mistake 2: Users Will Immediately Try the Thing You Deprioritized
 
-Kevin McKeever was the first to say the quiet part out loud: *"I think the urgency makes a lot of sense. The knee-jerk reaction to the sudden sense of urgency is the part I don't necessarily like."* Both things are true. The project matters. The execution support is thin. Name that openly.
+**What happened:** A prototype launched to 30 users. Within 3 hours, the #1 request was a feature the team had discussed but pushed down the list.
 
----
-
-## Mistake 1: The Use Case Got Killed Overnight
-
-**What happened:** Dan killed the forms project on Friday March 13. By Monday, the team had pivoted to 5 new options.
-
-**What to do differently:**
-- Don't over-invest in a single path until you've survived at least one leadership review
-- Always have a wider option set ready
-- Treat the first use case as expendable
-
-## Mistake 2: First Client Feedback Hit What We Deprioritized
-
-**What happened:** Staff Placement launched to 30 clients. Within 3 hours, the #1 request was group collapsing — a feature the team had discussed but pushed down the list.
-
-**What to do differently:**
-- Before deprioritizing anything, ask: *"What will users try to do in the first 5 minutes?"*
+**Lesson for you:**
+- Before you deprioritize anything, ask: *"What will users try to do in the first 5 minutes?"*
 - Pressure-test your "not now" list against first-use behavior
+- If something feels like a "nice to have" but would be the first thing you'd try as a user, reconsider
 
-## Mistake 3: HIPAA Compliance Wasn't Started Before Building
+## Mistake 3: Start Compliance and Approvals on Day One
 
-**What happened:** Spencer built the form validator using health history forms — medical data requiring HIPAA agreements with OpenAI. This created a blocker after the prototype was already working.
+**What happened:** We built a working prototype before realizing the data it used required compliance agreements with our AI vendor. This created a blocker after the thing was already working.
 
-**What to do differently:**
-- Start compliance paperwork on day one, even if you don't know the exact use case
-- Ask early: *"Does any data we might touch require special handling?"*
+**Lesson for you:**
+- On day one, ask: *"Does any data we might touch require special handling?"*
+- Start paperwork immediately, even if your exact use case isn't locked in
+- External approval processes (vendor agreements, security reviews, legal) take longer than you think and can't be parallelized with building
 
-## Mistake 4: Anchoring Stakeholder Feedback
+## Mistake 4: Don't Share Your Opinion Before Asking for Feedback
 
-**What happened:** Sharing your preference before asking for feedback anchors the room. People agree with you instead of reacting honestly.
+**What happened:** In stakeholder demos, sharing our preferred option before asking for reactions anchored the room. People agreed with us instead of reacting honestly.
 
-**What to do differently:**
+**Lesson for you:**
 - Present options before opinions, every time
-- Your certainty is exactly when unanchored reactions are most valuable
+- The moment you feel most certain is exactly when unanchored stakeholder reactions are most valuable
+- Try: "Here are three directions. What's your gut reaction?" — then wait
 
-## Mistake 5: Adding Work Without Removing Work
+## Mistake 5: New Project on Top of Existing Work = Burnout
 
-**What happened:** The AI project was added on top of existing responsibilities without anything being dropped.
+**What happened:** The AI prototyping project was added on top of existing responsibilities. Nobody's existing work was dropped or reassigned.
 
-**What to do differently:**
-- The fix isn't better time management — it's a clear leadership decision about what gets dropped
-- Work that's "redistributed" is work that doesn't get done. Name what's actually stopping.
+**Lesson for you:**
+- The fix is never "better time management"
+- It's a clear leadership decision about what specific work gets dropped
+- If the answer is "nothing gets dropped," escalate that tension explicitly. Don't absorb it silently.
 
-## Mistake 6: Guardrails That Don't Actually Guard
+## Mistake 6: Prompt-Based Guardrails Get Hallucinated Past
 
-**What happened:** Guardrail rules baked into the main prompt got hallucinated past. The AI would occasionally give medical advice despite being told not to.
+**What happened:** We told the AI "never give medical advice" in the system prompt. It occasionally gave medical advice anyway.
 
-**What to do differently:**
-- Run guardrails as a **separate pre-processing classification step**, not as instructions in the main prompt
-- Gate responses, don't just instruct the model
+**Lesson for you:**
+- Guardrail rules inside the main prompt are suggestions, not gates
+- The fix: run guardrails as a **separate classification step** that checks the AI's response before the user sees it
+- If the classifier flags the response, block it and return a safe fallback — don't just hope the prompt instruction holds
 
-## Mistake 7: Premature Branding
+## Mistake 7: Don't Invest in Branding Too Early
 
-**What happened:** Time was spent on branding and naming for the AI features before the parent product could support the pattern.
+**What happened:** We spent time on branding, naming, and visual identity for AI features before the product could actually support those patterns at scale.
 
-**What to do differently:**
-- Hold all branding work until the parent product can adopt the behavior product-wide
-- A branded feature in an unbranded context creates confusion, not excitement`;
+**Lesson for you:**
+- Hold branding work until the parent product can adopt the pattern product-wide
+- A branded feature in an unbranded context creates confusion
+- Focus on proving the value first. Names and logos are the easy part.`;
 
 async function main() {
   await sql`UPDATE lh_pages SET body = ${GETTING_SET_UP}, updated_at = NOW() WHERE id = '5d5ca08d-5ec0-476e-8a9b-b809cb6d30fa'`;
@@ -374,10 +413,6 @@ async function main() {
 
   await sql`UPDATE lh_pages SET body = ${MISTAKES}, updated_at = NOW() WHERE id = '57cf6790-98ff-49e8-95d9-70664c7d0a7e'`;
   console.log("Updated: Mistakes");
-
-  // Assign remaining unassigned playbooks to prototypes module
-  const result = await sql`UPDATE lh_pages SET module_slug = 'prototypes' WHERE module_slug IS NULL AND type = 'playbook'`;
-  console.log(`Assigned ${result.count} remaining playbooks to prototypes module`);
 
   await sql.end();
   console.log("Done!");
