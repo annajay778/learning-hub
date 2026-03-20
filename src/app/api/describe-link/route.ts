@@ -1,16 +1,60 @@
 import { NextRequest, NextResponse } from "next/server";
 
+function isAllowedUrl(input: string): boolean {
+  let parsed: URL;
+  try {
+    parsed = new URL(input);
+  } catch {
+    return false;
+  }
+
+  // Only allow https
+  if (parsed.protocol !== "https:") return false;
+
+  // Block private/internal hostnames
+  const hostname = parsed.hostname.toLowerCase();
+  const blocked = [
+    "localhost",
+    "127.0.0.1",
+    "0.0.0.0",
+    "169.254.169.254",
+    "[::1]",
+  ];
+  if (blocked.includes(hostname)) return false;
+  if (hostname.endsWith(".internal") || hostname.endsWith(".local")) return false;
+
+  // Block private IP ranges
+  const parts = hostname.split(".");
+  if (parts.length === 4 && parts.every((p) => /^\d+$/.test(p))) {
+    const a = parseInt(parts[0]);
+    const b = parseInt(parts[1]);
+    if (a === 10) return false;
+    if (a === 172 && b >= 16 && b <= 31) return false;
+    if (a === 192 && b === 168) return false;
+  }
+
+  return true;
+}
+
 export async function POST(req: NextRequest) {
   const { url } = await req.json();
 
-  if (!url || typeof url !== "string") {
-    return NextResponse.json({ error: "URL is required" }, { status: 400 });
+  if (!url || typeof url !== "string" || url.length > 2048) {
+    return NextResponse.json({ error: "Invalid URL" }, { status: 400 });
+  }
+
+  if (!isAllowedUrl(url)) {
+    return NextResponse.json(
+      { error: "URL must be a public https address" },
+      { status: 400 }
+    );
   }
 
   try {
     // Fetch the page content
     const res = await fetch(url, {
       headers: { "User-Agent": "LearningHub/1.0" },
+      redirect: "follow",
       signal: AbortSignal.timeout(10000),
     });
 
@@ -33,7 +77,6 @@ export async function POST(req: NextRequest) {
       .slice(0, 6000);
 
     // If the page is a client-rendered SPA, we'll get very little text.
-    // Use a higher threshold and fall back to URL-only description.
     const hasContent = text.length >= 100;
 
     const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -78,8 +121,7 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await completion.json();
-    const description =
-      data.content?.[0]?.text?.trim() || "";
+    const description = data.content?.[0]?.text?.trim() || "";
 
     return NextResponse.json({ description });
   } catch {

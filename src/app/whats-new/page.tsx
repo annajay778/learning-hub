@@ -6,9 +6,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
   Rocket,
-  Play,
-  AppWindow,
-  FileText,
+  Video,
+  Globe,
+  BookOpen,
   ExternalLink,
 } from "lucide-react";
 
@@ -18,22 +18,26 @@ const typeConfig: Record<
     icon: React.ComponentType<{ className?: string }>;
     label: string;
     badgeClass: string;
+    iconClass: string;
   }
 > = {
   demo: {
-    icon: Play,
+    icon: Video,
     label: "Demo",
     badgeClass: "bg-blue-50 text-blue-700 border-blue-200",
+    iconClass: "bg-blue-50 text-blue-600 group-hover:bg-blue-100",
   },
   prototype: {
-    icon: AppWindow,
+    icon: Globe,
     label: "Prototype",
     badgeClass: "bg-purple-50 text-purple-700 border-purple-200",
+    iconClass: "bg-purple-50 text-purple-600 group-hover:bg-purple-100",
   },
   resource: {
-    icon: FileText,
+    icon: BookOpen,
     label: "Resource",
     badgeClass: "bg-amber-50 text-amber-700 border-amber-200",
+    iconClass: "bg-amber-50 text-amber-600 group-hover:bg-amber-100",
   },
 };
 
@@ -120,8 +124,8 @@ export default async function DemosPage() {
                         <CardContent className="flex h-full flex-col p-4">
                           {/* Icon + title + type badge */}
                           <div className="flex items-start gap-3">
-                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
-                              <TypeIcon className="h-4 w-4 fill-current" />
+                            <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition-colors ${config.iconClass}`}>
+                              <TypeIcon className="h-4 w-4" />
                             </div>
                             <div className="min-w-0 flex-1">
                               <div className="flex items-start justify-between gap-2">

@@ -2,31 +2,11 @@ export const dynamic = "force-dynamic";
 
 import { notFound } from "next/navigation";
 import { getModulePages, getCategories } from "@/lib/actions";
-import { getModuleBySlug, MODULES } from "@/lib/modules";
+import { getModuleBySlug, MODULES, MODULE_ICON_MAP } from "@/lib/modules";
 import { PageCard } from "@/components/page-card";
 import { PlaybookForm } from "@/components/playbook-form";
-import {
-  Terminal,
-  Users,
-  Zap,
-  Search,
-  Handshake,
-  AlertTriangle,
-  Layers,
-  ArrowLeft,
-  ArrowRight,
-} from "lucide-react";
+import { Layers, ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
-
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  terminal: Terminal,
-  users: Users,
-  zap: Zap,
-  search: Search,
-  handshake: Handshake,
-  "alert-triangle": AlertTriangle,
-  layers: Layers,
-};
 
 export default async function ModuleDetailPage({
   params,
@@ -42,7 +22,7 @@ export default async function ModuleDetailPage({
     getCategories(),
   ]);
 
-  const Icon = iconMap[mod.icon] || Layers;
+  const Icon = MODULE_ICON_MAP[mod.icon] || Layers;
   const currentIndex = MODULES.findIndex((m) => m.slug === slug);
   const prevModule = currentIndex > 0 ? MODULES[currentIndex - 1] : null;
   const nextModule =

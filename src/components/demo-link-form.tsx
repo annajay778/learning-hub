@@ -5,8 +5,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { createDemoLink } from "@/lib/actions";
-import { Plus, Sparkles, Loader2 } from "lucide-react";
+import { Plus, Sparkles, Loader2, Video, Globe, BookOpen } from "lucide-react";
 
 export function DemoLinkForm() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -14,15 +21,20 @@ export function DemoLinkForm() {
   const [open, setOpen] = useState(false);
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
+  const [linkType, setLinkType] = useState("demo");
   const [generating, setGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(formData: FormData) {
     setSubmitting(true);
     formData.set("description", description);
+    formData.set("linkType", linkType);
     await createDemoLink(formData);
     formRef.current?.reset();
     setUrl("");
     setDescription("");
+    setLinkType("demo");
+    setError(null);
     setSubmitting(false);
     setOpen(false);
   }
@@ -30,6 +42,7 @@ export function DemoLinkForm() {
   async function handleGenerate() {
     if (!url.trim()) return;
     setGenerating(true);
+    setError(null);
     try {
       const res = await fetch("/api/describe-link", {
         method: "POST",
@@ -40,10 +53,10 @@ export function DemoLinkForm() {
       if (data.description) {
         setDescription(data.description);
       } else {
-        alert(data.error || "Could not generate a description");
+        setError(data.error || "Could not generate a description");
       }
     } catch {
-      alert("Failed to generate description");
+      setError("Failed to generate description — try adding one manually");
     } finally {
       setGenerating(false);
     }
@@ -83,19 +96,32 @@ export function DemoLinkForm() {
             placeholder="https://..."
             required
             value={url}
-            onChange={(e) => setUrl(e.target.value)}
+            onChange={(e) => {
+              setUrl(e.target.value);
+              setError(null);
+            }}
           />
 
-          {/* Type selector */}
-          <select
-            name="linkType"
-            defaultValue="demo"
-            className="w-full rounded-md border border-border bg-card px-3 py-2 text-sm"
-          >
-            <option value="demo">Demo</option>
-            <option value="prototype">Prototype</option>
-            <option value="resource">Shared Resource</option>
-          </select>
+          {/* Type selector — Radix Select */}
+          <Select value={linkType} onValueChange={setLinkType}>
+            <SelectTrigger className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="demo">
+                <Video className="h-3.5 w-3.5 text-blue-600" />
+                Demo
+              </SelectItem>
+              <SelectItem value="prototype">
+                <Globe className="h-3.5 w-3.5 text-purple-600" />
+                Prototype
+              </SelectItem>
+              <SelectItem value="resource">
+                <BookOpen className="h-3.5 w-3.5 text-amber-600" />
+                Shared Resource
+              </SelectItem>
+            </SelectContent>
+          </Select>
 
           {/* Description with auto-generate */}
           <div className="space-y-1.5">
@@ -131,8 +157,14 @@ export function DemoLinkForm() {
               placeholder="Brief description — what does it do, who is it for?"
               rows={2}
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => {
+                setDescription(e.target.value);
+                setError(null);
+              }}
             />
+            {error && (
+              <p className="text-xs text-destructive">{error}</p>
+            )}
           </div>
 
           <div className="flex items-center justify-between">
@@ -151,6 +183,8 @@ export function DemoLinkForm() {
                   setOpen(false);
                   setUrl("");
                   setDescription("");
+                  setLinkType("demo");
+                  setError(null);
                 }}
               >
                 Cancel

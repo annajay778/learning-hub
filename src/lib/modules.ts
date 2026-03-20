@@ -1,3 +1,13 @@
+import {
+  Terminal,
+  MessageSquare,
+  Zap,
+  Search,
+  Megaphone,
+  AlertTriangle,
+  Layers,
+} from "lucide-react";
+
 export interface Module {
   slug: string;
   title: string;
@@ -20,7 +30,7 @@ export const MODULES: Module[] = [
     title: "Working with Your AI Engineer",
     description:
       "How the PM/engineer dynamic changes when your partner builds at 10x speed.",
-    icon: "users",
+    icon: "message-square",
     overview: "",
   },
   {
@@ -44,7 +54,7 @@ export const MODULES: Module[] = [
     title: "Customer Engagement",
     description:
       "Beta selection, live prototyping, driver's ed demos, feature flags.",
-    icon: "handshake",
+    icon: "megaphone",
     overview: "",
   },
   {
@@ -64,6 +74,19 @@ export const MODULES: Module[] = [
     overview: "",
   },
 ];
+
+export const MODULE_ICON_MAP: Record<
+  string,
+  React.ComponentType<{ className?: string }>
+> = {
+  terminal: Terminal,
+  "message-square": MessageSquare,
+  zap: Zap,
+  search: Search,
+  megaphone: Megaphone,
+  "alert-triangle": AlertTriangle,
+  layers: Layers,
+};
 
 export function getModuleBySlug(slug: string): Module | undefined {
   return MODULES.find((m) => m.slug === slug);

@@ -1,25 +1,8 @@
 import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import {
-  Terminal,
-  Users,
-  Zap,
-  Search,
-  Handshake,
-  AlertTriangle,
-  Layers,
-} from "lucide-react";
+import { Layers } from "lucide-react";
 import type { Module } from "@/lib/modules";
-
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  terminal: Terminal,
-  users: Users,
-  zap: Zap,
-  search: Search,
-  handshake: Handshake,
-  "alert-triangle": AlertTriangle,
-  layers: Layers,
-};
+import { MODULE_ICON_MAP } from "@/lib/modules";
 
 interface ModuleCardProps {
   module: Module;
@@ -28,7 +11,7 @@ interface ModuleCardProps {
 }
 
 export function ModuleCard({ module, pageCount, index }: ModuleCardProps) {
-  const Icon = iconMap[module.icon] || Layers;
+  const Icon = MODULE_ICON_MAP[module.icon] || Layers;
 
   return (
     <Link href={`/learn/${module.slug}`}>

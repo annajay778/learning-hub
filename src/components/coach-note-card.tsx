@@ -2,6 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { MarkdownViewer } from "@/components/markdown-viewer";
 import { toggleCoachNoteReviewed } from "@/lib/actions";
 import { Check, Circle } from "lucide-react";
 
@@ -45,7 +46,9 @@ export function CoachNoteCard({
                 </Badge>
               )}
             </div>
-            <p className="whitespace-pre-wrap text-sm">{body}</p>
+            <div className="text-sm">
+              <MarkdownViewer content={body} />
+            </div>
           </div>
           <button
             onClick={() => toggleCoachNoteReviewed(id)}
