@@ -327,6 +327,8 @@ export async function createDemoLink(formData: FormData) {
   const title = formData.get("title") as string;
   const url = formData.get("url") as string;
   const description = (formData.get("description") as string) || "";
+  const linkType =
+    (formData.get("linkType") as "demo" | "prototype" | "resource") || "demo";
   const author = formData.get("author") as string;
 
   if (!title?.trim()) return { error: "Title is required" };
@@ -339,6 +341,7 @@ export async function createDemoLink(formData: FormData) {
       title: title.trim(),
       url: url.trim(),
       description: description.trim(),
+      linkType,
       author: author.trim(),
     })
     .returning();

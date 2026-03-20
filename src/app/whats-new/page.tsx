@@ -3,7 +3,39 @@ export const dynamic = "force-dynamic";
 import { getDemoLinks } from "@/lib/actions";
 import { DemoLinkForm } from "@/components/demo-link-form";
 import { Card, CardContent } from "@/components/ui/card";
-import { Rocket, Play, ExternalLink } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import {
+  Rocket,
+  Play,
+  AppWindow,
+  FileText,
+  ExternalLink,
+} from "lucide-react";
+
+const typeConfig: Record<
+  string,
+  {
+    icon: React.ComponentType<{ className?: string }>;
+    label: string;
+    badgeClass: string;
+  }
+> = {
+  demo: {
+    icon: Play,
+    label: "Demo",
+    badgeClass: "bg-blue-50 text-blue-700 border-blue-200",
+  },
+  prototype: {
+    icon: AppWindow,
+    label: "Prototype",
+    badgeClass: "bg-purple-50 text-purple-700 border-purple-200",
+  },
+  resource: {
+    icon: FileText,
+    label: "Resource",
+    badgeClass: "bg-amber-50 text-amber-700 border-amber-200",
+  },
+};
 
 function extractDomain(url: string): string {
   try {
@@ -26,9 +58,7 @@ function relativeDate(date: Date): string {
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
-function groupByDate(
-  links: Awaited<ReturnType<typeof getDemoLinks>>
-) {
+function groupByDate(links: Awaited<ReturnType<typeof getDemoLinks>>) {
   const groups = new Map<string, typeof links>();
   for (const link of links) {
     const d = new Date(link.createdAt);
@@ -75,6 +105,9 @@ export default async function DemosPage() {
               <div className="grid gap-3 sm:grid-cols-2">
                 {items.map((link) => {
                   const domain = extractDomain(link.url);
+                  const config = typeConfig[link.linkType] || typeConfig.demo;
+                  const TypeIcon = config.icon;
+
                   return (
                     <a
                       key={link.id}
@@ -85,15 +118,23 @@ export default async function DemosPage() {
                     >
                       <Card className="h-full border-border/60 transition-all hover:border-primary/30 hover:shadow-md">
                         <CardContent className="flex h-full flex-col p-4">
-                          {/* Play icon + title */}
+                          {/* Icon + title + type badge */}
                           <div className="flex items-start gap-3">
                             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
-                              <Play className="h-4 w-4 fill-current" />
+                              <TypeIcon className="h-4 w-4 fill-current" />
                             </div>
                             <div className="min-w-0 flex-1">
-                              <p className="font-semibold leading-snug text-foreground group-hover:text-primary">
-                                {link.title}
-                              </p>
+                              <div className="flex items-start justify-between gap-2">
+                                <p className="font-semibold leading-snug text-foreground group-hover:text-primary">
+                                  {link.title}
+                                </p>
+                                <Badge
+                                  variant="outline"
+                                  className={`shrink-0 text-[10px] ${config.badgeClass}`}
+                                >
+                                  {config.label}
+                                </Badge>
+                              </div>
                             </div>
                           </div>
 

@@ -6,19 +6,47 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { createDemoLink } from "@/lib/actions";
-import { Plus } from "lucide-react";
+import { Plus, Sparkles, Loader2 } from "lucide-react";
 
 export function DemoLinkForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const [submitting, setSubmitting] = useState(false);
   const [open, setOpen] = useState(false);
+  const [url, setUrl] = useState("");
+  const [description, setDescription] = useState("");
+  const [generating, setGenerating] = useState(false);
 
   async function handleSubmit(formData: FormData) {
     setSubmitting(true);
+    formData.set("description", description);
     await createDemoLink(formData);
     formRef.current?.reset();
+    setUrl("");
+    setDescription("");
     setSubmitting(false);
     setOpen(false);
+  }
+
+  async function handleGenerate() {
+    if (!url.trim()) return;
+    setGenerating(true);
+    try {
+      const res = await fetch("/api/describe-link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: url.trim() }),
+      });
+      const data = await res.json();
+      if (data.description) {
+        setDescription(data.description);
+      } else {
+        alert(data.error || "Could not generate a description");
+      }
+    } catch {
+      alert("Failed to generate description");
+    } finally {
+      setGenerating(false);
+    }
   }
 
   if (!open) {
@@ -32,6 +60,8 @@ export function DemoLinkForm() {
       </Button>
     );
   }
+
+  const showGenerateButton = url.trim().length > 0;
 
   return (
     <Card>
@@ -52,12 +82,59 @@ export function DemoLinkForm() {
             type="url"
             placeholder="https://..."
             required
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
           />
-          <Textarea
-            name="description"
-            placeholder="Brief description — what does it do, who is it for? (optional)"
-            rows={2}
-          />
+
+          {/* Type selector */}
+          <select
+            name="linkType"
+            defaultValue="demo"
+            className="w-full rounded-md border border-border bg-card px-3 py-2 text-sm"
+          >
+            <option value="demo">Demo</option>
+            <option value="prototype">Prototype</option>
+            <option value="resource">Shared Resource</option>
+          </select>
+
+          {/* Description with auto-generate */}
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <label className="text-sm text-muted-foreground">
+                Description
+              </label>
+              {showGenerateButton && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleGenerate}
+                  disabled={generating}
+                  className="h-7 gap-1.5 text-xs text-primary hover:text-primary"
+                >
+                  {generating ? (
+                    <>
+                      <Loader2 className="h-3 w-3 animate-spin" />
+                      Generating...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="h-3 w-3" />
+                      Auto-generate from link
+                    </>
+                  )}
+                </Button>
+              )}
+            </div>
+            <Textarea
+              name="description"
+              placeholder="Brief description — what does it do, who is it for?"
+              rows={2}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+
           <div className="flex items-center justify-between">
             <Input
               name="author"
@@ -70,7 +147,11 @@ export function DemoLinkForm() {
                 type="button"
                 variant="ghost"
                 size="sm"
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  setOpen(false);
+                  setUrl("");
+                  setDescription("");
+                }}
               >
                 Cancel
               </Button>

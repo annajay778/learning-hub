@@ -48,6 +48,11 @@ export const lhDemoLinks = pgTable("lh_demo_links", {
   title: text("title").notNull(),
   url: text("url").notNull(),
   description: text("description").notNull().default(""),
+  linkType: text("link_type", {
+    enum: ["demo", "prototype", "resource"],
+  })
+    .notNull()
+    .default("demo"),
   author: text("author").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });

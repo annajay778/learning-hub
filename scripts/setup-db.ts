@@ -81,9 +81,18 @@ async function setup() {
       title TEXT NOT NULL,
       url TEXT NOT NULL,
       description TEXT NOT NULL DEFAULT '',
+      link_type TEXT NOT NULL DEFAULT 'demo',
       author TEXT NOT NULL,
       created_at TIMESTAMP DEFAULT NOW() NOT NULL
     )
+  `;
+
+  // Add link_type column if missing
+  await sql`
+    DO $$ BEGIN
+      ALTER TABLE lh_demo_links ADD COLUMN link_type TEXT NOT NULL DEFAULT 'demo';
+    EXCEPTION WHEN duplicate_column THEN NULL;
+    END $$
   `;
 
   // Add new columns to existing lh_pages table (safe if already exists)
