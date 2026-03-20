@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getPage, getCategories } from "@/lib/actions";
 import { notFound } from "next/navigation";
 import { PageView } from "./page-view";

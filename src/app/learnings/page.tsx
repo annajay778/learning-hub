@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getPages } from "@/lib/actions";
 import { LearningForm } from "@/components/learning-form";
 import { PageCard } from "@/components/page-card";

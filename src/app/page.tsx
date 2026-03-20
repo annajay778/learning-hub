@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getPages, getPinnedPlaybooks } from "@/lib/actions";
 import { PageCard } from "@/components/page-card";
 import { Separator } from "@/components/ui/separator";

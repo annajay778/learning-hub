@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getPages, getCategories } from "@/lib/actions";
 import { PlaybookForm } from "@/components/playbook-form";
 import { PageCard } from "@/components/page-card";
