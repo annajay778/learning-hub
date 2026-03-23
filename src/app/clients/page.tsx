@@ -33,7 +33,7 @@ export default async function ClientsPage() {
       <section>
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
-            Beta Camps
+            The 5 Chosen Beta Camps
           </h2>
           <a
             href="https://beta-profiles.vercel.app/"
