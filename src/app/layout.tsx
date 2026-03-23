@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { NavBar } from "@/components/nav-bar";
+import { SessionProvider } from "@/components/session-provider";
 import { getLastSync } from "@/lib/actions";
 
 const spaceGrotesk = Space_Grotesk({
@@ -28,8 +29,10 @@ export default async function RootLayout({
       className={`${spaceGrotesk.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <NavBar lastSyncedAt={lastSync?.syncedAt?.toISOString() ?? null} />
-        {children}
+        <SessionProvider>
+          <NavBar lastSyncedAt={lastSync?.syncedAt?.toISOString() ?? null} />
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );
