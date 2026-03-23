@@ -31,9 +31,19 @@ export default async function ClientsPage() {
 
       {/* Camp cards */}
       <section>
-        <h2 className="mb-3 text-xs uppercase tracking-[0.15em] text-muted-foreground">
-          Beta Camps
-        </h2>
+        <div className="mb-3 flex items-center justify-between">
+          <h2 className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
+            Beta Camps
+          </h2>
+          <a
+            href="https://beta-profiles.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-primary hover:underline"
+          >
+            See all 20 candidates
+          </a>
+        </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {clients.map((client) => {
             const contacts = client.contacts as { name: string; email: string }[];
