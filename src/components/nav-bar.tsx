@@ -28,7 +28,7 @@ export function NavBar({ lastSyncedAt }: { lastSyncedAt: string | null }) {
         <div className="flex items-center gap-6">
           <Link
             href="/"
-            className="font-serif text-sm font-semibold tracking-tight text-foreground"
+            className="text-sm font-semibold tracking-tight text-foreground"
           >
             Build to Learn
           </Link>

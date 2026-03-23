@@ -13,7 +13,7 @@ export default async function CoachPage() {
         <p className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground/60">
           Build to Learn
         </p>
-        <h1 className="font-serif text-base font-medium">
+        <h1 className="text-base font-medium">
           Coach&apos;s Corner
         </h1>
         <p className="mt-1 text-xs text-muted-foreground">

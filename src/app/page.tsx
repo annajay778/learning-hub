@@ -98,7 +98,7 @@ export default async function HomePage() {
               <Sparkles className="h-2 w-2" />
               Updated daily
             </div>
-            <h1 className="font-serif text-base font-semibold tracking-tight text-foreground">
+            <h1 className="text-base font-semibold tracking-tight text-foreground">
               AI Build to Learn<br />Experiment Hub
             </h1>
             <p className="mt-1.5 text-[11px] leading-relaxed text-foreground/50">
@@ -146,7 +146,7 @@ export default async function HomePage() {
                             day: "numeric",
                           })}
                         </div>
-                        <h3 className="mb-2 font-serif text-sm font-medium">
+                        <h3 className="mb-2 text-sm font-medium">
                           {entry.title}
                         </h3>
                         <ul className="mb-2.5 space-y-1">

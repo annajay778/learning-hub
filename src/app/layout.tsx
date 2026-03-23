@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
-import { Inter, Lora } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { NavBar } from "@/components/nav-bar";
 import { getLastSync } from "@/lib/actions";
 
-const inter = Inter({
+const spaceGrotesk = Space_Grotesk({
   variable: "--font-sans",
-  subsets: ["latin"],
-});
-
-const lora = Lora({
-  variable: "--font-serif",
   subsets: ["latin"],
 });
 
@@ -30,8 +25,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${lora.variable} h-full antialiased`}
-      style={{ ["--font-heading" as string]: "var(--font-serif)" }}
+      className={`${spaceGrotesk.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <NavBar lastSyncedAt={lastSync?.syncedAt?.toISOString() ?? null} />
