@@ -49,7 +49,7 @@ export const lhDemoLinks = pgTable("lh_demo_links", {
   url: text("url").notNull(),
   description: text("description").notNull().default(""),
   linkType: text("link_type", {
-    enum: ["demo", "prototype", "resource"],
+    enum: ["demo", "prototype", "resource", "cowork"],
   })
     .notNull()
     .default("demo"),

@@ -4,52 +4,15 @@ import { getLearnings, getDemoLinks, getCoachNotes } from "@/lib/actions";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CoachNoteCard } from "@/components/coach-note-card";
-import { DemoLinkForm } from "@/components/demo-link-form";
+import { LinkRow } from "@/components/link-row";
 import {
   ExternalLink,
   Video,
   Globe,
-  BookOpen,
+  Users,
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
-
-const demoTypeConfig: Record<
-  string,
-  {
-    icon: React.ComponentType<{ className?: string }>;
-    label: string;
-    badgeClass: string;
-    iconClass: string;
-  }
-> = {
-  demo: {
-    icon: Video,
-    label: "Demo",
-    badgeClass: "bg-blue-50 text-blue-700 border-blue-200",
-    iconClass: "bg-blue-50 text-blue-600",
-  },
-  prototype: {
-    icon: Globe,
-    label: "Prototype",
-    badgeClass: "bg-purple-50 text-purple-700 border-purple-200",
-    iconClass: "bg-purple-50 text-purple-600",
-  },
-  resource: {
-    icon: BookOpen,
-    label: "Resource",
-    badgeClass: "bg-amber-50 text-amber-700 border-amber-200",
-    iconClass: "bg-amber-50 text-amber-600",
-  },
-};
-
-function extractDomain(url: string): string {
-  try {
-    return new URL(url).hostname.replace("www.", "");
-  } catch {
-    return "";
-  }
-}
 
 const TAG_COLORS: Record<string, string> = {
   prototyping: "bg-blue-100 text-blue-800",
@@ -112,11 +75,11 @@ export default async function HomePage() {
 
         {/* Main content */}
         <div className="space-y-10">
-            {/* Prototypes & Demos — FIRST */}
-            <section>
-              <div className="mb-4 flex items-center justify-between">
+            {/* Three rows: Demos, Prototypes, Cowork Projects */}
+            <section className="space-y-6">
+              <div className="flex items-center justify-between">
                 <h2 className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
-                  Prototypes &amp; Demos
+                  Demos, Prototypes &amp; Projects
                 </h2>
                 <Link
                   href="/demos"
@@ -125,57 +88,33 @@ export default async function HomePage() {
                   View all
                 </Link>
               </div>
-              <DemoLinkForm />
-              {demoLinks.length > 0 && (
-                <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
-                  {demoLinks.slice(0, 4).map((link) => {
-                    const domain = extractDomain(link.url);
-                    const config =
-                      demoTypeConfig[link.linkType] || demoTypeConfig.demo;
-                    const TypeIcon = config.icon;
-                    return (
-                      <a
-                        key={link.id}
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group"
-                      >
-                        <Card className="h-full border-border/50 transition-all hover:border-primary/20 hover:shadow-sm">
-                          <CardContent className="flex h-full flex-col p-3.5">
-                            <div className="flex items-start gap-2.5">
-                              <div
-                                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${config.iconClass}`}
-                              >
-                                <TypeIcon className="h-3.5 w-3.5" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm font-medium leading-snug text-foreground group-hover:text-primary">
-                                  {link.title}
-                                </p>
-                                <div className="mt-0.5 flex items-center gap-1.5 text-[11px] text-muted-foreground/60">
-                                  <Badge
-                                    variant="outline"
-                                    className={`px-1.5 py-0 text-[10px] font-normal ${config.badgeClass}`}
-                                  >
-                                    {config.label}
-                                  </Badge>
-                                  {domain && (
-                                    <span className="flex items-center gap-0.5">
-                                      {domain}
-                                      <ExternalLink className="h-2 w-2" />
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </a>
-                    );
-                  })}
-                </div>
-              )}
+
+              <LinkRow
+                title="Demos"
+                linkType="demo"
+                items={demoLinks.filter((l) => l.linkType === "demo")}
+                badgeClass="bg-blue-100 text-blue-800 border-blue-200"
+                iconClass="bg-blue-50 text-blue-600"
+                icon={Video}
+              />
+
+              <LinkRow
+                title="Prototypes"
+                linkType="prototype"
+                items={demoLinks.filter((l) => l.linkType === "prototype")}
+                badgeClass="bg-purple-100 text-purple-800 border-purple-200"
+                iconClass="bg-purple-50 text-purple-600"
+                icon={Globe}
+              />
+
+              <LinkRow
+                title="Cowork Projects"
+                linkType="cowork"
+                items={demoLinks.filter((l) => l.linkType === "cowork")}
+                badgeClass="bg-emerald-100 text-emerald-800 border-emerald-200"
+                iconClass="bg-emerald-50 text-emerald-600"
+                icon={Users}
+              />
             </section>
 
             {/* Latest Learnings */}
