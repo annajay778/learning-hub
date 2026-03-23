@@ -83,10 +83,13 @@ export default async function DemosPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-serif text-3xl font-semibold">
+        <p className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground/60">
+          AI Lab
+        </p>
+        <h1 className="font-serif text-base font-medium">
           Prototypes &amp; Demos
         </h1>
-        <p className="mt-2 text-muted-foreground">
+        <p className="mt-1 text-xs text-muted-foreground">
           Live demos, prototypes, and recordings from the team
         </p>
       </div>

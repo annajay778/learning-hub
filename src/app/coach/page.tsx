@@ -8,12 +8,15 @@ export default async function CoachPage() {
   const notes = await getCoachNotes();
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <div>
-        <h1 className="font-serif text-3xl font-semibold">
+        <p className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground/60">
+          AI Lab
+        </p>
+        <h1 className="font-serif text-base font-medium">
           Coach&apos;s Corner
         </h1>
-        <p className="mt-2 text-muted-foreground">
+        <p className="mt-1 text-xs text-muted-foreground">
           Coaching observations, suggestions, and feedback
         </p>
       </div>
@@ -21,11 +24,11 @@ export default async function CoachPage() {
       <CoachForm />
 
       {notes.length === 0 ? (
-        <p className="text-sm text-muted-foreground">
+        <p className="text-xs text-muted-foreground">
           No notes yet. Share a thought above to get started.
         </p>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-2.5">
           {notes.map((note) => (
             <CoachNoteCard
               key={note.id}

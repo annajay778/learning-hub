@@ -76,76 +76,76 @@ export default async function HomePage() {
   ]);
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-10">
       {/* Banner */}
-      <div className="-mx-4 -mt-8 mb-2 border-b border-primary/10 bg-primary/5 px-4 py-2 text-center text-xs text-muted-foreground">
-        <Sparkles className="mr-1 inline h-3 w-3 text-primary/60" />
-        Updated daily by AI — learnings are extracted from the team&apos;s work each evening
+      <div className="-mx-4 -mt-8 border-b border-primary/10 bg-gradient-to-b from-primary/[0.04] to-transparent px-4 py-1.5 text-center text-[10px] uppercase tracking-widest text-muted-foreground/70">
+        <Sparkles className="mr-1 inline h-2.5 w-2.5 text-primary/50" />
+        Updated daily by AI
       </div>
 
       {/* Hero */}
-      <section className="space-y-4 py-4">
-        <h1 className="font-serif text-4xl font-semibold tracking-tight sm:text-5xl">
-          AI Lab: Follow Along
-        </h1>
-        <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">
-          Everything we&apos;re learning building AI-powered tools at
-          Campminder. Updated daily.
+      <section className="space-y-3 pb-2 pt-6 text-center">
+        <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60">
+          Campminder AI Lab
         </p>
-        <p className="text-sm text-muted-foreground/70">
-          Anna Jay (PM) + Spencer Mroczek (Engineer) · March&ndash;April 2026
+        <h1 className="font-serif text-base font-medium tracking-tight text-foreground">
+          Follow Along
+        </h1>
+        <p className="mx-auto max-w-sm text-xs leading-relaxed text-muted-foreground">
+          Building AI-powered tools for summer camp operations.
+          <br />
+          Anna Jay + Spencer Mroczek · March&ndash;April 2026
         </p>
       </section>
 
+      <div className="mx-auto h-px w-16 bg-border" />
+
       {/* ── Latest Learnings ────────────────────────────────────── */}
       <section>
-        <h2 className="mb-4 font-serif text-2xl font-semibold">Latest Learnings</h2>
+        <h2 className="mb-4 text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+          Latest Learnings
+        </h2>
         {learnings.length === 0 ? (
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs text-muted-foreground">
             No learnings posted yet. The first batch will appear after the
             daily sync runs.
           </p>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {learnings.map((entry) => (
               <Card key={entry.id}>
-                <CardContent className="p-5">
-                  <div className="mb-1 text-xs font-medium text-muted-foreground">
+                <CardContent className="p-4">
+                  <div className="mb-1 text-[10px] text-muted-foreground/70">
                     {new Date(entry.date + "T12:00:00").toLocaleDateString(
                       "en-US",
                       { weekday: "long", month: "long", day: "numeric" }
                     )}
                   </div>
-                  <h3 className="mb-3 text-base font-semibold">
+                  <h3 className="mb-2 font-serif text-sm font-medium">
                     {entry.title}
                   </h3>
-                  <ul className="mb-3 space-y-1.5">
+                  <ul className="mb-2.5 space-y-1">
                     {(entry.bullets as string[]).map((bullet, i) => (
                       <li
                         key={i}
-                        className="flex gap-2 text-sm text-muted-foreground"
+                        className="flex gap-2 text-xs leading-relaxed text-muted-foreground"
                       >
-                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/40" />
+                        <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary/30" />
                         {bullet}
                       </li>
                     ))}
                   </ul>
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-wrap gap-1">
                     {(entry.tags as string[]).map((tag) => (
                       <Badge
                         key={tag}
                         variant="secondary"
-                        className={`text-[10px] font-medium ${TAG_COLORS[tag] || "bg-gray-100 text-gray-600"}`}
+                        className={`px-1.5 py-0 text-[9px] font-normal ${TAG_COLORS[tag] || "bg-gray-100 text-gray-600"}`}
                       >
                         {tag}
                       </Badge>
                     ))}
                   </div>
-                  {entry.author && (
-                    <p className="mt-2 text-[11px] text-muted-foreground/60">
-                      {entry.author}
-                    </p>
-                  )}
                 </CardContent>
               </Card>
             ))}
@@ -156,17 +156,19 @@ export default async function HomePage() {
       {/* ── Prototypes & Demos ──────────────────────────────────── */}
       <section>
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="font-serif text-2xl font-semibold">Prototypes &amp; Demos</h2>
+          <h2 className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+            Prototypes &amp; Demos
+          </h2>
           <Link
             href="/demos"
-            className="text-sm text-primary hover:underline"
+            className="text-[10px] uppercase tracking-wider text-primary hover:underline"
           >
             View all
           </Link>
         </div>
         <DemoLinkForm />
         {demoLinks.length > 0 && (
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
             {demoLinks.slice(0, 4).map((link) => {
               const domain = extractDomain(link.url);
               const config =
@@ -180,22 +182,22 @@ export default async function HomePage() {
                   rel="noopener noreferrer"
                   className="group"
                 >
-                  <Card className="h-full border-border/60 transition-all hover:border-primary/30 hover:shadow-md">
-                    <CardContent className="flex h-full flex-col p-4">
-                      <div className="flex items-start gap-3">
+                  <Card className="h-full border-border/50 transition-all hover:border-primary/20 hover:shadow-sm">
+                    <CardContent className="flex h-full flex-col p-3.5">
+                      <div className="flex items-start gap-2.5">
                         <div
-                          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition-colors ${config.iconClass}`}
+                          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors ${config.iconClass}`}
                         >
-                          <TypeIcon className="h-4 w-4" />
+                          <TypeIcon className="h-3.5 w-3.5" />
                         </div>
                         <div className="min-w-0 flex-1">
                           <div className="flex items-start justify-between gap-2">
-                            <p className="font-semibold leading-snug text-foreground group-hover:text-primary">
+                            <p className="text-xs font-medium leading-snug text-foreground group-hover:text-primary">
                               {link.title}
                             </p>
                             <Badge
                               variant="outline"
-                              className={`shrink-0 text-[10px] ${config.badgeClass}`}
+                              className={`shrink-0 px-1.5 py-0 text-[9px] font-normal ${config.badgeClass}`}
                             >
                               {config.label}
                             </Badge>
@@ -203,18 +205,18 @@ export default async function HomePage() {
                         </div>
                       </div>
                       {link.description && (
-                        <p className="mt-3 line-clamp-2 text-sm text-muted-foreground">
+                        <p className="mt-2 line-clamp-2 text-[11px] leading-relaxed text-muted-foreground">
                           {link.description}
                         </p>
                       )}
-                      <div className="mt-auto flex items-center gap-2 pt-3 text-xs text-muted-foreground">
+                      <div className="mt-auto flex items-center gap-1.5 pt-2.5 text-[10px] text-muted-foreground/60">
                         <span>{link.author}</span>
                         {domain && (
                           <>
                             <span>·</span>
-                            <span className="flex items-center gap-1">
+                            <span className="flex items-center gap-0.5">
                               {domain}
-                              <ExternalLink className="h-2.5 w-2.5" />
+                              <ExternalLink className="h-2 w-2" />
                             </span>
                           </>
                         )}
@@ -231,22 +233,22 @@ export default async function HomePage() {
       {/* ── Coach's Corner ──────────────────────────────────────── */}
       <section>
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="font-serif text-2xl font-semibold">
+          <h2 className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
             Coach&apos;s Corner
           </h2>
           <Link
             href="/coach"
-            className="text-sm text-primary hover:underline"
+            className="text-[10px] uppercase tracking-wider text-primary hover:underline"
           >
             View all
           </Link>
         </div>
         {coachNotes.length === 0 ? (
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs text-muted-foreground">
             No coaching notes yet.
           </p>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {coachNotes.slice(0, 3).map((note) => (
               <CoachNoteCard
                 key={note.id}
@@ -263,33 +265,32 @@ export default async function HomePage() {
 
       {/* ── Claude Projects ─────────────────────────────────────── */}
       <section>
-        <Card>
-          <CardContent className="p-5">
-            <h3 className="mb-2 font-serif text-lg font-semibold">
+        <Card className="border-border/50">
+          <CardContent className="p-4">
+            <h3 className="mb-1.5 font-serif text-xs font-medium">
               Explore with Claude Projects
             </h3>
-            <p className="mb-3 text-sm text-muted-foreground">
-              These Claude Projects have all the context loaded — start a
-              conversation to ask questions at your own pace.
+            <p className="mb-3 text-[11px] text-muted-foreground">
+              All the context loaded — start a conversation at your own pace.
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2">
               <a
                 href="https://claude.ai/project/5b5daa22-tried-and-tested-product-management-f"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm font-medium transition-colors hover:bg-accent"
+                className="inline-flex items-center gap-1 rounded-md border border-border/60 px-2.5 py-1 text-[11px] font-medium transition-colors hover:bg-accent"
               >
-                PM Playbook Project
-                <ExternalLink className="h-3 w-3" />
+                PM Playbook
+                <ExternalLink className="h-2.5 w-2.5" />
               </a>
               <a
                 href="https://claude.ai/project/b23de29e-campminder-ai-prototype-knowledge-ba"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm font-medium transition-colors hover:bg-accent"
+                className="inline-flex items-center gap-1 rounded-md border border-border/60 px-2.5 py-1 text-[11px] font-medium transition-colors hover:bg-accent"
               >
                 Technical Knowledge Base
-                <ExternalLink className="h-3 w-3" />
+                <ExternalLink className="h-2.5 w-2.5" />
               </a>
             </div>
           </CardContent>
