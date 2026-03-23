@@ -4,7 +4,6 @@ import { getClients, getClientFeedback } from "@/lib/actions";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { FeedbackForm } from "@/components/feedback-form";
-import { Mail } from "lucide-react";
 
 const PROTOTYPE_COLORS: Record<string, string> = {
   "smart-nudge": "bg-blue-100 text-blue-800",
@@ -72,14 +71,12 @@ export default async function ClientsPage() {
                   {contacts.length > 0 && (
                     <div className="mt-2 space-y-0.5">
                       {contacts.map((c) => (
-                        <a
+                        <p
                           key={c.email}
-                          href={`mailto:${c.email}`}
-                          className="flex items-center gap-1 text-[10px] text-primary hover:underline"
+                          className="text-[10px] text-muted-foreground"
                         >
-                          <Mail className="h-2.5 w-2.5" />
-                          {c.name}
-                        </a>
+                          {c.name} — {c.email}
+                        </p>
                       ))}
                     </div>
                   )}
