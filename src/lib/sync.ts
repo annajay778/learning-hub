@@ -1,12 +1,10 @@
 import { db } from "@/lib/db";
-import { lhPages, lhCategories, lhSyncLog, lhPageSnapshots } from "@/lib/schema";
+import { lhPages, lhSyncLog, lhPageSnapshots } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import {
   NOTION_SOURCES,
-  PLAYBOOK_SECTION_CATEGORIES,
   fetchPageAsMarkdown,
-  splitByH1,
-  fetchDatabasePages,
+  fetchChildPages,
 } from "@/lib/notion";
 
 interface SyncDetail {
@@ -23,22 +21,12 @@ interface SyncResult {
 
 // ── Helpers ─────────────────────────────────────────────────────
 
-async function getCategoryId(name: string): Promise<string | null> {
-  const rows = await db
-    .select({ id: lhCategories.id })
-    .from(lhCategories)
-    .where(eq(lhCategories.name, name))
-    .limit(1);
-  return rows[0]?.id ?? null;
-}
-
 async function upsertPage(params: {
   notionPageId: string;
   title: string;
   body: string;
   type: "playbook" | "learning";
   author: string;
-  categoryId: string | null;
   notionLastEdited: Date;
 }): Promise<"created" | "updated" | "skipped"> {
   const existing = await db
@@ -51,7 +39,6 @@ async function upsertPage(params: {
     .limit(1);
 
   if (existing.length === 0) {
-    // INSERT
     const [page] = await db
       .insert(lhPages)
       .values({
@@ -59,14 +46,13 @@ async function upsertPage(params: {
         body: params.body,
         type: params.type,
         author: params.author,
-        categoryId: params.categoryId,
+        categoryId: null,
         notionPageId: params.notionPageId,
         notionLastEdited: params.notionLastEdited,
         source: "notion",
       })
       .returning({ id: lhPages.id });
 
-    // Create snapshot
     await db.insert(lhPageSnapshots).values({
       pageId: page.id,
       title: params.title,
@@ -77,7 +63,6 @@ async function upsertPage(params: {
     return "created";
   }
 
-  // Check if newer
   const row = existing[0];
   if (
     row.notionLastEdited &&
@@ -86,19 +71,16 @@ async function upsertPage(params: {
     return "skipped";
   }
 
-  // UPDATE
   await db
     .update(lhPages)
     .set({
       title: params.title,
       body: params.body,
-      categoryId: params.categoryId,
       notionLastEdited: params.notionLastEdited,
       updatedAt: new Date(),
     })
     .where(eq(lhPages.id, row.id));
 
-  // Create snapshot
   await db.insert(lhPageSnapshots).values({
     pageId: row.id,
     title: params.title,
@@ -109,145 +91,118 @@ async function upsertPage(params: {
   return "updated";
 }
 
+// ── Sync a parent page + all nested children ────────────────────
+
+async function syncPageTree(
+  parentId: string,
+  parentLabel: string,
+  type: "playbook" | "learning",
+  details: SyncDetail[]
+): Promise<{ added: number; updated: number }> {
+  let added = 0;
+  let updated = 0;
+
+  // Sync the parent page itself
+  console.log(`Syncing ${parentLabel} (parent)...`);
+  try {
+    const parentPage = await fetchPageAsMarkdown(parentId);
+    if (parentPage.body.trim()) {
+      const action = await upsertPage({
+        notionPageId: parentId,
+        title: parentPage.title,
+        body: parentPage.body,
+        type,
+        author: "Anna",
+        notionLastEdited: new Date(parentPage.lastEdited),
+      });
+      if (action === "created") added++;
+      if (action === "updated") updated++;
+      details.push({
+        title: parentPage.title,
+        action,
+        notionPageId: parentId,
+      });
+    }
+  } catch (err) {
+    console.error(`Failed to sync parent ${parentLabel}:`, err);
+  }
+
+  // Fetch and sync all nested child pages
+  console.log(`Fetching child pages of ${parentLabel}...`);
+  try {
+    const children = await fetchChildPages(parentId);
+    console.log(`Found ${children.length} child pages`);
+
+    for (const child of children) {
+      try {
+        const page = await fetchPageAsMarkdown(child.id);
+        const action = await upsertPage({
+          notionPageId: child.id,
+          title: page.title,
+          body: page.body,
+          type,
+          author: "Anna",
+          notionLastEdited: new Date(child.lastEdited),
+        });
+        if (action === "created") added++;
+        if (action === "updated") updated++;
+        details.push({
+          title: page.title,
+          action,
+          notionPageId: child.id,
+        });
+      } catch (err) {
+        console.error(`Failed to sync child page "${child.title}":`, err);
+        details.push({
+          title: child.title,
+          action: "skipped",
+          notionPageId: child.id,
+        });
+      }
+    }
+  } catch (err) {
+    console.error(`Failed to fetch children of ${parentLabel}:`, err);
+  }
+
+  return { added, updated };
+}
+
 // ── Sync orchestrator ───────────────────────────────────────────
 
 export async function syncFromNotion(): Promise<SyncResult> {
   const details: SyncDetail[] = [];
-  let added = 0;
-  let updated = 0;
+  let totalAdded = 0;
+  let totalUpdated = 0;
 
-  // 1. AI PM Playbook — split by H1 sections
-  console.log("Syncing AI PM Playbook...");
-  const playbook = await fetchPageAsMarkdown(NOTION_SOURCES.aiPmPlaybook);
-  const sections = splitByH1(playbook.body);
-
-  for (const section of sections) {
-    const categoryName =
-      PLAYBOOK_SECTION_CATEGORIES[section.title.toLowerCase()] ||
-      PLAYBOOK_SECTION_CATEGORIES[
-        Object.keys(PLAYBOOK_SECTION_CATEGORIES).find((k) =>
-          section.title.toLowerCase().includes(k.split(":")[0].toLowerCase())
-        ) ?? ""
-      ] ||
-      "Internal Process";
-    const categoryId = await getCategoryId(categoryName);
-
-    // Use a synthetic notion_page_id for sections: playbook_id + section_title_hash
-    const sectionId = `${NOTION_SOURCES.aiPmPlaybook}__${section.title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "_")}`;
-
-    const action = await upsertPage({
-      notionPageId: sectionId,
-      title: section.title,
-      body: section.body,
-      type: "playbook",
-      author: "Anna",
-      categoryId,
-      notionLastEdited: new Date(playbook.lastEdited),
-    });
-
-    if (action === "created") added++;
-    if (action === "updated") updated++;
-    details.push({ title: section.title, action, notionPageId: sectionId });
-  }
-
-  // 2. Extra Playbook Content — single playbook
-  console.log("Syncing Extra Playbook Content...");
-  const extra = await fetchPageAsMarkdown(NOTION_SOURCES.extraPlaybookContent);
-  const contentCategoryId = await getCategoryId("Content");
-  const extraAction = await upsertPage({
-    notionPageId: NOTION_SOURCES.extraPlaybookContent,
-    title: extra.title,
-    body: extra.body,
-    type: "playbook",
-    author: "Anna",
-    categoryId: contentCategoryId,
-    notionLastEdited: new Date(extra.lastEdited),
-  });
-  if (extraAction === "created") added++;
-  if (extraAction === "updated") updated++;
-  details.push({
-    title: extra.title,
-    action: extraAction,
-    notionPageId: NOTION_SOURCES.extraPlaybookContent,
-  });
-
-  // 3. Prototype Hub — individual playbooks
-  console.log("Syncing Prototype Hub...");
-  const protoDocs = await fetchDatabasePages(NOTION_SOURCES.prototypeHub);
-  for (const doc of protoDocs) {
-    const page = await fetchPageAsMarkdown(doc.id);
-
-    // Map Notion category to our categories
-    let categoryName = "Prototype";
-    if (doc.categories.includes("Strategy doc")) categoryName = "Strategy";
-    else if (doc.categories.includes("Planning")) categoryName = "Planning";
-    else if (doc.categories.includes("Customer research"))
-      categoryName = "Data";
-    const categoryId = await getCategoryId(categoryName);
-
-    const action = await upsertPage({
-      notionPageId: doc.id,
-      title: page.title,
-      body: page.body,
-      type: "playbook",
-      author: "Spencer",
-      categoryId,
-      notionLastEdited: new Date(doc.lastEdited),
-    });
-    if (action === "created") added++;
-    if (action === "updated") updated++;
-    details.push({ title: page.title, action, notionPageId: doc.id });
-  }
-
-  // 4. Chat Hub — daily learnings
-  console.log("Syncing Chat Hub...");
-  const chatDocs = await fetchDatabasePages(NOTION_SOURCES.chatHub);
-  for (const doc of chatDocs) {
-    const page = await fetchPageAsMarkdown(doc.id);
-    const action = await upsertPage({
-      notionPageId: doc.id,
-      title: page.title,
-      body: page.body,
-      type: "learning",
-      author: "Spencer",
-      categoryId: null,
-      notionLastEdited: new Date(doc.lastEdited),
-    });
-    if (action === "created") added++;
-    if (action === "updated") updated++;
-    details.push({ title: page.title, action, notionPageId: doc.id });
-  }
-
-  // 5. Transcript Hub — daily learnings
-  console.log("Syncing Transcript Hub...");
-  const transcriptDocs = await fetchDatabasePages(
-    NOTION_SOURCES.transcriptHub
+  // 1. Sync playbook parent + all nested pages
+  const playbook = await syncPageTree(
+    NOTION_SOURCES.playbookParent,
+    "AI PM Playbook",
+    "playbook",
+    details
   );
-  for (const doc of transcriptDocs) {
-    const page = await fetchPageAsMarkdown(doc.id);
-    const action = await upsertPage({
-      notionPageId: doc.id,
-      title: page.title,
-      body: page.body,
-      type: "learning",
-      author: "Anna",
-      categoryId: null,
-      notionLastEdited: new Date(doc.lastEdited),
-    });
-    if (action === "created") added++;
-    if (action === "updated") updated++;
-    details.push({ title: page.title, action, notionPageId: doc.id });
-  }
+  totalAdded += playbook.added;
+  totalUpdated += playbook.updated;
+
+  // 2. Sync prototype parent + all nested pages
+  const prototype = await syncPageTree(
+    NOTION_SOURCES.prototypeParent,
+    "Prototype Hub",
+    "playbook",
+    details
+  );
+  totalAdded += prototype.added;
+  totalUpdated += prototype.updated;
 
   // Write sync log
   await db.insert(lhSyncLog).values({
-    pagesAdded: added,
-    pagesUpdated: updated,
+    pagesAdded: totalAdded,
+    pagesUpdated: totalUpdated,
     details: details.filter((d) => d.action !== "skipped"),
   });
 
-  console.log(`Sync complete: ${added} added, ${updated} updated`);
-  return { added, updated, details };
+  console.log(
+    `Sync complete: ${totalAdded} added, ${totalUpdated} updated`
+  );
+  return { added: totalAdded, updated: totalUpdated, details };
 }

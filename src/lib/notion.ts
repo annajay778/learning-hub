@@ -7,21 +7,12 @@ import type {
 
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 
+// The two parent pages we sync from
 export const NOTION_SOURCES = {
-  aiPmPlaybook: "327d23fa124b8124b83ddcf302358760",
-  extraPlaybookContent: "328d23fa124b80e3bd1ecefd9ed3ecb4",
-  prototypeHub: "327d23fa124b80fa9472c44cb7edf511",
-  chatHub: "327d23fa124b8044b412d1839d8c5322",
-  transcriptHub: "327d23fa124b80f0833ee420d57375a8",
-};
-
-// Category mapping for AI PM Playbook sections
-export const PLAYBOOK_SECTION_CATEGORIES: Record<string, string> = {
-  "Working with an AI engineer": "Internal Process",
-  "Technical setup and environment": "Technical",
-  "Process: how to move fast": "Internal Process",
-  "Product discovery with AI tools": "Internal Process",
-  "Mistakes and course corrections": "Internal Process",
+  // "AI PM Playbook" parent page and its nested children
+  playbookParent: "327d23fa124b8081b436d810b509b69b",
+  // "Prototype Hub" parent page and its nested children
+  prototypeParent: "325d23fa124b8035b85af4c457b976a4",
 };
 
 // ── Rich text → plain markdown ─────────────────────────────────
@@ -92,12 +83,13 @@ async function blockToMarkdown(
         `${indent}1. ${richTextToMarkdown(block.numbered_list_item.rich_text)}`
       );
       break;
-    case "to_do":
+    case "to_do": {
       const checked = block.to_do.checked ? "x" : " ";
       lines.push(
         `${indent}- [${checked}] ${richTextToMarkdown(block.to_do.rich_text)}`
       );
       break;
+    }
     case "toggle":
       lines.push(
         `${indent}**${richTextToMarkdown(block.toggle.rich_text)}**`
@@ -113,29 +105,37 @@ async function blockToMarkdown(
         `> ${richTextToMarkdown(block.callout.rich_text)}`
       );
       break;
-    case "code":
+    case "code": {
       const lang = block.code.language || "";
       lines.push(
         `\`\`\`${lang}\n${richTextToMarkdown(block.code.rich_text)}\n\`\`\``
       );
       break;
+    }
     case "divider":
       lines.push("---");
       break;
-    case "image":
+    case "image": {
       const url =
         block.image.type === "external"
           ? block.image.external.url
           : block.image.file.url;
       lines.push(`![image](${url})`);
       break;
+    }
+    case "child_page":
+      // Child pages are fetched separately — just note them
+      lines.push(`**[Subpage: ${block.child_page.title}]**`);
+      break;
+    case "child_database":
+      // Skip child databases in markdown output
+      break;
     default:
-      // Skip unsupported block types silently
       break;
   }
 
-  // Process children if any
-  if (block.has_children) {
+  // Process children if any (except child_page which we handle separately)
+  if (block.has_children && block.type !== "child_page") {
     const children = await fetchAllBlocks(block.id);
     for (const child of children) {
       lines.push(await blockToMarkdown(child, indent + "  "));
@@ -163,10 +163,11 @@ export async function fetchPageAsMarkdown(pageId: string): Promise<{
   body: string;
   lastEdited: string;
 }> {
-  const page = await notion.pages.retrieve({ page_id: pageId }) as PageObjectResponse;
+  const page = (await notion.pages.retrieve({
+    page_id: pageId,
+  })) as PageObjectResponse;
   const lastEdited = page.last_edited_time;
 
-  // Extract title
   let title = "Untitled";
   for (const prop of Object.values(page.properties)) {
     if (prop.type === "title") {
@@ -181,41 +182,57 @@ export async function fetchPageAsMarkdown(pageId: string): Promise<{
   return { title, body, lastEdited };
 }
 
-// ── Split playbook by H1 sections ──────────────────────────────
+// ── Fetch child pages from a parent page (recursive) ───────────
 
-export function splitByH1(markdown: string): Array<{ title: string; body: string }> {
-  const lines = markdown.split("\n");
-  const sections: Array<{ title: string; body: string }> = [];
-  let currentTitle = "";
-  let currentLines: string[] = [];
+export async function fetchChildPages(
+  parentPageId: string
+): Promise<
+  Array<{
+    id: string;
+    title: string;
+    lastEdited: string;
+  }>
+> {
+  const results: Array<{
+    id: string;
+    title: string;
+    lastEdited: string;
+  }> = [];
 
-  for (const line of lines) {
-    const h1Match = line.match(/^# (.+)/);
-    if (h1Match) {
-      // Save previous section if it exists
-      if (currentTitle) {
-        sections.push({
-          title: currentTitle,
-          body: currentLines.join("\n").trim(),
-        });
-      }
-      currentTitle = h1Match[1].trim();
-      currentLines = [];
-    } else if (currentTitle) {
-      currentLines.push(line);
+  const blocks = await fetchAllBlocks(parentPageId);
+
+  for (const block of blocks) {
+    if (block.type === "child_page") {
+      // Get the full page to get last_edited_time
+      const page = (await notion.pages.retrieve({
+        page_id: block.id,
+      })) as PageObjectResponse;
+
+      results.push({
+        id: block.id,
+        title: block.child_page.title,
+        lastEdited: page.last_edited_time,
+      });
+
+      // Recursively fetch nested child pages
+      const nested = await fetchChildPages(block.id);
+      results.push(...nested);
     }
-    // Lines before first H1 are intro — skip them
+
+    // Also check for child_database blocks — query their pages
+    if (block.type === "child_database") {
+      const dbPages = await fetchDatabasePages(block.id);
+      results.push(
+        ...dbPages.map((p) => ({
+          id: p.id,
+          title: p.title,
+          lastEdited: p.lastEdited,
+        }))
+      );
+    }
   }
 
-  // Save last section
-  if (currentTitle) {
-    sections.push({
-      title: currentTitle,
-      body: currentLines.join("\n").trim(),
-    });
-  }
-
-  return sections;
+  return results;
 }
 
 // ── Fetch all pages from a Notion database ─────────────────────
@@ -253,9 +270,7 @@ export async function fetchDatabasePages(databaseId: string): Promise<
 
       for (const prop of Object.values(pageObj.properties)) {
         if (prop.type === "title") {
-          title = prop.title
-            .map((t) => t.plain_text)
-            .join("");
+          title = prop.title.map((t) => t.plain_text).join("");
         }
         if (prop.type === "multi_select") {
           for (const opt of prop.multi_select) {
