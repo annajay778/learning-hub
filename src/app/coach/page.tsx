@@ -11,7 +11,7 @@ export default async function CoachPage() {
     <div className="space-y-6">
       <div>
         <p className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground/60">
-          AI Lab
+          Build to Learn
         </p>
         <h1 className="font-serif text-base font-medium">
           Coach&apos;s Corner

@@ -15,7 +15,7 @@ const lora = Lora({
 });
 
 export const metadata: Metadata = {
-  title: "AI Lab — Follow Along",
+  title: "AI Build to Learn Experiment Hub",
   description:
     "Everything we're learning building AI-powered tools at Campminder. Updated daily.",
 };

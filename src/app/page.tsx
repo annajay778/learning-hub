@@ -77,28 +77,38 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-10">
-      {/* Banner */}
-      <div className="-mx-4 -mt-8 border-b border-primary/10 bg-gradient-to-b from-primary/[0.04] to-transparent px-4 py-1.5 text-center text-[10px] uppercase tracking-widest text-muted-foreground/70">
-        <Sparkles className="mr-1 inline h-2.5 w-2.5 text-primary/50" />
-        Updated daily by AI
-      </div>
+      {/* Hero with landscape gradient */}
+      <section className="-mx-4 -mt-8 mb-2 overflow-hidden rounded-b-2xl">
+        <div className="relative flex flex-col items-center justify-center px-4 py-12 text-center sm:py-16">
+          {/* Sky gradient layers */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#7BAFD4] via-[#B8D4E3] to-[#E8C9A0]" />
+          {/* Cloud wisps */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_40%_at_50%_30%,rgba(255,255,255,0.35),transparent)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_30%_at_30%_40%,rgba(255,255,255,0.2),transparent)]" />
+          {/* Mountain silhouette */}
+          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#5C7A5E]/30 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-1/4 bg-[linear-gradient(165deg,transparent_40%,#5C7A5E20_40%,#5C7A5E15_60%,transparent_60%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-1/4 bg-[linear-gradient(195deg,transparent_35%,#5C7A5E15_35%,#5C7A5E10_55%,transparent_55%)]" />
+          {/* Warm sunset glow */}
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#D4A843]/10 to-transparent" />
 
-      {/* Hero */}
-      <section className="space-y-3 pb-2 pt-6 text-center">
-        <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60">
-          Campminder AI Lab
-        </p>
-        <h1 className="font-serif text-base font-medium tracking-tight text-foreground">
-          Follow Along
-        </h1>
-        <p className="mx-auto max-w-sm text-xs leading-relaxed text-muted-foreground">
-          Building AI-powered tools for summer camp operations.
-          <br />
-          Anna Jay + Spencer Mroczek · March&ndash;April 2026
-        </p>
+          {/* Content */}
+          <div className="relative z-10 space-y-2.5">
+            <div className="inline-flex items-center gap-1 rounded-full bg-white/30 px-2.5 py-0.5 text-[9px] uppercase tracking-widest text-white/90 backdrop-blur-sm">
+              <Sparkles className="h-2 w-2" />
+              Updated daily by AI
+            </div>
+            <h1 className="font-serif text-base font-medium tracking-tight text-white drop-shadow-sm">
+              AI Build to Learn Experiment Hub
+            </h1>
+            <p className="mx-auto max-w-sm text-[11px] leading-relaxed text-white/80">
+              Building AI-powered tools for summer camp operations.
+              <br />
+              Anna Jay + Spencer Mroczek · March&ndash;April 2026
+            </p>
+          </div>
+        </div>
       </section>
-
-      <div className="mx-auto h-px w-16 bg-border" />
 
       {/* ── Latest Learnings ────────────────────────────────────── */}
       <section>

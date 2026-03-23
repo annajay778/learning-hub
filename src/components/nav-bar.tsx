@@ -22,7 +22,7 @@ export function NavBar({ lastSyncedAt }: { lastSyncedAt: string | null }) {
             href="/"
             className="font-serif text-sm font-medium tracking-tight text-foreground"
           >
-            AI Lab
+            Build to Learn
           </Link>
           <div className="flex items-center gap-0.5">
             {links.map(({ href, label }) => {
