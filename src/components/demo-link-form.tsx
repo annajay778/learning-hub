@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -67,9 +67,10 @@ export function DemoLinkForm() {
       <Button
         onClick={() => setOpen(true)}
         variant="outline"
-        className="w-full"
+        size="sm"
+        className="w-full text-xs"
       >
-        <Plus className="mr-1.5 h-4 w-4" /> Add a Demo or Prototype
+        <Plus className="mr-1 h-3 w-3" /> Add a Demo or Prototype
       </Button>
     );
   }
@@ -78,17 +79,13 @@ export function DemoLinkForm() {
 
   return (
     <Card>
-      <CardHeader className="pb-3">
-        <CardTitle className="text-base font-semibold">
-          Add a Demo or Prototype
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form ref={formRef} action={handleSubmit} className="space-y-3">
+      <CardContent className="p-3.5">
+        <form ref={formRef} action={handleSubmit} className="space-y-2.5">
           <Input
             name="title"
-            placeholder='e.g., "Smart Nudge — Missing Forms SMS"'
+            placeholder="Title"
             required
+            className="h-8 text-xs"
           />
           <Input
             name="url"
@@ -100,33 +97,32 @@ export function DemoLinkForm() {
               setUrl(e.target.value);
               setError(null);
             }}
+            className="h-8 text-xs"
           />
 
-          {/* Type selector — Radix Select */}
           <Select value={linkType} onValueChange={setLinkType}>
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="h-8 w-full text-xs">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="demo">
-                <Video className="h-3.5 w-3.5 text-blue-600" />
+                <Video className="h-3 w-3 text-blue-600" />
                 Demo
               </SelectItem>
               <SelectItem value="prototype">
-                <Globe className="h-3.5 w-3.5 text-purple-600" />
+                <Globe className="h-3 w-3 text-purple-600" />
                 Prototype
               </SelectItem>
               <SelectItem value="resource">
-                <BookOpen className="h-3.5 w-3.5 text-amber-600" />
+                <BookOpen className="h-3 w-3 text-amber-600" />
                 Shared Resource
               </SelectItem>
             </SelectContent>
           </Select>
 
-          {/* Description with auto-generate */}
-          <div className="space-y-1.5">
+          <div className="space-y-1">
             <div className="flex items-center justify-between">
-              <label className="text-sm text-muted-foreground">
+              <label className="text-[10px] text-muted-foreground">
                 Description
               </label>
               {showGenerateButton && (
@@ -136,17 +132,17 @@ export function DemoLinkForm() {
                   size="sm"
                   onClick={handleGenerate}
                   disabled={generating}
-                  className="h-7 gap-1.5 text-xs text-primary hover:text-primary"
+                  className="h-6 gap-1 px-1.5 text-[10px] text-primary hover:text-primary"
                 >
                   {generating ? (
                     <>
-                      <Loader2 className="h-3 w-3 animate-spin" />
+                      <Loader2 className="h-2.5 w-2.5 animate-spin" />
                       Generating...
                     </>
                   ) : (
                     <>
-                      <Sparkles className="h-3 w-3" />
-                      Auto-generate from link
+                      <Sparkles className="h-2.5 w-2.5" />
+                      Auto-generate
                     </>
                   )}
                 </Button>
@@ -154,16 +150,17 @@ export function DemoLinkForm() {
             </div>
             <Textarea
               name="description"
-              placeholder="Brief description — what does it do, who is it for?"
+              placeholder="What does it do, who is it for?"
               rows={2}
               value={description}
               onChange={(e) => {
                 setDescription(e.target.value);
                 setError(null);
               }}
+              className="text-xs"
             />
             {error && (
-              <p className="text-xs text-destructive">{error}</p>
+              <p className="text-[10px] text-destructive">{error}</p>
             )}
           </div>
 
@@ -172,13 +169,14 @@ export function DemoLinkForm() {
               name="author"
               placeholder="Your name"
               required
-              className="w-40"
+              className="h-8 w-32 text-xs"
             />
-            <div className="flex gap-2">
+            <div className="flex gap-1.5">
               <Button
                 type="button"
                 variant="ghost"
                 size="sm"
+                className="h-7 text-[11px] text-muted-foreground"
                 onClick={() => {
                   setOpen(false);
                   setUrl("");
@@ -189,8 +187,8 @@ export function DemoLinkForm() {
               >
                 Cancel
               </Button>
-              <Button type="submit" size="sm" disabled={submitting}>
-                {submitting ? "Saving..." : "Add Link"}
+              <Button type="submit" size="sm" className="h-7 text-[11px]" disabled={submitting}>
+                {submitting ? "Saving..." : "Add"}
               </Button>
             </div>
           </div>

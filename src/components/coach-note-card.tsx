@@ -2,6 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { MarkdownViewer } from "@/components/markdown-viewer";
 import { toggleCoachNoteReviewed } from "@/lib/actions";
 import { Check, Circle } from "lucide-react";
@@ -24,43 +25,43 @@ export function CoachNoteCard({
   const date = new Date(createdAt).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
   });
 
   return (
-    <Card className={reviewed ? "opacity-70" : ""}>
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between gap-3">
+    <Card className={reviewed ? "opacity-60" : ""}>
+      <CardContent className="p-3.5">
+        <div className="flex items-start justify-between gap-2">
           <div className="min-w-0 flex-1">
-            <div className="mb-2 flex items-center gap-2 text-xs text-muted-foreground">
+            <div className="mb-1.5 flex items-center gap-1.5 text-[10px] text-muted-foreground">
               <span className="font-medium text-foreground">{author}</span>
               <span>·</span>
               <span>{date}</span>
               {reviewed && (
                 <Badge
                   variant="outline"
-                  className="bg-green-50 text-[10px] text-green-700"
+                  className="px-1 py-0 text-[8px] text-green-700 border-green-200 bg-green-50"
                 >
                   Reviewed
                 </Badge>
               )}
             </div>
-            <div className="text-sm">
+            <div className="text-xs [&_p]:text-xs [&_li]:text-xs">
               <MarkdownViewer content={body} />
             </div>
           </div>
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-6 w-6 shrink-0 p-0"
             onClick={() => toggleCoachNoteReviewed(id)}
-            className="shrink-0 rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             title={reviewed ? "Mark as unreviewed" : "Mark as reviewed"}
           >
             {reviewed ? (
-              <Check className="h-4 w-4 text-green-600" />
+              <Check className="h-3 w-3 text-green-600" />
             ) : (
-              <Circle className="h-4 w-4" />
+              <Circle className="h-3 w-3 text-muted-foreground" />
             )}
-          </button>
+          </Button>
         </div>
       </CardContent>
     </Card>

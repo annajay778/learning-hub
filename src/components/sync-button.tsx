@@ -12,65 +12,58 @@ interface SyncButtonProps {
 export function SyncButton({ lastSyncedAt }: SyncButtonProps) {
   const router = useRouter();
   const [syncing, setSyncing] = useState(false);
-  const [result, setResult] = useState<{
-    added: number;
-    updated: number;
-  } | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSync() {
     setSyncing(true);
-    setResult(null);
+    setError(null);
 
     try {
       const res = await fetch("/api/sync", { method: "POST" });
       if (!res.ok) {
         const data = await res.json();
-        alert(`Sync failed: ${data.error}`);
+        setError(data.error || "Sync failed");
         return;
       }
-      const data = await res.json();
-      setResult({ added: data.added, updated: data.updated });
       router.refresh();
     } catch {
-      alert("Sync failed — check console");
+      setError("Sync failed");
     } finally {
       setSyncing(false);
     }
   }
 
   const lastSyncLabel = lastSyncedAt
-    ? `Last synced: ${new Date(lastSyncedAt).toLocaleDateString("en-US", {
+    ? new Date(lastSyncedAt).toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
         hour: "numeric",
         minute: "2-digit",
-      })}`
-    : "Never synced";
+      })
+    : null;
 
   return (
     <div className="flex items-center gap-2">
-      {result && (
-        <span className="text-xs text-muted-foreground">
-          +{result.added} new, {result.updated} updated
-        </span>
+      {error && (
+        <span className="text-[10px] text-destructive">{error}</span>
       )}
-      <div className="flex flex-col items-end">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleSync}
-          disabled={syncing}
-          className="gap-1.5 text-xs"
-        >
-          <RefreshCw
-            className={`h-3 w-3 ${syncing ? "animate-spin" : ""}`}
-          />
-          {syncing ? "Syncing..." : "Refresh"}
-        </Button>
-        <span className="mt-0.5 text-[10px] text-muted-foreground">
+      {lastSyncLabel && (
+        <span className="text-[10px] text-muted-foreground/50">
           {lastSyncLabel}
         </span>
-      </div>
+      )}
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={handleSync}
+        disabled={syncing}
+        className="h-7 gap-1 px-2 text-[10px]"
+      >
+        <RefreshCw
+          className={`h-2.5 w-2.5 ${syncing ? "animate-spin" : ""}`}
+        />
+        {syncing ? "Syncing" : "Sync"}
+      </Button>
     </div>
   );
 }
