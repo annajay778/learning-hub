@@ -11,7 +11,6 @@ import {
   Globe,
   BookOpen,
   Sparkles,
-  MessageCircle,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -79,29 +78,28 @@ export default async function HomePage() {
   return (
     <div className="space-y-12">
       {/* Banner */}
-      <div className="-mx-4 -mt-6 border-b border-amber-200/60 bg-amber-50/50 px-4 py-2.5 text-center text-sm text-amber-800">
-        <Sparkles className="mr-1.5 inline h-3.5 w-3.5" />
-        This page is updated daily by AI. Learnings are extracted automatically
-        from the team&apos;s work and posted each evening.
+      <div className="-mx-4 -mt-8 mb-2 border-b border-primary/10 bg-primary/5 px-4 py-2 text-center text-xs text-muted-foreground">
+        <Sparkles className="mr-1 inline h-3 w-3 text-primary/60" />
+        Updated daily by AI — learnings are extracted from the team&apos;s work each evening
       </div>
 
       {/* Hero */}
-      <section className="space-y-3 pt-2">
-        <h1 className="text-3xl font-bold tracking-tight">
+      <section className="space-y-4 py-4">
+        <h1 className="font-serif text-4xl font-semibold tracking-tight sm:text-5xl">
           AI Lab: Follow Along
         </h1>
-        <p className="max-w-2xl text-lg text-muted-foreground">
+        <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">
           Everything we&apos;re learning building AI-powered tools at
           Campminder. Updated daily.
         </p>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-muted-foreground/70">
           Anna Jay (PM) + Spencer Mroczek (Engineer) · March&ndash;April 2026
         </p>
       </section>
 
       {/* ── Latest Learnings ────────────────────────────────────── */}
       <section>
-        <h2 className="mb-4 text-xl font-semibold">Latest Learnings</h2>
+        <h2 className="mb-4 font-serif text-2xl font-semibold">Latest Learnings</h2>
         {learnings.length === 0 ? (
           <p className="text-sm text-muted-foreground">
             No learnings posted yet. The first batch will appear after the
@@ -158,7 +156,7 @@ export default async function HomePage() {
       {/* ── Prototypes & Demos ──────────────────────────────────── */}
       <section>
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xl font-semibold">Prototypes &amp; Demos</h2>
+          <h2 className="font-serif text-2xl font-semibold">Prototypes &amp; Demos</h2>
           <Link
             href="/demos"
             className="text-sm text-primary hover:underline"
@@ -233,8 +231,7 @@ export default async function HomePage() {
       {/* ── Coach's Corner ──────────────────────────────────────── */}
       <section>
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="flex items-center gap-2 text-xl font-semibold">
-            <MessageCircle className="h-5 w-5 text-primary" />
+          <h2 className="font-serif text-2xl font-semibold">
             Coach&apos;s Corner
           </h2>
           <Link
@@ -268,7 +265,7 @@ export default async function HomePage() {
       <section>
         <Card>
           <CardContent className="p-5">
-            <h3 className="mb-2 text-base font-semibold">
+            <h3 className="mb-2 font-serif text-lg font-semibold">
               Explore with Claude Projects
             </h3>
             <p className="mb-3 text-sm text-muted-foreground">

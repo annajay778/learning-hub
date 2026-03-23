@@ -5,7 +5,6 @@ import { DemoLinkForm } from "@/components/demo-link-form";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  Rocket,
   Video,
   Globe,
   BookOpen,
@@ -84,11 +83,10 @@ export default async function DemosPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="flex items-center gap-2 text-xl font-semibold">
-          <Rocket className="h-5 w-5 text-primary" />
-          Demos &amp; Prototypes
+        <h1 className="font-serif text-3xl font-semibold">
+          Prototypes &amp; Demos
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="mt-2 text-muted-foreground">
           Live demos, prototypes, and recordings from the team
         </p>
       </div>
