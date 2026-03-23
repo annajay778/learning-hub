@@ -99,6 +99,33 @@ async function setup() {
     )
   `;
 
+  console.log("Creating lh_clients table...");
+  await sql`
+    CREATE TABLE IF NOT EXISTS lh_clients (
+      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      name TEXT NOT NULL,
+      location TEXT NOT NULL DEFAULT '',
+      camp_type TEXT NOT NULL DEFAULT '',
+      stats TEXT NOT NULL DEFAULT '',
+      description TEXT NOT NULL DEFAULT '',
+      contacts JSONB NOT NULL DEFAULT '[]',
+      created_at TIMESTAMP DEFAULT NOW() NOT NULL
+    )
+  `;
+
+  console.log("Creating lh_client_feedback table...");
+  await sql`
+    CREATE TABLE IF NOT EXISTS lh_client_feedback (
+      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      client_id UUID REFERENCES lh_clients(id) ON DELETE CASCADE NOT NULL,
+      prototype TEXT NOT NULL,
+      body TEXT NOT NULL,
+      author TEXT NOT NULL,
+      call_date TEXT NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW() NOT NULL
+    )
+  `;
+
   console.log("Creating lh_learnings table...");
   await sql`
     CREATE TABLE IF NOT EXISTS lh_learnings (

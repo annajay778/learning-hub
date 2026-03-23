@@ -10,6 +10,8 @@ import {
   lhDemoLinks,
   lhLearnings,
   lhWeeklyPlans,
+  lhClients,
+  lhClientFeedback,
 } from "@/lib/schema";
 import { eq, desc, and, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -314,6 +316,59 @@ export async function toggleCoachNoteReviewed(id: string) {
     .where(eq(lhCoachNotes.id, id));
 
   revalidatePath("/coach");
+}
+
+// ── Clients ─────────────────────────────────────────────────────
+
+export async function getClients() {
+  return db.select().from(lhClients).orderBy(lhClients.name);
+}
+
+export async function getClientFeedback(clientId?: string) {
+  if (clientId) {
+    return db
+      .select()
+      .from(lhClientFeedback)
+      .where(eq(lhClientFeedback.clientId, clientId))
+      .orderBy(desc(lhClientFeedback.callDate));
+  }
+  return db
+    .select({
+      id: lhClientFeedback.id,
+      clientId: lhClientFeedback.clientId,
+      prototype: lhClientFeedback.prototype,
+      body: lhClientFeedback.body,
+      author: lhClientFeedback.author,
+      callDate: lhClientFeedback.callDate,
+      createdAt: lhClientFeedback.createdAt,
+      clientName: lhClients.name,
+    })
+    .from(lhClientFeedback)
+    .leftJoin(lhClients, eq(lhClientFeedback.clientId, lhClients.id))
+    .orderBy(desc(lhClientFeedback.callDate));
+}
+
+export async function createClientFeedback(formData: FormData) {
+  const clientId = formData.get("clientId") as string;
+  const prototype = formData.get("prototype") as "smart-nudge" | "parent-handbook" | "general";
+  const body = formData.get("body") as string;
+  const author = formData.get("author") as string;
+  const callDate = formData.get("callDate") as string;
+
+  if (!clientId || !body?.trim() || !author?.trim() || !callDate) {
+    return { error: "All fields are required" };
+  }
+
+  await db.insert(lhClientFeedback).values({
+    clientId,
+    prototype,
+    body: body.trim(),
+    author: author.trim(),
+    callDate,
+  });
+
+  revalidatePath("/clients");
+  return { success: true };
 }
 
 // ── Weekly Plans ────────────────────────────────────────────────

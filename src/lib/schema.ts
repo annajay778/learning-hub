@@ -77,6 +77,31 @@ export const lhWeeklyPlans = pgTable("lh_weekly_plans", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export const lhClients = pgTable("lh_clients", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  name: text("name").notNull(),
+  location: text("location").notNull().default(""),
+  campType: text("camp_type").notNull().default(""),
+  stats: text("stats").notNull().default(""),
+  description: text("description").notNull().default(""),
+  contacts: jsonb("contacts").notNull().$type<{ name: string; email: string }[]>(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const lhClientFeedback = pgTable("lh_client_feedback", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  clientId: uuid("client_id")
+    .references(() => lhClients.id, { onDelete: "cascade" })
+    .notNull(),
+  prototype: text("prototype", {
+    enum: ["smart-nudge", "parent-handbook", "general"],
+  }).notNull(),
+  body: text("body").notNull(),
+  author: text("author").notNull(),
+  callDate: text("call_date").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const lhSyncLog = pgTable("lh_sync_log", {
   id: uuid("id").defaultRandom().primaryKey(),
   syncedAt: timestamp("synced_at").defaultNow().notNull(),
