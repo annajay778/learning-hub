@@ -57,6 +57,17 @@ export const lhDemoLinks = pgTable("lh_demo_links", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const lhLearnings = pgTable("lh_learnings", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  date: text("date").notNull(),
+  title: text("title").notNull(),
+  bullets: jsonb("bullets").notNull().$type<string[]>(),
+  tags: jsonb("tags").notNull().$type<string[]>(),
+  author: text("author").notNull().default("AI-generated from daily notes"),
+  expandedContent: text("expanded_content").notNull().default(""),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const lhSyncLog = pgTable("lh_sync_log", {
   id: uuid("id").defaultRandom().primaryKey(),
   syncedAt: timestamp("synced_at").defaultNow().notNull(),

@@ -87,6 +87,20 @@ async function setup() {
     )
   `;
 
+  console.log("Creating lh_learnings table...");
+  await sql`
+    CREATE TABLE IF NOT EXISTS lh_learnings (
+      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      date TEXT NOT NULL,
+      title TEXT NOT NULL,
+      bullets JSONB NOT NULL,
+      tags JSONB NOT NULL,
+      author TEXT NOT NULL DEFAULT 'AI-generated from daily notes',
+      expanded_content TEXT NOT NULL DEFAULT '',
+      created_at TIMESTAMP DEFAULT NOW() NOT NULL
+    )
+  `;
+
   // Add link_type column if missing
   await sql`
     DO $$ BEGIN

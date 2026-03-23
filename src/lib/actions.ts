@@ -8,6 +8,7 @@ import {
   lhPageSnapshots,
   lhCoachNotes,
   lhDemoLinks,
+  lhLearnings,
 } from "@/lib/schema";
 import { eq, desc, and, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -312,6 +313,41 @@ export async function toggleCoachNoteReviewed(id: string) {
     .where(eq(lhCoachNotes.id, id));
 
   revalidatePath("/coach");
+}
+
+// ── Learnings ───────────────────────────────────────────────────
+
+export async function getLearnings(limit = 50) {
+  return db
+    .select()
+    .from(lhLearnings)
+    .orderBy(desc(lhLearnings.date), desc(lhLearnings.createdAt))
+    .limit(limit);
+}
+
+export async function createLearning(data: {
+  date: string;
+  title: string;
+  bullets: string[];
+  tags: string[];
+  author?: string;
+  expandedContent?: string;
+}) {
+  const [learning] = await db
+    .insert(lhLearnings)
+    .values({
+      date: data.date,
+      title: data.title,
+      bullets: data.bullets,
+      tags: data.tags,
+      author: data.author || "AI-generated from daily notes",
+      expandedContent: data.expandedContent || "",
+    })
+    .returning();
+
+  revalidatePath("/");
+
+  return { learning };
 }
 
 // ── Demo Links ──────────────────────────────────────────────────

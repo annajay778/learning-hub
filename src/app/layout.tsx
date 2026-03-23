@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Learning Hub — Knowledge Transfer Platform",
+  title: "AI Lab — Follow Along",
   description:
-    "From zero to AI-powered PM in a day. Playbooks, learnings, and the full journey.",
+    "Everything we're learning building AI-powered tools at Campminder. Updated daily.",
 };
 
 export default async function RootLayout({
