@@ -35,9 +35,7 @@ export default async function RootLayout({
     >
       <body className="flex min-h-full flex-col">
         <NavBar lastSyncedAt={lastSync?.syncedAt?.toISOString() ?? null} />
-        <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">
-          {children}
-        </main>
+        {children}
       </body>
     </html>
   );

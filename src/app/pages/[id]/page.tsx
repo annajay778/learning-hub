@@ -17,5 +17,9 @@ export default async function ViewPage({
 
   if (!page) notFound();
 
-  return <PageView page={page} categories={categories} />;
+  return (
+    <main className="mx-auto w-full max-w-3xl px-4 py-8">
+      <PageView page={page} categories={categories} />
+    </main>
+  );
 }

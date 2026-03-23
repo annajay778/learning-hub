@@ -13,14 +13,25 @@ const links = [
 
 export function NavBar({ lastSyncedAt }: { lastSyncedAt: string | null }) {
   const pathname = usePathname();
+  const isHome = pathname === "/";
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-sm">
-      <div className="mx-auto flex h-10 max-w-3xl items-center justify-between px-4">
-        <div className="flex items-center gap-5">
+    <nav
+      className={cn(
+        "sticky top-0 z-50",
+        isHome
+          ? "absolute inset-x-0 top-0 bg-transparent"
+          : "border-b border-border/40 bg-background/80 backdrop-blur-sm"
+      )}
+    >
+      <div className="mx-auto flex h-12 max-w-5xl items-center justify-between px-6">
+        <div className="flex items-center gap-6">
           <Link
             href="/"
-            className="font-serif text-sm font-medium tracking-tight text-foreground"
+            className={cn(
+              "font-serif text-sm font-medium tracking-tight",
+              isHome ? "text-white/90" : "text-foreground"
+            )}
           >
             Build to Learn
           </Link>
@@ -33,8 +44,12 @@ export function NavBar({ lastSyncedAt }: { lastSyncedAt: string | null }) {
                   key={href}
                   href={href}
                   className={cn(
-                    "rounded-md px-2 py-1 text-[11px] font-medium uppercase tracking-wider transition-colors",
-                    isActive
+                    "rounded-md px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider transition-colors",
+                    isHome
+                      ? isActive
+                        ? "text-white"
+                        : "text-white/60 hover:text-white/90"
+                      : isActive
                       ? "text-foreground"
                       : "text-muted-foreground/70 hover:text-foreground"
                   )}
@@ -45,7 +60,9 @@ export function NavBar({ lastSyncedAt }: { lastSyncedAt: string | null }) {
             })}
           </div>
         </div>
-        <SyncButton lastSyncedAt={lastSyncedAt} />
+        <div className={isHome ? "text-white/70 [&_button]:text-white/70 [&_button]:border-white/20 [&_span]:text-white/50" : ""}>
+          <SyncButton lastSyncedAt={lastSyncedAt} />
+        </div>
       </div>
     </nav>
   );

@@ -81,7 +81,7 @@ export default async function DemosPage() {
   const grouped = groupByDate(links);
 
   return (
-    <div className="space-y-6">
+    <main className="mx-auto w-full max-w-3xl space-y-6 px-4 py-8">
       <div>
         <p className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground/60">
           Build to Learn
@@ -175,6 +175,6 @@ export default async function DemosPage() {
           ))}
         </div>
       )}
-    </div>
+    </main>
   );
 }
