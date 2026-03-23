@@ -6,7 +6,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createDemoLink } from "@/lib/actions";
-import { Plus, ExternalLink, X } from "lucide-react";
+import { Plus, ExternalLink, X, Video, Globe, Users } from "lucide-react";
+
+const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+  video: Video,
+  globe: Globe,
+  users: Users,
+};
 
 interface LinkItem {
   id: string;
@@ -24,7 +30,7 @@ interface LinkRowProps {
   items: LinkItem[];
   badgeClass: string;
   iconClass: string;
-  icon: React.ComponentType<{ className?: string }>;
+  iconName: string;
 }
 
 function extractDomain(url: string): string {
@@ -41,11 +47,12 @@ export function LinkRow({
   items,
   badgeClass,
   iconClass,
-  icon: Icon,
+  iconName,
 }: LinkRowProps) {
   const [adding, setAdding] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const Icon = ICONS[iconName] || Video;
 
   async function handleSubmit(formData: FormData) {
     setSubmitting(true);

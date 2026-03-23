@@ -7,9 +7,6 @@ import { CoachNoteCard } from "@/components/coach-note-card";
 import { LinkRow } from "@/components/link-row";
 import {
   ExternalLink,
-  Video,
-  Globe,
-  Users,
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
@@ -90,7 +87,7 @@ export default async function HomePage() {
                 items={demoLinks.filter((l) => l.linkType === "demo")}
                 badgeClass="bg-blue-100 text-blue-800 border-blue-200"
                 iconClass="bg-blue-50 text-blue-600"
-                icon={Video}
+                iconName="video"
               />
 
               <LinkRow
@@ -99,7 +96,7 @@ export default async function HomePage() {
                 items={demoLinks.filter((l) => l.linkType === "prototype")}
                 badgeClass="bg-purple-100 text-purple-800 border-purple-200"
                 iconClass="bg-purple-50 text-purple-600"
-                icon={Globe}
+                iconName="globe"
               />
 
               <LinkRow
@@ -108,7 +105,7 @@ export default async function HomePage() {
                 items={demoLinks.filter((l) => l.linkType === "cowork")}
                 badgeClass="bg-emerald-100 text-emerald-800 border-emerald-200"
                 iconClass="bg-emerald-50 text-emerald-600"
-                icon={Users}
+                iconName="users"
               />
             </section>
 
