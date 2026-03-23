@@ -50,39 +50,39 @@
 }
 
 :root {
-  /* Summer camp palette: warm sunset, pine, campfire, lake */
-  --background: #FBF9F6;
-  --foreground: #2C2A26;
+  /* Clean, cool, confident */
+  --background: #F8F9FA;
+  --foreground: #1A1A1A;
   --card: #FFFFFF;
-  --card-foreground: #2C2A26;
+  --card-foreground: #1A1A1A;
   --popover: #FFFFFF;
-  --popover-foreground: #2C2A26;
-  --primary: #5C7A5E;
-  --primary-foreground: #FEFDFB;
-  --secondary: #F2EDE6;
-  --secondary-foreground: #3A3630;
-  --muted: #F4F0EA;
-  --muted-foreground: #7D7568;
-  --accent: #ECE6DC;
-  --accent-foreground: #3A3630;
-  --destructive: #BF4F47;
-  --border: #E6DFD5;
-  --input: #E6DFD5;
-  --ring: #B5A998;
-  --chart-1: #5C7A5E;
-  --chart-2: #C8905A;
-  --chart-3: #6B91A8;
-  --chart-4: #D4A843;
-  --chart-5: #8B6E5A;
-  --radius: 0.75rem;
-  --sidebar: #FBF9F6;
-  --sidebar-foreground: #2C2A26;
-  --sidebar-primary: #5C7A5E;
-  --sidebar-primary-foreground: #FEFDFB;
-  --sidebar-accent: #F2EDE6;
-  --sidebar-accent-foreground: #3A3630;
-  --sidebar-border: #E6DFD5;
-  --sidebar-ring: #B5A998;
+  --popover-foreground: #1A1A1A;
+  --primary: #2563EB;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F1F3F5;
+  --secondary-foreground: #1A1A1A;
+  --muted: #F1F3F5;
+  --muted-foreground: #6B7280;
+  --accent: #E5E7EB;
+  --accent-foreground: #1A1A1A;
+  --destructive: #DC2626;
+  --border: #E5E7EB;
+  --input: #E5E7EB;
+  --ring: #93A3B8;
+  --chart-1: #2563EB;
+  --chart-2: #059669;
+  --chart-3: #D97706;
+  --chart-4: #7C3AED;
+  --chart-5: #DC2626;
+  --radius: 0.625rem;
+  --sidebar: #F8F9FA;
+  --sidebar-foreground: #1A1A1A;
+  --sidebar-primary: #2563EB;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F1F3F5;
+  --sidebar-accent-foreground: #1A1A1A;
+  --sidebar-border: #E5E7EB;
+  --sidebar-ring: #93A3B8;
 }
 
 @layer base {

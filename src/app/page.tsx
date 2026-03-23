@@ -52,20 +52,20 @@ function extractDomain(url: string): string {
 }
 
 const TAG_COLORS: Record<string, string> = {
-  prototyping: "bg-blue-50 text-blue-700",
-  demo: "bg-indigo-50 text-indigo-700",
-  "customer-engagement": "bg-green-50 text-green-700",
-  infrastructure: "bg-slate-100 text-slate-700",
-  setup: "bg-teal-50 text-teal-700",
-  workflow: "bg-violet-50 text-violet-700",
-  tips: "bg-amber-50 text-amber-700",
-  strategy: "bg-rose-50 text-rose-700",
-  decision: "bg-orange-50 text-orange-700",
-  validation: "bg-emerald-50 text-emerald-700",
-  architecture: "bg-cyan-50 text-cyan-700",
-  kickoff: "bg-pink-50 text-pink-700",
-  timeline: "bg-gray-100 text-gray-700",
-  principles: "bg-purple-50 text-purple-700",
+  prototyping: "bg-blue-100 text-blue-800",
+  demo: "bg-indigo-100 text-indigo-800",
+  "customer-engagement": "bg-emerald-100 text-emerald-800",
+  infrastructure: "bg-slate-200 text-slate-800",
+  setup: "bg-cyan-100 text-cyan-800",
+  workflow: "bg-violet-100 text-violet-800",
+  tips: "bg-sky-100 text-sky-800",
+  strategy: "bg-blue-100 text-blue-800",
+  decision: "bg-amber-100 text-amber-800",
+  validation: "bg-emerald-100 text-emerald-800",
+  architecture: "bg-slate-200 text-slate-800",
+  kickoff: "bg-indigo-100 text-indigo-800",
+  timeline: "bg-gray-200 text-gray-800",
+  principles: "bg-violet-100 text-violet-800",
 };
 
 export default async function HomePage() {
@@ -79,16 +79,13 @@ export default async function HomePage() {
     <div className="relative min-h-svh">
       {/* ═══════ SKY BACKGROUND ═══════ */}
       <div className="fixed inset-x-0 top-0 -z-10 h-[50vh]">
-        {/* Rich sky gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#9DC4E0] via-[#C5DAE8] via-50% to-[#E8DDD0]" />
-        {/* Soft cloud forms */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_40%_at_55%_25%,rgba(255,255,255,0.45),transparent)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_35%_at_20%_30%,rgba(255,255,255,0.3),transparent)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_25%_at_80%_20%,rgba(255,255,255,0.35),transparent)]" />
-        {/* Warm lower glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_40%_at_50%_80%,rgba(230,200,170,0.3),transparent)]" />
+        {/* Cool blue-gray sky */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#6B8DB5] via-[#94B0CA] via-45% to-[#C8D5DF]" />
+        {/* Cloud texture */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_40%_at_55%_20%,rgba(255,255,255,0.35),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_30%_at_20%_35%,rgba(255,255,255,0.2),transparent)]" />
         {/* Fade to page */}
-        <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-[#FBF9F6] to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-[50%] bg-gradient-to-t from-[#F8F9FA] to-transparent" />
       </div>
 
       {/* ═══════ CONTENT OVERLAY ═══════ */}
@@ -97,14 +94,14 @@ export default async function HomePage() {
         <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           {/* Title + subtitle */}
           <div className="max-w-lg">
-            <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-foreground/10 bg-white/40 px-2.5 py-0.5 text-[9px] uppercase tracking-widest text-foreground/70 backdrop-blur-sm">
+            <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-foreground/8 px-2.5 py-0.5 text-[9px] uppercase tracking-widest text-foreground/60">
               <Sparkles className="h-2 w-2" />
-              Updated daily by AI
+              Updated daily
             </div>
             <h1 className="font-serif text-base font-semibold tracking-tight text-foreground">
               AI Build to Learn<br />Experiment Hub
             </h1>
-            <p className="mt-1.5 text-[11px] leading-relaxed text-foreground/60">
+            <p className="mt-1.5 text-[11px] leading-relaxed text-foreground/50">
               Building AI-powered tools for summer camp operations.
               <br />
               Anna Jay + Spencer Mroczek · March&ndash;April 2026
@@ -112,9 +109,9 @@ export default async function HomePage() {
           </div>
 
           {/* Blurb callout */}
-          <div className="max-w-[200px] rounded-xl border border-foreground/8 bg-white/50 p-3.5 backdrop-blur-sm">
-            <p className="font-serif text-[11px] italic leading-relaxed text-foreground/70">
-              &ldquo;Practicing using Radix and Mobbin to guide designs quickly&rdquo;
+          <div className="max-w-[190px] rounded-lg border border-foreground/8 bg-white/60 p-3 backdrop-blur-sm">
+            <p className="text-[10px] leading-relaxed text-foreground/60">
+              Practicing using Radix and Mobbin to guide designs quickly
             </p>
           </div>
         </div>
