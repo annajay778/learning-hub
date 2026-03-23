@@ -108,16 +108,10 @@ export default async function HomePage() {
             </p>
           </div>
 
-          {/* Blurb callout */}
-          <div className="max-w-[190px] rounded-lg border border-foreground/8 bg-white/60 p-3 backdrop-blur-sm">
-            <p className="text-[10px] leading-relaxed text-foreground/60">
-              Practicing using Radix and Mobbin to guide designs quickly
-            </p>
-          </div>
         </div>
 
-        {/* Main content — centered single column */}
-        <div className="mx-auto max-w-2xl space-y-8">
+        {/* Main content */}
+        <div className="space-y-8">
             {/* Latest Learnings */}
             <section>
               <h2 className="mb-3 text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
