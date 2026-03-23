@@ -9,6 +9,7 @@ import {
   lhCoachNotes,
   lhDemoLinks,
   lhLearnings,
+  lhWeeklyPlans,
 } from "@/lib/schema";
 import { eq, desc, and, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -313,6 +314,17 @@ export async function toggleCoachNoteReviewed(id: string) {
     .where(eq(lhCoachNotes.id, id));
 
   revalidatePath("/coach");
+}
+
+// ── Weekly Plans ────────────────────────────────────────────────
+
+export async function getCurrentWeekPlan() {
+  const rows = await db
+    .select()
+    .from(lhWeeklyPlans)
+    .orderBy(desc(lhWeeklyPlans.weekStart))
+    .limit(1);
+  return rows[0] ?? null;
 }
 
 // ── Learnings ───────────────────────────────────────────────────

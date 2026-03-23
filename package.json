@@ -9,7 +9,8 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "db:setup": "npx tsx scripts/setup-db.ts",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "sync:week": "npx tsx scripts/sync-week-plan.ts"
   },
   "dependencies": {
     "@notionhq/client": "^2.3.0",

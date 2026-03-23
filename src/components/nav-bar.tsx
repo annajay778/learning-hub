@@ -7,6 +7,7 @@ import { SyncButton } from "@/components/sync-button";
 
 const links = [
   { href: "/", label: "Home" },
+  { href: "/pulse", label: "Pulse" },
   { href: "/demos", label: "Demos" },
   { href: "/coach", label: "Coach" },
 ];

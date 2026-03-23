@@ -87,6 +87,18 @@ async function setup() {
     )
   `;
 
+  console.log("Creating lh_weekly_plans table...");
+  await sql`
+    CREATE TABLE IF NOT EXISTS lh_weekly_plans (
+      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      week_start TEXT NOT NULL,
+      title TEXT NOT NULL,
+      body TEXT NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW() NOT NULL,
+      updated_at TIMESTAMP DEFAULT NOW() NOT NULL
+    )
+  `;
+
   console.log("Creating lh_learnings table...");
   await sql`
     CREATE TABLE IF NOT EXISTS lh_learnings (

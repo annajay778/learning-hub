@@ -68,6 +68,15 @@ export const lhLearnings = pgTable("lh_learnings", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const lhWeeklyPlans = pgTable("lh_weekly_plans", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  weekStart: text("week_start").notNull(),
+  title: text("title").notNull(),
+  body: text("body").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 export const lhSyncLog = pgTable("lh_sync_log", {
   id: uuid("id").defaultRandom().primaryKey(),
   syncedAt: timestamp("synced_at").defaultNow().notNull(),
