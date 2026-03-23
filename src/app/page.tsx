@@ -64,11 +64,6 @@ export default async function HomePage() {
             <h1 className="text-lg font-semibold tracking-tight text-foreground">
               AI Build to Learn<br />Experiment Hub
             </h1>
-            <p className="mt-1.5 text-sm leading-relaxed text-foreground/50">
-              Building AI-powered tools for summer camp operations.
-              <br />
-              Anna Jay + Spencer Mroczek · March&ndash;April 2026
-            </p>
           </div>
 
         </div>
