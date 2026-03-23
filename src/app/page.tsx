@@ -125,21 +125,37 @@ export default async function HomePage() {
                 </Card>
               ) : (
                 <div className="space-y-3">
-                  {learnings.map((entry) => (
-                    <Card key={entry.id}>
-                      <CardContent className="p-5">
-                        <div className="mb-1 text-xs text-muted-foreground/70">
-                          {new Date(
-                            entry.date + "T12:00:00"
-                          ).toLocaleDateString("en-US", {
-                            weekday: "long",
-                            month: "long",
-                            day: "numeric",
-                          })}
-                        </div>
-                        <h3 className="mb-2 text-base font-medium">
-                          {entry.title}
-                        </h3>
+                  {(() => {
+                    let lastWeekLabel = "";
+                    return learnings.map((entry) => {
+                      const d = new Date(entry.date + "T12:00:00");
+                      // Week 1 = Mar 16-20, Week 2 = Mar 23+
+                      const dayOfMonth = d.getDate();
+                      const weekLabel = dayOfMonth >= 23 ? "Week 2" : "Week 1";
+                      const showHeader = weekLabel !== lastWeekLabel;
+                      lastWeekLabel = weekLabel;
+
+                      return (
+                        <div key={entry.id}>
+                          {showHeader && (
+                            <div className="pb-1 pt-3 first:pt-0">
+                              <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-foreground/40">
+                                {weekLabel}
+                              </p>
+                            </div>
+                          )}
+                          <Card>
+                            <CardContent className="p-5">
+                              <div className="mb-1 text-xs text-muted-foreground/70">
+                                {d.toLocaleDateString("en-US", {
+                                  weekday: "long",
+                                  month: "long",
+                                  day: "numeric",
+                                })}
+                              </div>
+                              <h3 className="mb-2 text-base font-medium">
+                                {entry.title}
+                              </h3>
                         <ul className="mb-3 space-y-1.5">
                           {(entry.bullets as string[]).map((bullet, i) => (
                             <li
@@ -162,9 +178,12 @@ export default async function HomePage() {
                             </Badge>
                           ))}
                         </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                            </CardContent>
+                          </Card>
+                        </div>
+                      );
+                    });
+                  })()}
                 </div>
               )}
             </section>
