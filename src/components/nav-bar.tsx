@@ -28,10 +28,7 @@ export function NavBar({ lastSyncedAt }: { lastSyncedAt: string | null }) {
         <div className="flex items-center gap-6">
           <Link
             href="/"
-            className={cn(
-              "font-serif text-sm font-medium tracking-tight",
-              isHome ? "text-white/90" : "text-foreground"
-            )}
+            className="font-serif text-sm font-semibold tracking-tight text-foreground"
           >
             Build to Learn
           </Link>
@@ -45,13 +42,9 @@ export function NavBar({ lastSyncedAt }: { lastSyncedAt: string | null }) {
                   href={href}
                   className={cn(
                     "rounded-md px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider transition-colors",
-                    isHome
-                      ? isActive
-                        ? "text-white"
-                        : "text-white/60 hover:text-white/90"
-                      : isActive
+                    isActive
                       ? "text-foreground"
-                      : "text-muted-foreground/70 hover:text-foreground"
+                      : "text-foreground/50 hover:text-foreground"
                   )}
                 >
                   {label}
@@ -60,9 +53,7 @@ export function NavBar({ lastSyncedAt }: { lastSyncedAt: string | null }) {
             })}
           </div>
         </div>
-        <div className={isHome ? "text-white/70 [&_button]:text-white/70 [&_button]:border-white/20 [&_span]:text-white/50" : ""}>
-          <SyncButton lastSyncedAt={lastSyncedAt} />
-        </div>
+        <SyncButton lastSyncedAt={lastSyncedAt} />
       </div>
     </nav>
   );

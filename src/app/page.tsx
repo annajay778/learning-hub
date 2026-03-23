@@ -77,30 +77,18 @@ export default async function HomePage() {
 
   return (
     <div className="relative min-h-svh">
-      {/* ═══════ LANDSCAPE BACKGROUND (fixed behind content) ═══════ */}
+      {/* ═══════ SKY BACKGROUND ═══════ */}
       <div className="fixed inset-x-0 top-0 -z-10 h-[50vh]">
-        {/* Sky */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#5B82A8] via-[#8FAEC8] via-40% to-[#D4B896]" />
-        {/* Sunset glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_120%_50%_at_50%_70%,rgba(218,170,120,0.5),transparent)]" />
-        {/* Clouds */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_25%_at_60%_15%,rgba(255,255,255,0.3),transparent)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_20%_at_25%_25%,rgba(255,255,255,0.2),transparent)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_15%_at_75%_20%,rgba(255,255,255,0.25),transparent)]" />
-        {/* Horizon warmth */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_30%_at_50%_55%,rgba(230,190,150,0.35),transparent)]" />
-        {/* Mountain ranges */}
-        <div className="absolute inset-x-0 bottom-[18%] h-[20%]" style={{
-          background: "linear-gradient(170deg, transparent 30%, #7A9BAA 30%, #7A9BAA 35%, transparent 35%), linear-gradient(190deg, transparent 25%, #7A9BAA 25%, #7A9BAA 32%, transparent 32%)",
-          opacity: 0.4,
-        }} />
-        <div className="absolute inset-x-0 bottom-[10%] h-[18%]" style={{
-          background: "linear-gradient(168deg, transparent 35%, #6B8E6B 35%, #6B8E6B 45%, transparent 45%), linear-gradient(192deg, transparent 28%, #6B8E6B 28%, #6B8E6B 40%, transparent 40%)",
-          opacity: 0.35,
-        }} />
-        <div className="absolute inset-x-0 bottom-0 h-[15%] bg-gradient-to-t from-[#6B8E5E]/20 to-transparent" />
-        {/* Fade out */}
-        <div className="absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-t from-[#FBF9F6] to-transparent" />
+        {/* Rich sky gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#9DC4E0] via-[#C5DAE8] via-50% to-[#E8DDD0]" />
+        {/* Soft cloud forms */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_40%_at_55%_25%,rgba(255,255,255,0.45),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_35%_at_20%_30%,rgba(255,255,255,0.3),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_25%_at_80%_20%,rgba(255,255,255,0.35),transparent)]" />
+        {/* Warm lower glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_40%_at_50%_80%,rgba(230,200,170,0.3),transparent)]" />
+        {/* Fade to page */}
+        <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-[#FBF9F6] to-transparent" />
       </div>
 
       {/* ═══════ CONTENT OVERLAY ═══════ */}
@@ -108,15 +96,15 @@ export default async function HomePage() {
         {/* Top area: blurb left + title right */}
         <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           {/* Title + subtitle */}
-          <div className="max-w-md">
-            <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/15 px-2.5 py-0.5 text-[9px] uppercase tracking-widest text-white/90 backdrop-blur-sm">
+          <div className="max-w-lg">
+            <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-foreground/10 bg-white/40 px-2.5 py-0.5 text-[9px] uppercase tracking-widest text-foreground/70 backdrop-blur-sm">
               <Sparkles className="h-2 w-2" />
               Updated daily by AI
             </div>
-            <h1 className="font-serif text-base font-medium text-white drop-shadow-sm">
-              AI Build to Learn Experiment Hub
+            <h1 className="font-serif text-base font-semibold tracking-tight text-foreground">
+              AI Build to Learn<br />Experiment Hub
             </h1>
-            <p className="mt-1.5 text-[11px] leading-relaxed text-white/70">
+            <p className="mt-1.5 text-[11px] leading-relaxed text-foreground/60">
               Building AI-powered tools for summer camp operations.
               <br />
               Anna Jay + Spencer Mroczek · March&ndash;April 2026
@@ -124,8 +112,8 @@ export default async function HomePage() {
           </div>
 
           {/* Blurb callout */}
-          <div className="max-w-[200px] rounded-xl border border-white/15 bg-white/10 p-3.5 backdrop-blur-md">
-            <p className="font-serif text-[11px] italic leading-relaxed text-white/85">
+          <div className="max-w-[200px] rounded-xl border border-foreground/8 bg-white/50 p-3.5 backdrop-blur-sm">
+            <p className="font-serif text-[11px] italic leading-relaxed text-foreground/70">
               &ldquo;Practicing using Radix and Mobbin to guide designs quickly&rdquo;
             </p>
           </div>
