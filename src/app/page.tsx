@@ -94,14 +94,14 @@ export default async function HomePage() {
         <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           {/* Title + subtitle */}
           <div className="max-w-lg">
-            <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-foreground/8 px-2.5 py-0.5 text-[9px] uppercase tracking-widest text-foreground/60">
-              <Sparkles className="h-2 w-2" />
+            <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-foreground/8 px-3 py-1 text-[11px] uppercase tracking-widest text-foreground/60">
+              <Sparkles className="h-2.5 w-2.5" />
               Updated daily
             </div>
-            <h1 className="text-base font-semibold tracking-tight text-foreground">
+            <h1 className="text-lg font-semibold tracking-tight text-foreground">
               AI Build to Learn<br />Experiment Hub
             </h1>
-            <p className="mt-1.5 text-[11px] leading-relaxed text-foreground/50">
+            <p className="mt-1.5 text-sm leading-relaxed text-foreground/50">
               Building AI-powered tools for summer camp operations.
               <br />
               Anna Jay + Spencer Mroczek · March&ndash;April 2026
@@ -111,83 +111,23 @@ export default async function HomePage() {
         </div>
 
         {/* Main content */}
-        <div className="space-y-8">
-            {/* Latest Learnings */}
+        <div className="space-y-10">
+            {/* Prototypes & Demos — FIRST */}
             <section>
-              <h2 className="mb-3 text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-                Latest Learnings
-              </h2>
-              {learnings.length === 0 ? (
-                <Card>
-                  <CardContent className="p-4">
-                    <p className="text-xs text-muted-foreground">
-                      No learnings posted yet. The first batch will appear
-                      after the daily sync runs.
-                    </p>
-                  </CardContent>
-                </Card>
-              ) : (
-                <div className="space-y-2.5">
-                  {learnings.map((entry) => (
-                    <Card key={entry.id}>
-                      <CardContent className="p-4">
-                        <div className="mb-1 text-[10px] text-muted-foreground/70">
-                          {new Date(
-                            entry.date + "T12:00:00"
-                          ).toLocaleDateString("en-US", {
-                            weekday: "long",
-                            month: "long",
-                            day: "numeric",
-                          })}
-                        </div>
-                        <h3 className="mb-2 text-sm font-medium">
-                          {entry.title}
-                        </h3>
-                        <ul className="mb-2.5 space-y-1">
-                          {(entry.bullets as string[]).map((bullet, i) => (
-                            <li
-                              key={i}
-                              className="flex gap-2 text-xs leading-relaxed text-muted-foreground"
-                            >
-                              <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary/30" />
-                              {bullet}
-                            </li>
-                          ))}
-                        </ul>
-                        <div className="flex flex-wrap gap-1">
-                          {(entry.tags as string[]).map((tag) => (
-                            <Badge
-                              key={tag}
-                              variant="secondary"
-                              className={`px-1.5 py-0 text-[9px] font-normal ${TAG_COLORS[tag] || "bg-gray-100 text-gray-600"}`}
-                            >
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              )}
-            </section>
-
-            {/* Prototypes & Demos */}
-            <section>
-              <div className="mb-3 flex items-center justify-between">
-                <h2 className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
                   Prototypes &amp; Demos
                 </h2>
                 <Link
                   href="/demos"
-                  className="text-[10px] uppercase tracking-wider text-primary hover:underline"
+                  className="text-xs uppercase tracking-wider text-primary hover:underline"
                 >
                   View all
                 </Link>
               </div>
               <DemoLinkForm />
               {demoLinks.length > 0 && (
-                <div className="mt-2.5 grid gap-2 sm:grid-cols-2">
+                <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
                   {demoLinks.slice(0, 4).map((link) => {
                     const domain = extractDomain(link.url);
                     const config =
@@ -202,28 +142,28 @@ export default async function HomePage() {
                         className="group"
                       >
                         <Card className="h-full border-border/50 transition-all hover:border-primary/20 hover:shadow-sm">
-                          <CardContent className="flex h-full flex-col p-3">
-                            <div className="flex items-start gap-2">
+                          <CardContent className="flex h-full flex-col p-3.5">
+                            <div className="flex items-start gap-2.5">
                               <div
-                                className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${config.iconClass}`}
+                                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${config.iconClass}`}
                               >
-                                <TypeIcon className="h-3 w-3" />
+                                <TypeIcon className="h-3.5 w-3.5" />
                               </div>
                               <div className="min-w-0 flex-1">
-                                <p className="text-xs font-medium leading-snug text-foreground group-hover:text-primary">
+                                <p className="text-sm font-medium leading-snug text-foreground group-hover:text-primary">
                                   {link.title}
                                 </p>
-                                <div className="mt-0.5 flex items-center gap-1 text-[9px] text-muted-foreground/60">
+                                <div className="mt-0.5 flex items-center gap-1.5 text-[11px] text-muted-foreground/60">
                                   <Badge
                                     variant="outline"
-                                    className={`px-1 py-0 text-[8px] font-normal ${config.badgeClass}`}
+                                    className={`px-1.5 py-0 text-[10px] font-normal ${config.badgeClass}`}
                                   >
                                     {config.label}
                                   </Badge>
                                   {domain && (
                                     <span className="flex items-center gap-0.5">
                                       {domain}
-                                      <ExternalLink className="h-1.5 w-1.5" />
+                                      <ExternalLink className="h-2 w-2" />
                                     </span>
                                   )}
                                 </div>
@@ -237,29 +177,90 @@ export default async function HomePage() {
                 </div>
               )}
             </section>
+
+            {/* Latest Learnings */}
+            <section>
+              <h2 className="mb-4 text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                Latest Learnings
+              </h2>
+              {learnings.length === 0 ? (
+                <Card>
+                  <CardContent className="p-4">
+                    <p className="text-sm text-muted-foreground">
+                      No learnings posted yet. The first batch will appear
+                      after the daily sync runs.
+                    </p>
+                  </CardContent>
+                </Card>
+              ) : (
+                <div className="space-y-3">
+                  {learnings.map((entry) => (
+                    <Card key={entry.id}>
+                      <CardContent className="p-5">
+                        <div className="mb-1 text-xs text-muted-foreground/70">
+                          {new Date(
+                            entry.date + "T12:00:00"
+                          ).toLocaleDateString("en-US", {
+                            weekday: "long",
+                            month: "long",
+                            day: "numeric",
+                          })}
+                        </div>
+                        <h3 className="mb-2 text-base font-medium">
+                          {entry.title}
+                        </h3>
+                        <ul className="mb-3 space-y-1.5">
+                          {(entry.bullets as string[]).map((bullet, i) => (
+                            <li
+                              key={i}
+                              className="flex gap-2 text-sm leading-relaxed text-muted-foreground"
+                            >
+                              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-primary/30" />
+                              {bullet}
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="flex flex-wrap gap-1.5">
+                          {(entry.tags as string[]).map((tag) => (
+                            <Badge
+                              key={tag}
+                              variant="secondary"
+                              className={`px-2 py-0.5 text-[11px] font-normal ${TAG_COLORS[tag] || "bg-gray-100 text-gray-600"}`}
+                            >
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </section>
+
             {/* Coach's Corner */}
             <section>
-              <div className="mb-3 flex items-center justify-between">
-                <h2 className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
                   Coach&apos;s Corner
                 </h2>
                 <Link
                   href="/coach"
-                  className="text-[10px] uppercase tracking-wider text-primary hover:underline"
+                  className="text-xs uppercase tracking-wider text-primary hover:underline"
                 >
                   View all
                 </Link>
               </div>
               {coachNotes.length === 0 ? (
                 <Card>
-                  <CardContent className="p-3">
-                    <p className="text-[11px] text-muted-foreground">
+                  <CardContent className="p-4">
+                    <p className="text-sm text-muted-foreground">
                       No coaching notes yet.
                     </p>
                   </CardContent>
                 </Card>
               ) : (
-                <div className="space-y-2">
+                <div className="space-y-2.5">
                   {coachNotes.slice(0, 3).map((note) => (
                     <CoachNoteCard
                       key={note.id}
@@ -276,7 +277,7 @@ export default async function HomePage() {
 
             {/* Claude Projects */}
             <section>
-              <h2 className="mb-3 text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+              <h2 className="mb-4 text-xs uppercase tracking-[0.15em] text-muted-foreground">
                 Explore
               </h2>
               <div className="space-y-1.5">
@@ -284,19 +285,19 @@ export default async function HomePage() {
                   href="https://claude.ai/project/5b5daa22-tried-and-tested-product-management-f"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between rounded-lg border border-border/50 bg-card px-3 py-2 text-[11px] font-medium transition-colors hover:bg-accent"
+                  className="flex items-center justify-between rounded-lg border border-border/50 bg-card px-3.5 py-2.5 text-sm font-medium transition-colors hover:bg-accent"
                 >
                   PM Playbook
-                  <ExternalLink className="h-2.5 w-2.5 text-muted-foreground" />
+                  <ExternalLink className="h-3 w-3 text-muted-foreground" />
                 </a>
                 <a
                   href="https://claude.ai/project/b23de29e-campminder-ai-prototype-knowledge-ba"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between rounded-lg border border-border/50 bg-card px-3 py-2 text-[11px] font-medium transition-colors hover:bg-accent"
+                  className="flex items-center justify-between rounded-lg border border-border/50 bg-card px-3.5 py-2.5 text-sm font-medium transition-colors hover:bg-accent"
                 >
                   Technical Knowledge Base
-                  <ExternalLink className="h-2.5 w-2.5 text-muted-foreground" />
+                  <ExternalLink className="h-3 w-3 text-muted-foreground" />
                 </a>
               </div>
             </section>
