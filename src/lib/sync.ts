@@ -2,14 +2,29 @@ import { db } from "@/lib/db";
 import { lhPages, lhSyncLog, lhPageSnapshots } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import {
-  NOTION_SOURCES,
   fetchPageAsMarkdown,
   fetchChildPages,
 } from "@/lib/notion";
+import { Client } from "@notionhq/client";
+
+// Pages the integration CAN access
+const ACCESSIBLE_PAGES = [
+  // Initiative page (parent of everything)
+  "304d23fa124b80e2a7e9ea2a2de48047",
+  // Experiment brief
+  "322d23fa124b80c3b45af2c9754f8374",
+];
+
+// Pages we WANT but may not have access to yet (in linked Tasks DB)
+const DESIRED_PAGES = [
+  "327d23fa124b8081b436d810b509b69b", // PM Learnings
+  "325d23fa124b8035b85af4c457b976a4", // Playbook Template
+  "327d23fa124b8124b83ddcf302358760", // AI PM Playbook
+];
 
 interface SyncDetail {
   title: string;
-  action: "created" | "updated" | "skipped";
+  action: "created" | "updated" | "skipped" | "error";
   notionPageId: string;
 }
 
@@ -18,8 +33,6 @@ interface SyncResult {
   updated: number;
   details: SyncDetail[];
 }
-
-// ── Helpers ─────────────────────────────────────────────────────
 
 async function upsertPage(params: {
   notionPageId: string;
@@ -30,10 +43,7 @@ async function upsertPage(params: {
   notionLastEdited: Date;
 }): Promise<"created" | "updated" | "skipped"> {
   const existing = await db
-    .select({
-      id: lhPages.id,
-      notionLastEdited: lhPages.notionLastEdited,
-    })
+    .select({ id: lhPages.id, notionLastEdited: lhPages.notionLastEdited })
     .from(lhPages)
     .where(eq(lhPages.notionPageId, params.notionPageId))
     .limit(1);
@@ -59,15 +69,11 @@ async function upsertPage(params: {
       body: params.body,
       changeType: "created",
     });
-
     return "created";
   }
 
   const row = existing[0];
-  if (
-    row.notionLastEdited &&
-    params.notionLastEdited <= row.notionLastEdited
-  ) {
+  if (row.notionLastEdited && params.notionLastEdited <= row.notionLastEdited) {
     return "skipped";
   }
 
@@ -87,112 +93,102 @@ async function upsertPage(params: {
     body: params.body,
     changeType: "updated",
   });
-
   return "updated";
 }
 
-// ── Sync a parent page + all nested children ────────────────────
-
-async function syncPageTree(
-  parentId: string,
-  parentLabel: string,
-  type: "playbook" | "learning",
+async function tryFetchPage(
+  pageId: string,
   details: SyncDetail[]
 ): Promise<{ added: number; updated: number }> {
   let added = 0;
   let updated = 0;
 
-  // Sync the parent page itself
-  console.log(`Syncing ${parentLabel} (parent)...`);
   try {
-    const parentPage = await fetchPageAsMarkdown(parentId);
-    if (parentPage.body.trim()) {
-      const action = await upsertPage({
-        notionPageId: parentId,
-        title: parentPage.title,
-        body: parentPage.body,
-        type,
-        author: "Anna",
-        notionLastEdited: new Date(parentPage.lastEdited),
-      });
-      if (action === "created") added++;
-      if (action === "updated") updated++;
-      details.push({
-        title: parentPage.title,
-        action,
-        notionPageId: parentId,
-      });
-    }
-  } catch (err) {
-    console.error(`Failed to sync parent ${parentLabel}:`, err);
-  }
+    const page = await fetchPageAsMarkdown(pageId);
+    if (!page.body.trim()) return { added, updated };
 
-  // Fetch and sync all nested child pages
-  console.log(`Fetching child pages of ${parentLabel}...`);
-  try {
-    const children = await fetchChildPages(parentId);
-    console.log(`Found ${children.length} child pages`);
+    const action = await upsertPage({
+      notionPageId: pageId,
+      title: page.title,
+      body: page.body,
+      type: "playbook",
+      author: "Anna",
+      notionLastEdited: new Date(page.lastEdited),
+    });
+    if (action === "created") added++;
+    if (action === "updated") updated++;
+    details.push({ title: page.title, action, notionPageId: pageId });
 
-    for (const child of children) {
-      try {
-        const page = await fetchPageAsMarkdown(child.id);
-        const action = await upsertPage({
-          notionPageId: child.id,
-          title: page.title,
-          body: page.body,
-          type,
-          author: "Anna",
-          notionLastEdited: new Date(child.lastEdited),
-        });
-        if (action === "created") added++;
-        if (action === "updated") updated++;
-        details.push({
-          title: page.title,
-          action,
-          notionPageId: child.id,
-        });
-      } catch (err) {
-        console.error(`Failed to sync child page "${child.title}":`, err);
-        details.push({
-          title: child.title,
-          action: "skipped",
-          notionPageId: child.id,
-        });
+    // Try to fetch children
+    try {
+      const children = await fetchChildPages(pageId);
+      for (const child of children) {
+        try {
+          const childPage = await fetchPageAsMarkdown(child.id);
+          if (!childPage.body.trim()) continue;
+          const childAction = await upsertPage({
+            notionPageId: child.id,
+            title: childPage.title,
+            body: childPage.body,
+            type: "playbook",
+            author: "Anna",
+            notionLastEdited: new Date(child.lastEdited),
+          });
+          if (childAction === "created") added++;
+          if (childAction === "updated") updated++;
+          details.push({ title: childPage.title, action: childAction, notionPageId: child.id });
+        } catch {
+          // Skip inaccessible children silently
+        }
       }
+    } catch {
+      // Children not accessible — that's OK
     }
-  } catch (err) {
-    console.error(`Failed to fetch children of ${parentLabel}:`, err);
+  } catch {
+    // Page not accessible — skip silently
+    console.log(`Page ${pageId} not accessible, skipping`);
   }
 
   return { added, updated };
 }
-
-// ── Sync orchestrator ───────────────────────────────────────────
 
 export async function syncFromNotion(): Promise<SyncResult> {
   const details: SyncDetail[] = [];
   let totalAdded = 0;
   let totalUpdated = 0;
 
-  // 1. Sync playbook parent + all nested pages
-  const playbook = await syncPageTree(
-    NOTION_SOURCES.playbookParent,
-    "AI PM Playbook",
-    "playbook",
-    details
-  );
-  totalAdded += playbook.added;
-  totalUpdated += playbook.updated;
+  // Also try search-based discovery for pages we can find
+  const notion = new Client({ auth: process.env.NOTION_API_KEY });
+  try {
+    const searchResults = await notion.search({
+      query: "AI",
+      filter: { value: "page", property: "object" },
+      page_size: 25,
+    });
 
-  // 2. Sync prototype parent + all nested pages
-  const prototype = await syncPageTree(
-    NOTION_SOURCES.prototypeParent,
-    "Prototype Hub",
-    "playbook",
-    details
-  );
-  totalAdded += prototype.added;
-  totalUpdated += prototype.updated;
+    const pageIds = new Set([
+      ...ACCESSIBLE_PAGES,
+      ...DESIRED_PAGES,
+      ...searchResults.results.map((r) => r.id),
+    ]);
+
+    console.log(`Syncing ${pageIds.size} pages...`);
+
+    for (const pageId of pageIds) {
+      const result = await tryFetchPage(pageId, details);
+      totalAdded += result.added;
+      totalUpdated += result.updated;
+    }
+  } catch (err) {
+    console.error("Search failed, falling back to known pages:", err);
+
+    // Fallback: just try known pages
+    for (const pageId of [...ACCESSIBLE_PAGES, ...DESIRED_PAGES]) {
+      const result = await tryFetchPage(pageId, details);
+      totalAdded += result.added;
+      totalUpdated += result.updated;
+    }
+  }
 
   // Write sync log
   await db.insert(lhSyncLog).values({
@@ -201,8 +197,6 @@ export async function syncFromNotion(): Promise<SyncResult> {
     details: details.filter((d) => d.action !== "skipped"),
   });
 
-  console.log(
-    `Sync complete: ${totalAdded} added, ${totalUpdated} updated`
-  );
+  console.log(`Sync complete: ${totalAdded} added, ${totalUpdated} updated`);
   return { added: totalAdded, updated: totalUpdated, details };
 }
