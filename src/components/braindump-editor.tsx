@@ -62,13 +62,17 @@ export function BraindumpEditor({ entries }: { entries: Entry[] }) {
       const data = await res.json();
       if (data.text) {
         setValue((prev) => (prev ? prev + "\n\n" + data.text : data.text));
+        // Only clear image after successful extraction
+        setImagePreview(null);
+        setPendingImage(null);
+      } else if (data.error) {
+        // Keep image visible so user can retry or dismiss
+        console.error("OCR error:", data.error);
       }
     } catch {
-      // Silent fail
+      // Keep image visible on network error
     } finally {
       setExtracting(false);
-      setImagePreview(null);
-      setPendingImage(null);
     }
   }
 
