@@ -126,6 +126,16 @@ async function setup() {
     )
   `;
 
+  console.log("Creating lh_braindump table...");
+  await sql`
+    CREATE TABLE IF NOT EXISTS lh_braindump (
+      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      body TEXT NOT NULL,
+      author TEXT NOT NULL DEFAULT 'Anna',
+      created_at TIMESTAMP DEFAULT NOW() NOT NULL
+    )
+  `;
+
   console.log("Creating lh_pulse_comments table...");
   await sql`
     CREATE TABLE IF NOT EXISTS lh_pulse_comments (

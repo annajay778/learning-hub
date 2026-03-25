@@ -11,17 +11,19 @@ const links = [
   { href: "/demos", label: "Demos" },
   { href: "/clients", label: "Clients" },
   { href: "/coach", label: "Coach" },
+  { href: "/braindump", label: "Braindump" },
 ];
 
 export function NavBar({ lastSyncedAt }: { lastSyncedAt: string | null }) {
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const isTransparent = isHome || pathname === "/braindump";
 
   return (
     <nav
       className={cn(
         "sticky top-0 z-50",
-        isHome
+        isTransparent
           ? "absolute inset-x-0 top-0 bg-transparent"
           : "border-b border-border/40 bg-background/80 backdrop-blur-sm"
       )}
@@ -30,7 +32,12 @@ export function NavBar({ lastSyncedAt }: { lastSyncedAt: string | null }) {
         <div className="flex items-center gap-6">
           <Link
             href="/"
-            className="text-sm font-semibold tracking-tight text-foreground"
+            className={cn(
+              "text-sm font-semibold tracking-tight",
+              isTransparent && pathname === "/braindump"
+                ? "text-white/90"
+                : "text-foreground"
+            )}
           >
             Build to Learn
           </Link>
@@ -38,13 +45,18 @@ export function NavBar({ lastSyncedAt }: { lastSyncedAt: string | null }) {
             {links.map(({ href, label }) => {
               const isActive =
                 href === "/" ? pathname === "/" : pathname.startsWith(href);
+              const isBraindump = pathname === "/braindump";
               return (
                 <Link
                   key={href}
                   href={href}
                   className={cn(
                     "rounded-md px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider transition-colors",
-                    isActive
+                    isBraindump
+                      ? isActive
+                        ? "text-white"
+                        : "text-white/50 hover:text-white/80"
+                      : isActive
                       ? "text-foreground"
                       : "text-foreground/50 hover:text-foreground"
                   )}

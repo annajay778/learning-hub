@@ -13,6 +13,7 @@ import {
   lhClients,
   lhClientFeedback,
   lhPulseComments,
+  lhBraindump,
 } from "@/lib/schema";
 import { eq, desc, and, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -370,6 +371,35 @@ export async function createClientFeedback(formData: FormData) {
 
   revalidatePath("/clients");
   return { success: true };
+}
+
+// ── Braindump ───────────────────────────────────────────────────
+
+export async function getBraindumpEntries() {
+  return db
+    .select()
+    .from(lhBraindump)
+    .orderBy(desc(lhBraindump.createdAt));
+}
+
+export async function createBraindumpEntry(formData: FormData) {
+  const body = formData.get("body") as string;
+  const author = (formData.get("author") as string) || "Anna";
+
+  if (!body?.trim()) return { error: "Content is required" };
+
+  await db.insert(lhBraindump).values({
+    body: body.trim(),
+    author,
+  });
+
+  revalidatePath("/braindump");
+  return { success: true };
+}
+
+export async function deleteBraindumpEntry(id: string) {
+  await db.delete(lhBraindump).where(eq(lhBraindump.id, id));
+  revalidatePath("/braindump");
 }
 
 // ── Pulse Comments ──────────────────────────────────────────────
