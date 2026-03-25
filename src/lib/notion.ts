@@ -37,19 +37,24 @@ async function fetchAllBlocks(blockId: string): Promise<BlockObjectResponse[]> {
   const blocks: BlockObjectResponse[] = [];
   let cursor: string | undefined;
 
-  do {
-    const response = await notion.blocks.children.list({
-      block_id: blockId,
-      start_cursor: cursor,
-      page_size: 100,
-    });
-    blocks.push(
-      ...response.results.filter(
-        (b): b is BlockObjectResponse => "type" in b
-      )
-    );
-    cursor = response.has_more ? response.next_cursor ?? undefined : undefined;
-  } while (cursor);
+  try {
+    do {
+      const response = await notion.blocks.children.list({
+        block_id: blockId,
+        start_cursor: cursor,
+        page_size: 100,
+      });
+      blocks.push(
+        ...response.results.filter(
+          (b): b is BlockObjectResponse => "type" in b
+        )
+      );
+      cursor = response.has_more ? response.next_cursor ?? undefined : undefined;
+    } while (cursor);
+  } catch (err) {
+    // Some blocks (ai_block, etc.) aren't supported by the API — return what we got
+    console.log(`Warning: couldn't fetch all blocks for ${blockId}:`, (err as Error).message);
+  }
 
   return blocks;
 }
