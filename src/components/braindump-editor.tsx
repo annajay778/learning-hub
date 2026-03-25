@@ -148,8 +148,8 @@ export function BraindumpEditor({ entries }: { entries: Entry[] }) {
           onChange={(e) => setValue(e.target.value)}
           onPaste={handlePaste}
           placeholder="Type, paste text, or drop an image. AI will extract the text from images automatically."
-          rows={6}
-          className="border-white/30 bg-white/70 text-sm backdrop-blur-sm placeholder:text-foreground/30 focus:bg-white/90"
+          rows={12}
+          className="min-h-[250px] border-white/30 bg-white/70 text-sm backdrop-blur-sm placeholder:text-foreground/30 focus:bg-white/90"
           onKeyDown={(e) => {
             if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
               e.preventDefault();
