@@ -208,33 +208,21 @@ export async function fetchChildPages(
 
   for (const block of blocks) {
     if (block.type === "child_page") {
-      // Get the full page to get last_edited_time
-      const page = (await notion.pages.retrieve({
-        page_id: block.id,
-      })) as PageObjectResponse;
+      try {
+        const page = (await notion.pages.retrieve({
+          page_id: block.id,
+        })) as PageObjectResponse;
 
-      results.push({
-        id: block.id,
-        title: block.child_page.title,
-        lastEdited: page.last_edited_time,
-      });
-
-      // Recursively fetch nested child pages
-      const nested = await fetchChildPages(block.id);
-      results.push(...nested);
+        results.push({
+          id: block.id,
+          title: block.child_page.title,
+          lastEdited: page.last_edited_time,
+        });
+      } catch {
+        // Skip inaccessible child pages
+      }
     }
-
-    // Also check for child_database blocks — query their pages
-    if (block.type === "child_database") {
-      const dbPages = await fetchDatabasePages(block.id);
-      results.push(
-        ...dbPages.map((p) => ({
-          id: p.id,
-          title: p.title,
-          lastEdited: p.lastEdited,
-        }))
-      );
-    }
+    // Skip child_database — too many API calls for serverless
   }
 
   return results;

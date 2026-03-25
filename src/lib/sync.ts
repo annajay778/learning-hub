@@ -124,11 +124,13 @@ export async function syncFromNotion(): Promise<SyncResult> {
     totalAdded += rootResult.added;
     totalUpdated += rootResult.updated;
 
-    // Sync its children
+    // Sync its direct children only (not recursive — too slow for serverless)
     try {
       const children = await fetchChildPages(rootId);
-      console.log(`  Found ${children.length} children`);
-      for (const child of children) {
+      // Limit to 10 children per root to stay within timeout
+      const batch = children.slice(0, 10);
+      console.log(`  Found ${children.length} children, syncing ${batch.length}`);
+      for (const child of batch) {
         const childResult = await syncPage(child.id, details);
         totalAdded += childResult.added;
         totalUpdated += childResult.updated;
