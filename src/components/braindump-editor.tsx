@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { createBraindumpEntry, deleteBraindumpEntry } from "@/lib/actions";
@@ -18,7 +18,6 @@ function fileToBase64(file: File): Promise<string> {
     const reader = new FileReader();
     reader.onload = () => {
       const result = reader.result as string;
-      // Strip the data:image/...;base64, prefix
       resolve(result.split(",")[1]);
     };
     reader.onerror = reject;
@@ -32,45 +31,49 @@ export function BraindumpEditor({ entries }: { entries: Entry[] }) {
   const [saved, setSaved] = useState(false);
   const [extracting, setExtracting] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [pendingImage, setPendingImage] = useState<{
-    base64: string;
-    mimeType: string;
-  } | null>(null);
+
+  // Use a ref so extractText always sees the latest value
+  const pendingImageRef = useRef<{ base64: string; mimeType: string } | null>(null);
 
   const processImage = useCallback(async (file: File) => {
     if (!file.type.startsWith("image/")) return;
-
-    // Show preview
-    const previewUrl = URL.createObjectURL(file);
-    setImagePreview(previewUrl);
-
-    // Store for extraction
+    setImagePreview(URL.createObjectURL(file));
     const base64 = await fileToBase64(file);
-    setPendingImage({ base64, mimeType: file.type });
+    pendingImageRef.current = { base64, mimeType: file.type };
   }, []);
 
   async function extractText() {
-    if (!pendingImage) return;
+    const img = pendingImageRef.current;
+    if (!img) {
+      console.error("No pending image");
+      return;
+    }
     setExtracting(true);
 
     try {
       const res = await fetch("/api/braindump/ocr", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(pendingImage),
+        body: JSON.stringify({ imageBase64: img.base64, mimeType: img.mimeType }),
       });
+
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error("OCR API error:", res.status, errText);
+        setExtracting(false);
+        return;
+      }
+
       const data = await res.json();
       if (data.text) {
         setValue((prev) => (prev ? prev + "\n\n" + data.text : data.text));
-        // Only clear image after successful extraction
         setImagePreview(null);
-        setPendingImage(null);
+        pendingImageRef.current = null;
       } else if (data.error) {
-        // Keep image visible so user can retry or dismiss
         console.error("OCR error:", data.error);
       }
-    } catch {
-      // Keep image visible on network error
+    } catch (err) {
+      console.error("OCR fetch failed:", err);
     } finally {
       setExtracting(false);
     }
@@ -95,13 +98,12 @@ export function BraindumpEditor({ entries }: { entries: Entry[] }) {
   }
 
   async function handleSave() {
-    // If there's a pending image but no text yet, extract first
-    if (pendingImage && !value.trim()) {
+    if (pendingImageRef.current && !value.trim()) {
       await extractText();
       return;
     }
-
     if (!value.trim()) return;
+
     setSaving(true);
     setSaved(false);
 
@@ -122,7 +124,7 @@ export function BraindumpEditor({ entries }: { entries: Entry[] }) {
 
     setValue("");
     setImagePreview(null);
-    setPendingImage(null);
+    pendingImageRef.current = null;
     setSaving(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
@@ -132,43 +134,43 @@ export function BraindumpEditor({ entries }: { entries: Entry[] }) {
     await deleteBraindumpEntry(id);
   }
 
+  const hasImage = imagePreview !== null;
+
   return (
     <div className="space-y-6">
-      {/* Input area */}
       <div
         className="space-y-3"
         onDragOver={(e) => e.preventDefault()}
         onDrop={handleDrop}
       >
-        <div className="relative">
-          <Textarea
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            onPaste={handlePaste}
-            placeholder="Type, paste text, or drop an image. AI will extract the text from images automatically."
-            rows={6}
-            className="border-white/30 bg-white/70 text-sm backdrop-blur-sm placeholder:text-foreground/30 focus:bg-white/90"
-            onKeyDown={(e) => {
-              if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
-                e.preventDefault();
-                handleSave();
-              }
-            }}
-          />
-        </div>
+        <Textarea
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onPaste={handlePaste}
+          placeholder="Type, paste text, or drop an image. AI will extract the text from images automatically."
+          rows={6}
+          className="border-white/30 bg-white/70 text-sm backdrop-blur-sm placeholder:text-foreground/30 focus:bg-white/90"
+          onKeyDown={(e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+              e.preventDefault();
+              handleSave();
+            }
+          }}
+        />
 
-        {/* Image preview + extract button */}
-        {imagePreview && (
+        {hasImage && (
           <div className="flex items-start gap-3 rounded-lg border border-white/30 bg-white/60 p-3 backdrop-blur-sm">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={imagePreview}
+              src={imagePreview!}
               alt="Dropped image"
               className="h-20 w-auto rounded border border-white/40 object-cover"
             />
             <div className="flex-1 space-y-1.5">
               <p className="text-xs text-foreground/60">
-                Image ready — extract the text or save with your notes
+                {extracting
+                  ? "Extracting text..."
+                  : "Image ready — extract the text or save with your notes"}
               </p>
               <Button
                 onClick={extractText}
@@ -193,7 +195,7 @@ export function BraindumpEditor({ entries }: { entries: Entry[] }) {
             <button
               onClick={() => {
                 setImagePreview(null);
-                setPendingImage(null);
+                pendingImageRef.current = null;
               }}
               className="text-foreground/30 hover:text-foreground/60"
             >
@@ -204,9 +206,7 @@ export function BraindumpEditor({ entries }: { entries: Entry[] }) {
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <p className="text-[10px] text-white/40">
-              Cmd+Enter to save
-            </p>
+            <p className="text-[10px] text-white/40">Cmd+Enter to save</p>
             <label className="flex cursor-pointer items-center gap-1 text-[10px] text-white/40 hover:text-white/60">
               <Image className="h-3 w-3" aria-hidden />
               Upload image
@@ -224,7 +224,7 @@ export function BraindumpEditor({ entries }: { entries: Entry[] }) {
           </div>
           <Button
             onClick={handleSave}
-            disabled={saving || (!value.trim() && !pendingImage)}
+            disabled={saving || (!value.trim() && !hasImage)}
             size="sm"
             className="gap-1.5"
           >
@@ -248,7 +248,6 @@ export function BraindumpEditor({ entries }: { entries: Entry[] }) {
         </div>
       </div>
 
-      {/* Entries */}
       {entries.length > 0 && (
         <div className="space-y-2">
           {entries.map((entry) => (
