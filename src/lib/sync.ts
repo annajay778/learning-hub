@@ -1,30 +1,17 @@
 import { db } from "@/lib/db";
 import { lhPages, lhSyncLog, lhPageSnapshots } from "@/lib/schema";
 import { eq } from "drizzle-orm";
-import {
-  fetchPageAsMarkdown,
-  fetchChildPages,
-} from "@/lib/notion";
-import { Client } from "@notionhq/client";
+import { fetchPageAsMarkdown, fetchChildPages } from "@/lib/notion";
 
-// Pages the integration CAN access
-const ACCESSIBLE_PAGES = [
-  // Initiative page (parent of everything)
-  "304d23fa124b80e2a7e9ea2a2de48047",
-  // Experiment brief
-  "322d23fa124b80c3b45af2c9754f8374",
-];
-
-// Pages we WANT but may not have access to yet (in linked Tasks DB)
-const DESIRED_PAGES = [
-  "327d23fa124b8081b436d810b509b69b", // PM Learnings
-  "325d23fa124b8035b85af4c457b976a4", // Playbook Template
-  "327d23fa124b8124b83ddcf302358760", // AI PM Playbook
+// The two parent pages we sync — and their children recursively
+const SYNC_ROOTS = [
+  "327d23fa124b8081b436d810b509b69b", // PM Learnings along the way
+  "325d23fa124b8035b85af4c457b976a4", // Create Template for AI Build to Learn Playbook
 ];
 
 interface SyncDetail {
   title: string;
-  action: "created" | "updated" | "skipped" | "error";
+  action: "created" | "updated" | "skipped";
   notionPageId: string;
 }
 
@@ -96,7 +83,7 @@ async function upsertPage(params: {
   return "updated";
 }
 
-async function tryFetchPage(
+async function syncPage(
   pageId: string,
   details: SyncDetail[]
 ): Promise<{ added: number; updated: number }> {
@@ -105,48 +92,21 @@ async function tryFetchPage(
 
   try {
     const page = await fetchPageAsMarkdown(pageId);
-    if (!page.body.trim()) return { added, updated };
-
-    const action = await upsertPage({
-      notionPageId: pageId,
-      title: page.title,
-      body: page.body,
-      type: "playbook",
-      author: "Anna",
-      notionLastEdited: new Date(page.lastEdited),
-    });
-    if (action === "created") added++;
-    if (action === "updated") updated++;
-    details.push({ title: page.title, action, notionPageId: pageId });
-
-    // Try to fetch children
-    try {
-      const children = await fetchChildPages(pageId);
-      for (const child of children) {
-        try {
-          const childPage = await fetchPageAsMarkdown(child.id);
-          if (!childPage.body.trim()) continue;
-          const childAction = await upsertPage({
-            notionPageId: child.id,
-            title: childPage.title,
-            body: childPage.body,
-            type: "playbook",
-            author: "Anna",
-            notionLastEdited: new Date(child.lastEdited),
-          });
-          if (childAction === "created") added++;
-          if (childAction === "updated") updated++;
-          details.push({ title: childPage.title, action: childAction, notionPageId: child.id });
-        } catch {
-          // Skip inaccessible children silently
-        }
-      }
-    } catch {
-      // Children not accessible — that's OK
+    if (page.body.trim()) {
+      const action = await upsertPage({
+        notionPageId: pageId,
+        title: page.title,
+        body: page.body,
+        type: "playbook",
+        author: "Anna",
+        notionLastEdited: new Date(page.lastEdited),
+      });
+      if (action === "created") added++;
+      if (action === "updated") updated++;
+      details.push({ title: page.title, action, notionPageId: pageId });
     }
-  } catch {
-    // Page not accessible — skip silently
-    console.log(`Page ${pageId} not accessible, skipping`);
+  } catch (err) {
+    console.log(`Skipping page ${pageId}: ${(err as Error).message}`);
   }
 
   return { added, updated };
@@ -157,36 +117,24 @@ export async function syncFromNotion(): Promise<SyncResult> {
   let totalAdded = 0;
   let totalUpdated = 0;
 
-  // Also try search-based discovery for pages we can find
-  const notion = new Client({ auth: process.env.NOTION_API_KEY });
-  try {
-    const searchResults = await notion.search({
-      query: "AI",
-      filter: { value: "page", property: "object" },
-      page_size: 25,
-    });
+  for (const rootId of SYNC_ROOTS) {
+    // Sync the root page itself
+    console.log(`Syncing root ${rootId}...`);
+    const rootResult = await syncPage(rootId, details);
+    totalAdded += rootResult.added;
+    totalUpdated += rootResult.updated;
 
-    const pageIds = new Set([
-      ...ACCESSIBLE_PAGES,
-      ...DESIRED_PAGES,
-      ...searchResults.results.map((r) => r.id),
-    ]);
-
-    console.log(`Syncing ${pageIds.size} pages...`);
-
-    for (const pageId of pageIds) {
-      const result = await tryFetchPage(pageId, details);
-      totalAdded += result.added;
-      totalUpdated += result.updated;
-    }
-  } catch (err) {
-    console.error("Search failed, falling back to known pages:", err);
-
-    // Fallback: just try known pages
-    for (const pageId of [...ACCESSIBLE_PAGES, ...DESIRED_PAGES]) {
-      const result = await tryFetchPage(pageId, details);
-      totalAdded += result.added;
-      totalUpdated += result.updated;
+    // Sync its children
+    try {
+      const children = await fetchChildPages(rootId);
+      console.log(`  Found ${children.length} children`);
+      for (const child of children) {
+        const childResult = await syncPage(child.id, details);
+        totalAdded += childResult.added;
+        totalUpdated += childResult.updated;
+      }
+    } catch (err) {
+      console.log(`  Children fetch failed: ${(err as Error).message}`);
     }
   }
 
