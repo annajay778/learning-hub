@@ -15,9 +15,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     signIn({ profile }) {
-      // Only allow @campminder.com emails
       const email = profile?.email?.toLowerCase() ?? "";
-      return email.endsWith("@campminder.com");
+      const allowedEmails = ["stephanie.tanzar@gmail.com"];
+      return email.endsWith("@campminder.com") || allowedEmails.includes(email);
     },
     jwt({ token, profile }) {
       if (profile) {
