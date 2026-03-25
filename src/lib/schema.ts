@@ -102,6 +102,14 @@ export const lhClientFeedback = pgTable("lh_client_feedback", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const lhPulseComments = pgTable("lh_pulse_comments", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  dayKey: text("day_key").notNull(),
+  body: text("body").notNull(),
+  author: text("author").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const lhSyncLog = pgTable("lh_sync_log", {
   id: uuid("id").defaultRandom().primaryKey(),
   syncedAt: timestamp("synced_at").defaultNow().notNull(),

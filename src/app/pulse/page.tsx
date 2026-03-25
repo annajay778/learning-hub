@@ -1,7 +1,8 @@
 export const dynamic = "force-dynamic";
 
-import { getCurrentWeekPlan } from "@/lib/actions";
+import { getCurrentWeekPlan, getPulseComments } from "@/lib/actions";
 import { MarkdownViewer } from "@/components/markdown-viewer";
+import { PulseComments } from "@/components/pulse-comments";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, Circle, ArrowRight } from "lucide-react";
@@ -94,7 +95,10 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default async function PulsePage() {
-  const plan = await getCurrentWeekPlan();
+  const [plan, allComments] = await Promise.all([
+    getCurrentWeekPlan(),
+    getPulseComments(),
+  ]);
 
   if (!plan) {
     return (
@@ -231,6 +235,12 @@ export default async function PulsePage() {
                     <div className="pl-6 text-sm [&_strong]:font-semibold [&_p]:mb-1.5 [&_p]:leading-relaxed [&_p]:text-muted-foreground [&_ul]:mb-2 [&_ul]:space-y-0.5 [&_li]:text-muted-foreground">
                       <MarkdownViewer content={day.content} />
                     </div>
+                    <PulseComments
+                      dayKey={day.name.toLowerCase()}
+                      comments={allComments.filter(
+                        (c) => c.dayKey === day.name.toLowerCase()
+                      )}
+                    />
                   </CardContent>
                 </Card>
               );

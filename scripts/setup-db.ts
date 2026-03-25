@@ -126,6 +126,17 @@ async function setup() {
     )
   `;
 
+  console.log("Creating lh_pulse_comments table...");
+  await sql`
+    CREATE TABLE IF NOT EXISTS lh_pulse_comments (
+      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      day_key TEXT NOT NULL,
+      body TEXT NOT NULL,
+      author TEXT NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW() NOT NULL
+    )
+  `;
+
   console.log("Creating lh_learnings table...");
   await sql`
     CREATE TABLE IF NOT EXISTS lh_learnings (

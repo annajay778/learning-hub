@@ -12,6 +12,7 @@ import {
   lhWeeklyPlans,
   lhClients,
   lhClientFeedback,
+  lhPulseComments,
 } from "@/lib/schema";
 import { eq, desc, and, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -369,6 +370,39 @@ export async function createClientFeedback(formData: FormData) {
 
   revalidatePath("/clients");
   return { success: true };
+}
+
+// ── Pulse Comments ──────────────────────────────────────────────
+
+export async function getPulseComments() {
+  return db
+    .select()
+    .from(lhPulseComments)
+    .orderBy(desc(lhPulseComments.createdAt));
+}
+
+export async function createPulseComment(formData: FormData) {
+  const dayKey = formData.get("dayKey") as string;
+  const body = formData.get("body") as string;
+  const author = formData.get("author") as string;
+
+  if (!dayKey || !body?.trim() || !author?.trim()) {
+    return { error: "All fields are required" };
+  }
+
+  await db.insert(lhPulseComments).values({
+    dayKey,
+    body: body.trim(),
+    author: author.trim(),
+  });
+
+  revalidatePath("/pulse");
+  return { success: true };
+}
+
+export async function deletePulseComment(id: string) {
+  await db.delete(lhPulseComments).where(eq(lhPulseComments.id, id));
+  revalidatePath("/pulse");
 }
 
 // ── Weekly Plans ────────────────────────────────────────────────
