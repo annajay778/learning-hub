@@ -10,58 +10,63 @@ export default async function BraindumpPage() {
     <div className="relative min-h-svh">
       {/* Cloud sky background — full page */}
       <div className="fixed inset-0 -z-10 overflow-hidden">
-        {/* Base sky gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#6A92BE] via-[#7FA8CD] to-[#92B8D8]" />
+        {/* Base sky — matched to Air.inc */}
+        <div className="absolute inset-0 bg-[#7B9CC4]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_140%_70%_at_50%_35%,#8AAFD4,transparent)]" />
 
-        {/* Cloud 1 — large cumulus, left side, built from overlapping puffs */}
-        <div className="absolute left-[-2%] top-[18%] h-[200px] w-[350px]">
-          <div className="absolute left-[10%] top-[30%] h-[120px] w-[180px] rounded-full bg-white/80 blur-[20px]" />
-          <div className="absolute left-[25%] top-[10%] h-[140px] w-[160px] rounded-full bg-white/70 blur-[25px]" />
-          <div className="absolute left-[0%] top-[40%] h-[100px] w-[150px] rounded-full bg-white/60 blur-[22px]" />
-          <div className="absolute left-[40%] top-[25%] h-[110px] w-[140px] rounded-full bg-white/75 blur-[18px]" />
-          <div className="absolute left-[15%] top-[20%] h-[130px] w-[200px] rounded-full bg-white/50 blur-[30px]" />
-        </div>
+        {/* Clouds via inline SVGs — cumulus shapes with organic edges */}
+        {/* Cloud 1 — large left cumulus */}
+        <svg className="absolute left-[-3%] top-[20%] h-[180px] w-[300px] opacity-90" viewBox="0 0 300 180" fill="none">
+          <ellipse cx="80" cy="120" rx="75" ry="50" fill="white" fillOpacity="0.9" />
+          <ellipse cx="140" cy="100" rx="65" ry="55" fill="white" fillOpacity="0.95" />
+          <ellipse cx="110" cy="80" rx="55" ry="50" fill="white" fillOpacity="0.9" />
+          <ellipse cx="170" cy="115" rx="60" ry="45" fill="white" fillOpacity="0.85" />
+          <ellipse cx="60" cy="105" rx="55" ry="40" fill="white" fillOpacity="0.8" />
+          <ellipse cx="130" cy="130" rx="90" ry="35" fill="white" fillOpacity="0.7" />
+        </svg>
 
-        {/* Cloud 2 — wispy high cloud, top center-left */}
-        <div className="absolute left-[20%] top-[5%] h-[80px] w-[200px]">
-          <div className="absolute left-[0%] top-[20%] h-[50px] w-[120px] rounded-full bg-white/40 blur-[18px]" />
-          <div className="absolute left-[30%] top-[10%] h-[40px] w-[100px] rounded-full bg-white/35 blur-[20px]" />
-          <div className="absolute left-[50%] top-[30%] h-[35px] w-[80px] rounded-full bg-white/30 blur-[15px]" />
-        </div>
+        {/* Cloud 2 — small wisp, top left */}
+        <svg className="absolute left-[22%] top-[4%] h-[70px] w-[160px] opacity-60" viewBox="0 0 160 70" fill="none">
+          <ellipse cx="50" cy="40" rx="40" ry="22" fill="white" fillOpacity="0.8" />
+          <ellipse cx="90" cy="35" rx="35" ry="20" fill="white" fillOpacity="0.7" />
+          <ellipse cx="70" cy="30" rx="30" ry="18" fill="white" fillOpacity="0.75" />
+          <ellipse cx="110" cy="38" rx="28" ry="16" fill="white" fillOpacity="0.5" />
+        </svg>
 
-        {/* Cloud 3 — medium cumulus, top right */}
-        <div className="absolute right-[10%] top-[6%] h-[160px] w-[280px]">
-          <div className="absolute left-[20%] top-[20%] h-[100px] w-[140px] rounded-full bg-white/65 blur-[22px]" />
-          <div className="absolute left-[35%] top-[5%] h-[110px] w-[130px] rounded-full bg-white/60 blur-[20px]" />
-          <div className="absolute left-[10%] top-[35%] h-[80px] w-[120px] rounded-full bg-white/50 blur-[25px]" />
-          <div className="absolute left-[50%] top-[15%] h-[90px] w-[110px] rounded-full bg-white/55 blur-[18px]" />
-        </div>
+        {/* Cloud 3 — medium cumulus, upper right */}
+        <svg className="absolute right-[8%] top-[5%] h-[140px] w-[240px] opacity-80" viewBox="0 0 240 140" fill="none">
+          <ellipse cx="100" cy="90" rx="60" ry="40" fill="white" fillOpacity="0.9" />
+          <ellipse cx="140" cy="75" rx="50" ry="42" fill="white" fillOpacity="0.85" />
+          <ellipse cx="80" cy="70" rx="45" ry="38" fill="white" fillOpacity="0.8" />
+          <ellipse cx="120" cy="60" rx="40" ry="35" fill="white" fillOpacity="0.9" />
+          <ellipse cx="160" cy="85" rx="45" ry="35" fill="white" fillOpacity="0.75" />
+          <ellipse cx="110" cy="100" rx="70" ry="28" fill="white" fillOpacity="0.6" />
+        </svg>
 
-        {/* Cloud 4 — large cumulus, right edge */}
-        <div className="absolute right-[-5%] top-[30%] h-[220px] w-[320px]">
-          <div className="absolute left-[15%] top-[25%] h-[130px] w-[170px] rounded-full bg-white/75 blur-[22px]" />
-          <div className="absolute left-[30%] top-[10%] h-[150px] w-[150px] rounded-full bg-white/65 blur-[28px]" />
-          <div className="absolute left-[5%] top-[40%] h-[110px] w-[140px] rounded-full bg-white/55 blur-[24px]" />
-          <div className="absolute left-[45%] top-[20%] h-[120px] w-[130px] rounded-full bg-white/70 blur-[20px]" />
-          <div className="absolute left-[25%] top-[15%] h-[140px] w-[190px] rounded-full bg-white/45 blur-[32px]" />
-        </div>
+        {/* Cloud 4 — large cumulus, right side */}
+        <svg className="absolute right-[-4%] top-[28%] h-[200px] w-[320px] opacity-85" viewBox="0 0 320 200" fill="none">
+          <ellipse cx="160" cy="130" rx="80" ry="50" fill="white" fillOpacity="0.9" />
+          <ellipse cx="120" cy="110" rx="65" ry="48" fill="white" fillOpacity="0.85" />
+          <ellipse cx="200" cy="115" rx="60" ry="45" fill="white" fillOpacity="0.9" />
+          <ellipse cx="150" cy="90" rx="55" ry="45" fill="white" fillOpacity="0.95" />
+          <ellipse cx="100" cy="100" rx="50" ry="40" fill="white" fillOpacity="0.8" />
+          <ellipse cx="180" cy="85" rx="45" ry="40" fill="white" fillOpacity="0.85" />
+          <ellipse cx="150" cy="145" rx="100" ry="35" fill="white" fillOpacity="0.65" />
+        </svg>
 
-        {/* Cloud 5 — soft wisp, lower center */}
-        <div className="absolute bottom-[35%] left-[35%] h-[70px] w-[250px]">
-          <div className="absolute left-[10%] top-[10%] h-[45px] w-[130px] rounded-full bg-white/30 blur-[20px]" />
-          <div className="absolute left-[35%] top-[20%] h-[40px] w-[100px] rounded-full bg-white/25 blur-[18px]" />
-          <div className="absolute left-[55%] top-[5%] h-[35px] w-[90px] rounded-full bg-white/20 blur-[15px]" />
-        </div>
+        {/* Cloud 5 — small wisp, lower center */}
+        <svg className="absolute bottom-[32%] left-[38%] h-[60px] w-[200px] opacity-45" viewBox="0 0 200 60" fill="none">
+          <ellipse cx="60" cy="35" rx="45" ry="18" fill="white" fillOpacity="0.7" />
+          <ellipse cx="110" cy="30" rx="40" ry="16" fill="white" fillOpacity="0.6" />
+          <ellipse cx="150" cy="33" rx="35" ry="14" fill="white" fillOpacity="0.5" />
+        </svg>
 
-        {/* Cloud 6 — small puff, mid-left */}
-        <div className="absolute left-[8%] top-[55%] h-[90px] w-[150px]">
-          <div className="absolute left-[10%] top-[15%] h-[60px] w-[90px] rounded-full bg-white/35 blur-[16px]" />
-          <div className="absolute left-[30%] top-[5%] h-[55px] w-[80px] rounded-full bg-white/30 blur-[18px]" />
-          <div className="absolute left-[20%] top-[25%] h-[50px] w-[100px] rounded-full bg-white/25 blur-[20px]" />
-        </div>
-
-        {/* Atmospheric haze — very subtle bottom lightening */}
-        <div className="absolute inset-x-0 bottom-0 h-[25%] bg-gradient-to-t from-[#92B8D8]/40 to-transparent" />
+        {/* Cloud 6 — tiny puff, mid left */}
+        <svg className="absolute left-[5%] top-[58%] h-[80px] w-[130px] opacity-50" viewBox="0 0 130 80" fill="none">
+          <ellipse cx="50" cy="50" rx="38" ry="24" fill="white" fillOpacity="0.8" />
+          <ellipse cx="75" cy="40" rx="32" ry="22" fill="white" fillOpacity="0.7" />
+          <ellipse cx="60" cy="35" rx="28" ry="20" fill="white" fillOpacity="0.75" />
+        </svg>
       </div>
 
       {/* Content */}
