@@ -9,7 +9,7 @@ import { CheckCircle2, Circle, ArrowRight } from "lucide-react";
 
 function parseDayPlan(body: string) {
   // Extract day-by-day sections
-  const dayRegex = /### (Monday|Tuesday|Wednesday|Thursday|Friday),\s+(March \d+)/g;
+  const dayRegex = /### (Monday|Tuesday|Wednesday|Thursday|Friday),\s+((?:March|April|May|June|July) \d+)/g;
   const days: { name: string; date: string; fullDate: Date; content: string }[] = [];
   let match;
   const matches: { index: number; name: string; date: string }[] = [];
@@ -22,11 +22,14 @@ function parseDayPlan(body: string) {
     const start = matches[i].index;
     const end = i + 1 < matches.length ? matches[i + 1].index : body.length;
     const content = body.slice(start, end).replace(/^###.+\n/, "").trim();
-    const dayNum = matches[i].date.match(/\d+/)?.[0] || "23";
+    const dayNum = parseInt(matches[i].date.match(/\d+/)?.[0] || "1");
+    const monthMap: Record<string, number> = { March: 2, April: 3, May: 4, June: 5, July: 6 };
+    const monthName = matches[i].date.split(" ")[0];
+    const monthIdx = monthMap[monthName] ?? 2;
     days.push({
       name: matches[i].name,
       date: matches[i].date,
-      fullDate: new Date(2026, 2, parseInt(dayNum)),
+      fullDate: new Date(2026, monthIdx, dayNum),
       content,
     });
   }
