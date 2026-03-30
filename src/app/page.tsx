@@ -65,6 +65,72 @@ export default async function HomePage() {
 
         </div>
 
+        {/* Week-by-week timeline */}
+        <div className="mb-10 space-y-2.5">
+          <h2 className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
+            The Journey So Far
+          </h2>
+
+          <div className="space-y-2">
+            {/* Week 1 */}
+            <div className="rounded-lg border border-border/50 bg-card p-3.5">
+              <div className="flex items-start gap-3">
+                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[10px] font-bold text-emerald-700">
+                  1
+                </span>
+                <div>
+                  <p className="text-sm font-medium">March 16 &ndash; 20</p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
+                    Kicked off. Honed in on the problem and the job to be done.
+                    Demoed the first working prototype with hacky methods and fake data.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Week 2 */}
+            <div className="rounded-lg border border-border/50 bg-card p-3.5">
+              <div className="flex items-start gap-3">
+                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[10px] font-bold text-emerald-700">
+                  2
+                </span>
+                <div>
+                  <p className="text-sm font-medium">March 23 &ndash; 28</p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
+                    Demoed with real data. Put it in front of clients.
+                    Iterated based on feedback in the current prototype.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Week 3 — current */}
+            <div className="rounded-lg border border-primary/30 bg-card p-3.5 ring-1 ring-primary/10">
+              <div className="flex items-start gap-3">
+                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                  3
+                </span>
+                <div>
+                  <div className="mb-1 flex items-center gap-2">
+                    <p className="text-sm font-medium">March 30 &ndash; April 3</p>
+                    <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-primary">
+                      This week
+                    </span>
+                  </div>
+                  <p className="text-xs leading-relaxed text-muted-foreground">
+                    Starting from scratch. Rebuilding from the ground up.
+                    Challenging sunk cost fallacies. Tripling client touchpoints &mdash;
+                    from 2x last week to 3x this week. Working towards showing the company.
+                  </p>
+                  <p className="mt-1.5 text-[10px] italic text-muted-foreground/50">
+                    More to come.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Main content */}
         <div className="space-y-10">
             {/* Three rows: Demos, Prototypes, Cowork Projects */}
