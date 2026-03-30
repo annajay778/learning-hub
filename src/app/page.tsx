@@ -119,8 +119,9 @@ export default async function HomePage() {
                   </div>
                   <p className="text-xs leading-relaxed text-muted-foreground">
                     Starting from scratch. Rebuilding from the ground up.
-                    Challenging sunk cost fallacies. Tripling client touchpoints &mdash;
-                    from 2x last week to 3x this week. Working towards showing the company.
+                    Challenging sunk cost fallacies. Adding an extra day of client
+                    touchpoints &mdash; from 2x last week to 3x this week.
+                    Working towards showing the company.
                   </p>
                   <p className="mt-1.5 text-[10px] italic text-muted-foreground/50">
                     More to come.
