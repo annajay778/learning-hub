@@ -86,7 +86,7 @@ export default function FrameworkPage() {
             ["Real camp data for 6 beta camps", "Have", "Daily feed of missing forms, family names, contact info, session dates — refreshed every morning"],
             ["5 camp partners actively testing", "Have", "Engaged directors giving feedback 3x/week, staggered so each call improves the next"],
             ["A delivery channel parents respond to", "Partially", "SMS works but camps told us texting is reserved for emergencies — continuing to think on how to approach this problem"],
-            ["Camp directors willing to configure", "Have", "~2 min setup; directors are co-designing the experience with us in live sessions"],
+            ["Camp directors willing to configure", "Partially", "~2 min setup; directors are co-designing the experience with us in live sessions"],
             ["Ability to measure form completion over time", "Have", "Daily snapshots show whether forms are getting done — the baseline for proving impact"],
           ]}
         />
