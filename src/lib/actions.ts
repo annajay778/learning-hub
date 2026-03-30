@@ -446,6 +446,13 @@ export async function getCurrentWeekPlan() {
   return rows[0] ?? null;
 }
 
+export async function getAllWeekPlans() {
+  return db
+    .select()
+    .from(lhWeeklyPlans)
+    .orderBy(desc(lhWeeklyPlans.weekStart));
+}
+
 // ── Learnings ───────────────────────────────────────────────────
 
 export async function getLearnings(limit = 50) {

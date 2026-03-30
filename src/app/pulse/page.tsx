@@ -1,8 +1,9 @@
 export const dynamic = "force-dynamic";
 
-import { getCurrentWeekPlan, getPulseComments } from "@/lib/actions";
+import { getAllWeekPlans, getPulseComments } from "@/lib/actions";
 import { MarkdownViewer } from "@/components/markdown-viewer";
 import { PulseComments } from "@/components/pulse-comments";
+import { PreviousWeeks } from "@/components/previous-weeks";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, Circle, ArrowRight } from "lucide-react";
@@ -98,10 +99,13 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default async function PulsePage() {
-  const [plan, allComments] = await Promise.all([
-    getCurrentWeekPlan(),
+  const [allPlans, allComments] = await Promise.all([
+    getAllWeekPlans(),
     getPulseComments(),
   ]);
+
+  const plan = allPlans[0] ?? null;
+  const previousPlans = allPlans.slice(1);
 
   if (!plan) {
     return (
@@ -301,6 +305,18 @@ export default async function PulsePage() {
           </Card>
         </section>
       )}
+
+      {/* Previous Weeks */}
+      <PreviousWeeks
+        weeks={previousPlans.map((p) => ({
+          id: p.id,
+          weekStart: p.weekStart,
+          title: p.title,
+          body: p.body,
+          days: parseDayPlan(p.body),
+        }))}
+        comments={allComments}
+      />
     </main>
   );
 }
