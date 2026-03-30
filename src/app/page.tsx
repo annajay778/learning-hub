@@ -134,7 +134,7 @@ export default async function HomePage() {
 
         {/* Main content */}
         <div className="space-y-10">
-            {/* Three rows: Demos, Prototypes, Cowork Projects */}
+            {/* Three rows: Demos, Prototypes, Client Learnings */}
             <section className="space-y-6">
               <div className="flex items-center justify-between">
                 <h2 className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
@@ -167,7 +167,7 @@ export default async function HomePage() {
               />
 
               <LinkRow
-                title="Cowork Projects"
+                title="Client Learnings"
                 linkType="cowork"
                 items={demoLinks.filter((l) => l.linkType === "cowork")}
                 badgeClass="bg-emerald-100 text-emerald-800 border-emerald-200"
