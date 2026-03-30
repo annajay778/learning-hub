@@ -11,6 +11,7 @@ const links = [
   { href: "/demos", label: "Demos" },
   { href: "/clients", label: "Clients" },
   { href: "/coach", label: "Coach" },
+  { href: "/framework", label: "Framework" },
   { href: "/braindump", label: "Braindump" },
 ];
 
