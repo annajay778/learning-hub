@@ -78,18 +78,16 @@ export default function FrameworkPage() {
       {/* ── INPUTS ──────────────────────────────────── */}
       <section>
         <h2 className="mb-3 text-xs uppercase tracking-[0.15em] text-muted-foreground">
-          Inputs — Resources we invest
+          Inputs — What we&apos;re working with
         </h2>
         <Table
           headers={["Input", "Status", "Notes"]}
           rows={[
-            ["Daily CSV pipeline", "Have", "6 camps, daily email download + parse"],
-            ["Parent contact data", "Have", "Phone, email, opt-in from Campminder"],
-            ["Session start dates", "Have", "Parsed from CSV, carried through pipeline"],
-            ["Camp director time (config)", "Have", "Setup page, ~2 min to configure"],
-            ["Twilio SMS infrastructure", "Have", "Toll-free, Camp Colorado live"],
-            ["Message templates (3 tones)", "Have", "Customizable per camp"],
-            ["Form completion data", "Have", "Daily snapshots track totals"],
+            ["Real camp data for 6 beta camps", "Have", "Daily feed of missing forms, family names, contact info, session dates — refreshed every morning"],
+            ["5 camp partners actively testing", "Have", "Engaged directors giving feedback 3x/week, staggered so each call improves the next"],
+            ["A delivery channel parents respond to", "Partially", "SMS works but camps told us texting is reserved for emergencies — pivoting to email as primary channel"],
+            ["Camp directors willing to configure", "Have", "~2 min setup; directors are co-designing the experience with us in live sessions"],
+            ["Ability to measure form completion over time", "Have", "Daily snapshots show whether forms are getting done — the baseline for proving impact"],
           ]}
         />
       </section>
@@ -97,16 +95,16 @@ export default function FrameworkPage() {
       {/* ── OUTPUTS ─────────────────────────────────── */}
       <section>
         <h2 className="mb-3 text-xs uppercase tracking-[0.15em] text-muted-foreground">
-          Outputs — What we produce
+          Outputs — What camps experience
         </h2>
         <Table
           headers={["Output", "Status", "Notes"]}
           rows={[
-            ["Targeted reminders sent", "Have", "SMS + email stub, session-aware filtering"],
-            ["Preview before send", "Have", "Glass Box — preview → generate → send"],
-            ["Skip reasons explained", "Have", "Grouped by reason in preview + batch history"],
-            ["Daily form completion snapshots", "Have", "Per-camp totals tracked"],
-            ["Example schedule calendar", "Have", "Shows exactly when each reminder fires"],
+            ["Targeted reminders reach the right families", "Have", "Only contacts families with missing forms, skips those who are complete, adjusts by session proximity"],
+            ["Camps see and approve everything before it goes out", "Have", "Full preview of who gets contacted, what the message says, and why anyone was skipped — nothing sends without approval"],
+            ["The system explains itself", "Have", "Every skip has a reason, every batch has a summary — directors never have to wonder what happened or why"],
+            ["Form completion trends are visible", "Have", "Camps can see whether the needle is moving day over day — not just a one-time snapshot"],
+            ["Camps control the cadence", "Partially", "Directors can see when reminders would fire; full automation (set it and forget it) is being rebuilt this week based on client feedback"],
           ]}
         />
       </section>
@@ -119,10 +117,10 @@ export default function FrameworkPage() {
         <Table
           headers={["Outcome", "Status", "Gap?"]}
           rows={[
-            ["Families submit forms faster", "Can't measure yet", "We see total forms drop in snapshots, but can't attribute to nudges vs. organic"],
-            ["Directors save follow-up time", "Anecdotal", "No time-tracking or comparison baseline"],
-            ["Fewer incomplete families at session start", "Can't measure yet", "Need a \"% complete by session start\" metric"],
-            ["Directors trust the system", "Partially", "Glass Box helps; need to track adoption (do they keep using it?)"],
+            ["Parents complete forms faster after being reminded", "Can't measure yet", "We see totals drop daily but can't yet prove nudges caused it vs. parents who would have completed anyway"],
+            ["Directors spend less time chasing families manually", "Anecdotal", "Directors tell us this is what they want — no baseline to compare against yet"],
+            ["Fewer incomplete families when sessions start", "Can't measure yet", "Building a \"% complete by session start\" metric to prove this"],
+            ["Directors trust the tool enough to keep using it", "Partially", "Transparency (seeing what goes out, why people were skipped) is building trust — need to track whether they come back week over week"],
           ]}
         />
       </section>
@@ -130,15 +128,15 @@ export default function FrameworkPage() {
       {/* ── IMPACT ──────────────────────────────────── */}
       <section>
         <h2 className="mb-3 text-xs uppercase tracking-[0.15em] text-muted-foreground">
-          Impact — Long-term difference
+          Impact — What this means for Campminder
         </h2>
         <Table
           headers={["Impact", "Status", "Gap?"]}
           rows={[
-            ["Smoother opening days", "Not measurable from our data", "Would need post-session camp feedback"],
-            ["Better camper safety (health forms)", "Not measurable", "Downstream of form completion"],
-            ["Directors focus on programs, not admin", "Not measurable", "Qualitative, needs interviews"],
-            ["Model for AI-powered camp operations", "In progress", "This IS the prototype proving the model"],
+            ["Camps open their sessions with fewer missing forms", "Not measurable yet", "We'll know after first sessions start with nudges running — need camp feedback post-opening day"],
+            ["Kids are safer because health forms are complete", "Not measurable yet", "Downstream of form completion — if we prove nudges work, this follows"],
+            ["Directors spend their time on programs, not paperwork", "Not measurable yet", "Qualitative — needs post-pilot interviews with directors"],
+            ["Campminder proves AI can power camp operations at scale", "In progress", "This experiment IS the proof — every week adds evidence for or against the model"],
           ]}
         />
       </section>
@@ -151,10 +149,10 @@ export default function FrameworkPage() {
         <Table
           headers={["Assumption", "Risk Level", "What could break it"]}
           rows={[
-            ["Parents act on SMS reminders", "High", "They ignore/block unknown numbers"],
-            ["3-tone escalation drives action", "Unvalidated", "No data on which tone converts"],
-            ["Session proximity creates urgency", "Likely true", "But some camps don't think in sessions"],
-            ["Daily CSV arrives reliably", "Low", "Campminder email pipeline is stable"],
+            ["Parents will act on reminders from Campminder", "High", "They may ignore messages from unfamiliar senders — need to come from a trusted source"],
+            ["Gentle-to-urgent escalation drives more completions", "Unvalidated", "No data yet on whether tone changes matter — building measurement into the next version"],
+            ["Reminders timed to session start create natural urgency", "Likely true", "Most camps think in sessions — but some have rolling enrollment that doesn't fit this model"],
+            ["Email is a better channel than text for non-urgent reminders", "Likely true", "Validated by 2 camps independently saying texting is reserved for emergencies"],
           ]}
         />
       </section>
