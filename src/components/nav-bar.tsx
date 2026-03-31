@@ -17,6 +17,7 @@ const links = [
 
 export function NavBar({ lastSyncedAt }: { lastSyncedAt: string | null }) {
   const pathname = usePathname();
+  if (pathname === "/setup") return null;
   const isHome = pathname === "/";
   const isTransparent = isHome || pathname === "/braindump";
 

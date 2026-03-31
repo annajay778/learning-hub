@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { CoachNoteCard } from "@/components/coach-note-card";
 import { LinkRow } from "@/components/link-row";
 import {
+  ArrowRight,
   ExternalLink,
   Sparkles,
 } from "lucide-react";
@@ -298,6 +299,13 @@ export default async function HomePage() {
                 Explore
               </h2>
               <div className="space-y-1.5">
+                <Link
+                  href="/setup"
+                  className="flex items-center justify-between rounded-lg border border-border/50 bg-card px-3.5 py-2.5 text-sm font-medium transition-colors hover:bg-accent"
+                >
+                  Setup Guide
+                  <ArrowRight className="h-3 w-3 text-muted-foreground" />
+                </Link>
                 <a
                   href="https://claude.ai/project/5b5daa22-tried-and-tested-product-management-f"
                   target="_blank"

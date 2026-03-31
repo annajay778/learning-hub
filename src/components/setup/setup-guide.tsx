@@ -1,0 +1,735 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { SetupNav } from "./setup-nav";
+import { SetupHero } from "./setup-hero";
+import { StepCard } from "./step-card";
+import { CodeBlock } from "./code-block";
+import { Callout } from "./callout";
+import {
+  RefreshCw,
+  Mic,
+  Rocket,
+  FileCode,
+  Search,
+  Zap,
+  TrendingUp,
+  Megaphone,
+  Wrench,
+  MessageSquare,
+  Mail,
+  Calendar,
+  MonitorSmartphone,
+  BookOpen,
+  Palette,
+  PartyPopper,
+} from "lucide-react";
+
+const TOTAL_STEPS = 13;
+
+export function SetupGuide() {
+  const [currentStep, setCurrentStep] = useState(0);
+
+  useEffect(() => {
+    const stepEls = document.querySelectorAll<HTMLElement>("[data-step]");
+    if (stepEls.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const step = Number(entry.target.getAttribute("data-step"));
+            if (step) setCurrentStep(step);
+          }
+        }
+      },
+      { threshold: 0.3, rootMargin: "-80px 0px -40% 0px" }
+    );
+
+    stepEls.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div className="min-h-svh bg-[#0B1120]">
+      <SetupNav currentStep={currentStep} totalSteps={TOTAL_STEPS} />
+      <SetupHero />
+
+      {/* Prerequisites */}
+      <div className="mx-auto max-w-3xl px-4 pb-6 pt-12 sm:px-6">
+        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] p-6 sm:p-8">
+          <h2 className="mb-3 text-base font-semibold text-white">Before you start</h2>
+          <p className="mb-4 text-sm text-white/60">
+            You&apos;ll need a Mac, an internet connection, and about 45-60
+            minutes. You&apos;ll also need two accounts — create them now if
+            you don&apos;t have them:
+          </p>
+          <div className="grid gap-2 sm:grid-cols-2">
+            <a href="https://github.com/signup" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.03] px-4 py-2.5 text-sm text-purple-400 transition-colors hover:bg-white/[0.06]">
+              Create a GitHub account &rarr;
+            </a>
+            <a href="https://console.anthropic.com/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.03] px-4 py-2.5 text-sm text-purple-400 transition-colors hover:bg-white/[0.06]">
+              Create an Anthropic account &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-3xl space-y-8 px-4 pb-24 sm:px-6">
+        {/* ═══ STEP 1: cmux Terminal ═══ */}
+        <StepCard stepNumber={1} title="cmux Terminal" id="step-1" time="2 min">
+          <p>
+            Your Mac has a built-in Terminal app, but it wasn&apos;t designed
+            for working alongside AI. cmux is — it shows you which AI sessions
+            are waiting for your input, lets you run multiple sessions side by
+            side, and sends you a notification when Claude finishes a long task
+            so you don&apos;t have to babysit.
+          </p>
+          <Callout type="info">
+            This command uses Homebrew (Step 2). If you don&apos;t have Homebrew
+            yet, skip this command and{" "}
+            <a
+              href="https://github.com/manaflow-ai/cmux/releases"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-purple-400 underline decoration-purple-400/30 underline-offset-2 hover:decoration-purple-400"
+            >
+              download the DMG directly
+            </a>{" "}
+            instead. You can come back and install via Homebrew later.
+          </Callout>
+          <CodeBlock code="brew install --cask cmux" />
+          <p className="text-white/50 text-xs">
+            The <code className="text-purple-300">--cask</code> flag tells
+            Homebrew this is a desktop app (not a command-line tool).
+          </p>
+          <Callout type="success" title="You'll know it worked when">
+            Open cmux from your Applications folder. You should see a terminal
+            window with a vertical tab sidebar on the left side.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 2: Homebrew ═══ */}
+        <StepCard stepNumber={2} title="Homebrew" id="step-2" time="1–20 min">
+          <p>
+            Think of Homebrew as an App Store for developer tools. Instead of
+            downloading installers from websites, you type one command and
+            Homebrew handles the rest. Nearly every tool in this guide is
+            installed through it.
+          </p>
+          <p className="font-medium text-white/90">Check if you already have it:</p>
+          <CodeBlock code="brew --version" />
+          <p>
+            If you see a version number (like{" "}
+            <code className="rounded bg-white/10 px-1.5 py-0.5 text-emerald-400">Homebrew 5.1.3</code>),
+            you&apos;re good — skip to Step 3. If you see{" "}
+            <code className="rounded bg-white/10 px-1.5 py-0.5 text-red-400">command not found</code>,
+            install it:
+          </p>
+          <CodeBlock
+            code={`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`}
+          />
+          <p className="text-white/50 text-xs">
+            This is a long command, but you just paste it into your terminal and
+            press Enter. It will ask for your Mac password — you won&apos;t see
+            characters as you type, that&apos;s normal.
+          </p>
+          <Callout type="success" title="You'll know it worked when">
+            Running <code className="text-emerald-300">brew --version</code>{" "}
+            prints a version number instead of &ldquo;command not found.&rdquo;
+          </Callout>
+          <Callout type="warning">
+            On a brand-new Mac, Apple will pop up a window asking you to install
+            &ldquo;Command Line Developer Tools&rdquo; — a one-time download.
+            Click <strong className="text-white">Install</strong> and wait
+            15-20 minutes. This only happens once.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 3: Node.js ═══ */}
+        <StepCard stepNumber={3} title="Node.js" id="step-3" time="1 min">
+          <p>
+            Node.js is the engine that makes Claude Code and all our web
+            projects run. You won&apos;t interact with it directly — it just
+            needs to be installed on your Mac.
+          </p>
+          <p className="font-medium text-white/90">Check if you already have it:</p>
+          <CodeBlock code="node -v" />
+          <p>
+            If you see{" "}
+            <code className="rounded bg-white/10 px-1.5 py-0.5 text-emerald-400">v20</code>{" "}
+            or higher (e.g., v22.14.0 or v24.13.0), skip to Step 4. Otherwise:
+          </p>
+          <CodeBlock code="brew install node" />
+          <Callout type="success" title="You'll know it worked when">
+            <code className="text-emerald-300">node -v</code> prints a version
+            number like <code className="text-emerald-300">v22.14.0</code>, and{" "}
+            <code className="text-emerald-300">npm -v</code> also prints a
+            number (npm is a tool that comes bundled with Node automatically).
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 4: Claude Code ═══ */}
+        <StepCard stepNumber={4} title="Claude Code" id="step-4" time="2 min">
+          <p>
+            This is the AI that writes code, runs commands, and builds features
+            with you. You talk to it in plain English inside your terminal, and
+            it does the work.
+          </p>
+          <CodeBlock code="npm install -g @anthropic-ai/claude-code" />
+          <p className="text-white/50 text-xs">
+            The <code className="text-purple-300">-g</code> flag installs it
+            globally, meaning you can run{" "}
+            <code className="text-purple-300">claude</code> from any folder on
+            your Mac.
+          </p>
+          <p>
+            If you get a permission error (you&apos;ll see the word{" "}
+            <code className="rounded bg-white/10 px-1.5 py-0.5 text-red-400">EACCES</code>{" "}
+            — this is common on fresh Macs), use this alternative instead:
+          </p>
+          <CodeBlock code="npx @anthropic-ai/claude-code" />
+          <p className="font-medium text-white/90">Now launch it:</p>
+          <p>
+            Type <code className="rounded bg-white/10 px-1.5 py-0.5 text-purple-300">claude</code>{" "}
+            and press Enter. The first time, it will open a browser window where
+            you sign in with your Anthropic account. After you sign in, go back
+            to your terminal.
+          </p>
+          <Callout type="success" title="You'll know it worked when">
+            Your terminal shows an interactive session with a{" "}
+            <code className="text-emerald-300">&gt;</code> prompt waiting for
+            your input. Type &ldquo;hello&rdquo; — Claude should respond. Type{" "}
+            <code className="text-emerald-300">/exit</code> to leave when done.
+          </Callout>
+          <Callout type="info">
+            Claude reads every file in the folder where you launch it. Always
+            navigate to your project folder first (e.g.,{" "}
+            <code className="text-purple-300">cd ~/AI/my-project</code>) before
+            running <code className="text-purple-300">claude</code>.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 5: Your Workspace ═══ */}
+        <StepCard stepNumber={5} title="Your Workspace" id="step-5" time="5 min">
+          <p>
+            A dedicated folder keeps your AI projects organized. Shortcuts
+            (called &ldquo;aliases&rdquo;) let you type{" "}
+            <code className="rounded bg-white/10 px-1.5 py-0.5 text-purple-300">cc</code>{" "}
+            instead of <code className="text-purple-300">claude</code> every
+            time — small thing, but you&apos;ll use it dozens of times a day.
+          </p>
+
+          <Callout type="claude" title="Easiest path: let Claude do this for you">
+            Open Claude Code and say: &ldquo;Create a ~/AI directory, add
+            aliases cc, ccr, and ccp to my .zshrc, and create
+            .claude/settings.json with the frontend-design plugin enabled.
+            Explain what each one does.&rdquo; Claude will set everything up
+            and walk you through it.
+          </Callout>
+
+          <p className="font-medium text-white/90">Or do it manually:</p>
+
+          <p>
+            <strong className="text-white/80">1. Create your workspace folder:</strong>
+          </p>
+          <CodeBlock code={`mkdir -p ~/AI\ncd ~/AI`} />
+          <p className="text-white/50 text-xs">
+            This creates a folder called &ldquo;AI&rdquo; in your home
+            directory. All your projects will live here.
+          </p>
+
+          <p>
+            <strong className="text-white/80">2. Add shortcuts to your shell config:</strong>
+          </p>
+          <p className="text-white/50 text-xs">
+            Your Mac has a hidden settings file called{" "}
+            <code className="text-purple-300">~/.zshrc</code> that runs every
+            time you open a terminal. We&apos;ll add three shortcuts to it.
+            Open it by running:
+          </p>
+          <CodeBlock code="open -a TextEdit ~/.zshrc" />
+          <p className="text-white/50 text-xs">
+            Add these three lines at the bottom of the file, then save and
+            close TextEdit:
+          </p>
+          <CodeBlock
+            code={`alias cc="claude"          # Launch Claude Code\nalias ccr="claude --resume"  # Resume your last conversation\nalias ccp="claude --plan"    # Start in planning mode`}
+          />
+          <p>Then reload your terminal settings:</p>
+          <CodeBlock code="source ~/.zshrc" />
+
+          <p>
+            <strong className="text-white/80">3. Enable the design plugin:</strong>
+          </p>
+          <p className="text-white/50 text-xs">
+            This plugin makes Claude better at building good-looking interfaces.
+            Create this file inside your project&apos;s{" "}
+            <code className="text-purple-300">.claude/</code> folder:
+          </p>
+          <CodeBlock
+            filename=".claude/settings.json"
+            code={`{
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true
+  }
+}`}
+          />
+          <Callout type="success" title="You'll know it worked when">
+            Type <code className="text-emerald-300">cc</code> in your terminal
+            and Claude Code launches. Type{" "}
+            <code className="text-emerald-300">ccr</code> and it resumes your
+            last session.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 6: The Workflow ═══ */}
+        <StepCard stepNumber={6} title="The Workflow" id="step-6" time="Read: 3 min">
+          <p>
+            Instead of just chatting with Claude and hoping for the best, these
+            five commands give your conversations structure. Think of them like
+            meeting agendas — they keep the AI focused on the right thing at the
+            right time.
+          </p>
+          <p className="text-white/50 text-xs">
+            These are slash commands you type inside a Claude Code session.
+            They&apos;re built into the project — you don&apos;t install them.
+          </p>
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            {[
+              {
+                cmd: "/brainstorm",
+                label: "Explore",
+                desc: "Ask questions to understand what you're building before jumping in.",
+                icon: Search,
+              },
+              {
+                cmd: "/plan",
+                label: "Design",
+                desc: "Break the work into steps and decide how to build it.",
+                icon: FileCode,
+              },
+              {
+                cmd: "/work",
+                label: "Build",
+                desc: "Actually build the feature, writing tests along the way.",
+                icon: Zap,
+              },
+              {
+                cmd: "/review",
+                label: "Review",
+                desc: "Check the finished code for bugs, security issues, and quality.",
+                icon: RefreshCw,
+              },
+              {
+                cmd: "/compound",
+                label: "Document",
+                desc: "Write down what you learned so Claude remembers it next time.",
+                icon: BookOpen,
+              },
+            ].map(({ cmd, label, desc, icon: Icon }) => (
+              <div
+                key={cmd}
+                className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4"
+              >
+                <div className="mb-2 flex items-center gap-2">
+                  <Icon className="h-4 w-4 text-purple-400" />
+                  <code className="text-sm font-semibold text-purple-300">
+                    {cmd}
+                  </code>
+                </div>
+                <p className="text-xs font-medium text-white/50">{label}</p>
+                <p className="mt-1 text-xs text-white/40">{desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <Callout type="tip">
+            You don&apos;t always use all 5. Quick fixes might just
+            be <code className="text-purple-300">/work</code>. Big features
+            start with <code className="text-purple-300">/brainstorm</code>.
+            Most of the time you&apos;ll use 2-3.
+          </Callout>
+          <Callout type="success" title="You'll know it worked when">
+            Inside a Claude session, type{" "}
+            <code className="text-emerald-300">/brainstorm</code> and press
+            Enter. Claude should ask you a structured set of questions about
+            what you want to build.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 7: Skills & Plugins ═══ */}
+        <StepCard stepNumber={7} title="Skills & Plugins" id="step-7" time="Read: 3 min">
+          <p>
+            Skills are instruction sets that make Claude an expert at specific
+            tasks. Instead of explaining how you want something done every time,
+            the skill handles it. They live in a{" "}
+            <code className="rounded bg-white/10 px-1.5 py-0.5 text-purple-300">
+              .claude/skills/
+            </code>{" "}
+            folder inside the project — when you clone a project that has them,
+            Claude loads them automatically.
+          </p>
+
+          <p className="font-medium text-white/90">Key project skills:</p>
+          <div className="space-y-2">
+            {[
+              { name: "smart-clarifier", desc: "Asks 1-7 questions before building to make sure Claude understands what you want" },
+              { name: "feature-builder", desc: "Plans the full architecture of a new feature before writing code" },
+              { name: "tdd-workflow", desc: "Writes a failing test first, then writes code to make it pass — catches bugs early" },
+              { name: "code-reviewer", desc: "Reviews code for security holes, bugs, and quality issues before you ship" },
+              { name: "ui-developer", desc: "Builds interfaces that look polished and work on mobile" },
+            ].map(({ name, desc }) => (
+              <div key={name} className="rounded-lg border border-white/[0.06] bg-white/[0.03] px-4 py-2.5">
+                <code className="text-xs font-semibold text-purple-300">{name}</code>
+                <p className="mt-0.5 text-xs text-white/50">{desc}</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-white/40 text-xs">
+            Plus 11 more project skills and a frontend-design plugin. Claude
+            picks the right one automatically based on what you ask.
+          </p>
+
+          <p className="mt-2 font-medium text-white/90">40+ PM skills (by category):</p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {[
+              { category: "Discovery", icon: Search, skills: "brainstorm, interview, prioritize, assumption mapping, experiments" },
+              { category: "Strategy", icon: TrendingUp, skills: "pricing, business model, SWOT, competitive analysis, vision" },
+              { category: "Execution", icon: Zap, skills: "PRDs, user stories, sprint planning, OKRs, stakeholder mapping" },
+              { category: "Go-to-Market", icon: Rocket, skills: "launch plans, battlecards, growth loops, ideal customer profiles" },
+              { category: "Marketing", icon: Megaphone, skills: "positioning, North Star metrics, value propositions, naming" },
+              { category: "Toolkit", icon: Wrench, skills: "resume review, NDAs, privacy policies, grammar checking" },
+            ].map(({ category, icon: Icon, skills }) => (
+              <div key={category} className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-3">
+                <div className="mb-1 flex items-center gap-2">
+                  <Icon className="h-3.5 w-3.5 text-orange-400" />
+                  <span className="text-xs font-semibold text-white/80">{category}</span>
+                </div>
+                <p className="text-[11px] text-white/40">{skills}</p>
+              </div>
+            ))}
+          </div>
+          <Callout type="success" title="You'll know it worked when">
+            Ask Claude to build a feature. In its response, you&apos;ll see it
+            mention activating skills like &ldquo;smart-clarifier&rdquo; or
+            &ldquo;feature-builder&rdquo; — that means they&apos;re loaded and
+            working.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 8: MCP Servers ═══ */}
+        <StepCard stepNumber={8} title="MCP Connections" id="step-8" time="Read: 2 min">
+          <p>
+            Imagine Claude could search your Slack messages, check your
+            calendar, or read a Notion page — without you copy-pasting anything.
+            MCP connections (think of them like plugins that connect Claude to
+            your work tools) make that possible.
+          </p>
+          <p className="text-white/50 text-xs">
+            These are configured in the Claude desktop app or your Claude Code
+            settings — no terminal commands needed. We&apos;ll set them up
+            together in your first working session.
+          </p>
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            {[
+              { name: "Notion", desc: "Read and write Notion pages, databases, and blocks.", icon: BookOpen },
+              { name: "Slack", desc: "Search channels, read threads, send messages.", icon: MessageSquare },
+              { name: "Gmail", desc: "Search emails, read threads, create drafts.", icon: Mail },
+              { name: "Google Calendar", desc: "List events, find free time, create meetings.", icon: Calendar },
+              { name: "Granola", desc: "Query meeting transcripts and notes.", icon: Mic },
+              { name: "Chrome Automation", desc: "Navigate websites, click buttons, fill forms — hands-free.", icon: MonitorSmartphone },
+              { name: "shadcn/ui", desc: "Look up UI components and get code examples.", icon: Palette },
+              { name: "Context7", desc: "Fetch up-to-date documentation for any library.", icon: BookOpen },
+            ].map(({ name, desc, icon: Icon }) => (
+              <div key={name} className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
+                <div className="mb-1.5 flex items-center gap-2">
+                  <Icon className="h-4 w-4 text-purple-400" />
+                  <span className="text-sm font-medium text-white/90">{name}</span>
+                </div>
+                <p className="text-xs text-white/50">{desc}</p>
+              </div>
+            ))}
+          </div>
+          <Callout type="success" title="You'll know it worked when">
+            Ask Claude &ldquo;what MCP tools do you have access to?&rdquo; and
+            it lists the connected services. Or try &ldquo;search my Slack for
+            messages about the launch&rdquo; and see it pull real results.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 9: Voice Mode ═══ */}
+        <StepCard stepNumber={9} title="Voice Mode" id="step-9" time="30 sec">
+          <p>
+            Press and hold the <strong className="text-white">spacebar</strong>{" "}
+            to talk to Claude. Release to send. It&apos;s like having a
+            thinking partner you can talk to out loud.
+          </p>
+          <p>Great for:</p>
+          <ul className="list-inside space-y-1">
+            <li className="flex items-start gap-2">
+              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-purple-400/60" />
+              Brainstorming while walking around
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-purple-400/60" />
+              Dictating requirements hands-free
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-purple-400/60" />
+              Quick iteration while looking at the browser — &ldquo;make the
+              hero bigger&rdquo;, &ldquo;swap to dark mode&rdquo;
+            </li>
+          </ul>
+          <Callout type="success" title="You'll know it worked when">
+            Hold spacebar inside a Claude session — you&apos;ll see a recording
+            indicator. Release it and your spoken words appear as text input.
+          </Callout>
+          <Callout type="tip">
+            If the spacebar doesn&apos;t respond, type{" "}
+            <code className="text-purple-300">/voice</code> to turn voice mode
+            on manually.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 10: GitHub ═══ */}
+        <StepCard stepNumber={10} title="GitHub" id="step-10" time="3 min">
+          <p>
+            GitHub is where your code lives online. Think of it as Google Docs
+            for code — it tracks every change, lets you undo mistakes, and
+            makes collaboration possible.
+          </p>
+          <Callout type="warning">
+            Run these commands in a regular terminal tab — <strong className="text-white">not</strong>{" "}
+            inside a Claude session. The login flow works better outside of
+            Claude.
+          </Callout>
+          <p className="font-medium text-white/90">Check if you already have them:</p>
+          <CodeBlock code={`git --version\ngh --version`} />
+          <p>
+            If either says{" "}
+            <code className="rounded bg-white/10 px-1.5 py-0.5 text-red-400">command not found</code>,
+            install both:
+          </p>
+          <CodeBlock code="brew install gh git" />
+          <p className="text-white/50 text-xs">
+            <code className="text-purple-300">git</code> is the version control
+            tool that tracks changes.{" "}
+            <code className="text-purple-300">gh</code> is GitHub&apos;s helper
+            that makes it easier to create pull requests and manage your code
+            from the terminal.
+          </p>
+          <p className="font-medium text-white/90">Tell Git who you are:</p>
+          <CodeBlock
+            code={`git config --global user.name "Your Name"\ngit config --global user.email "you@campminder.com"\ngit config --global init.defaultBranch main`}
+          />
+          <p className="text-white/50 text-xs">
+            This labels your changes with your name and email so your team knows
+            who made what. The last line sets &ldquo;main&rdquo; as the default
+            branch name (an industry standard).
+          </p>
+          <p className="font-medium text-white/90">Connect your GitHub account:</p>
+          <CodeBlock code="gh auth login" />
+          <p className="text-white/50 text-xs">
+            This opens a browser window. Follow the prompts to sign in to
+            GitHub and grant access.
+          </p>
+          <Callout type="success" title="You'll know it worked when">
+            Run <code className="text-emerald-300">gh auth status</code> and
+            you see your GitHub username and &ldquo;Logged in to github.com.&rdquo;
+          </Callout>
+          <Callout type="claude" title="After this, Claude handles git for you">
+            You&apos;ll never need to memorize git commands. Just tell Claude
+            &ldquo;commit and push this to GitHub&rdquo; or &ldquo;create a PR
+            for this change.&rdquo; It handles everything.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 11: Vercel ═══ */}
+        <StepCard stepNumber={11} title="Vercel" id="step-11" time="2 min">
+          <p>
+            Vercel takes your code and puts it on the internet. When you push
+            changes to GitHub, Vercel automatically updates the live site within
+            seconds — no manual steps. We use it because it&apos;s built for
+            Next.js (our framework) and requires zero server setup.
+          </p>
+          <CodeBlock code="npm install -g vercel" />
+          <CodeBlock code="vercel login" />
+          <p className="text-white/50 text-xs">
+            This opens a browser window to sign in. Use your GitHub account
+            for the simplest setup.
+          </p>
+          <Callout type="success" title="You'll know it worked when">
+            Run <code className="text-emerald-300">vercel whoami</code> and it
+            prints your Vercel username.
+          </Callout>
+          <Callout type="claude" title="Let Claude deploy for you">
+            Tell Claude &ldquo;deploy this to Vercel&rdquo; and it runs the
+            right commands. For ongoing projects, connect the GitHub repo to
+            Vercel via the dashboard — then every push to main auto-deploys.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 12: Neon + Drizzle ═══ */}
+        <StepCard stepNumber={12} title="Neon + Drizzle" id="step-12" time="10 min">
+          <p>
+            Every app needs a place to store data (users, settings, messages).
+            That&apos;s what a database is. <strong className="text-white/90">Neon</strong>{" "}
+            gives you a cloud-hosted database that&apos;s free to start and
+            requires no server setup.{" "}
+            <strong className="text-white/90">Drizzle</strong> is the tool that
+            lets your code talk to the database in a type-safe way.
+          </p>
+          <p className="text-white/50 text-xs">
+            We chose Neon because it has a generous free tier, works perfectly
+            with Vercel, and takes under 60 seconds to create.
+          </p>
+
+          <p className="font-medium text-white/90">1. Create a database:</p>
+          <p>
+            Go to{" "}
+            <a href="https://neon.tech" target="_blank" rel="noopener noreferrer" className="text-purple-400 underline decoration-purple-400/30 underline-offset-2 hover:decoration-purple-400">
+              neon.tech
+            </a>
+            , sign up with your GitHub account, click{" "}
+            <strong className="text-white/90">New Project</strong>, give it any
+            name, and click <strong className="text-white/90">Create</strong>.
+          </p>
+
+          <p className="font-medium text-white/90">2. Copy the connection string:</p>
+          <p className="text-white/50 text-xs">
+            After creating the project, Neon shows you a &ldquo;connection
+            string&rdquo; — this is like a password that lets your app connect
+            to the database. Copy it.
+          </p>
+
+          <p className="font-medium text-white/90">3. Save it in your project:</p>
+          <p className="text-white/50 text-xs">
+            Create a file called <code className="text-purple-300">.env.local</code>{" "}
+            in your project&apos;s main folder (the one with{" "}
+            <code className="text-purple-300">package.json</code>). This is a
+            secret file that stays on your machine and never gets uploaded to
+            GitHub.
+          </p>
+          <CodeBlock
+            filename=".env.local"
+            code="DATABASE_URL=postgresql://user:pass@ep-xxx.us-east-2.aws.neon.tech/dbname?sslmode=require"
+          />
+          <p className="text-white/50 text-xs">
+            Replace this example with the connection string you copied from Neon.
+          </p>
+
+          <Callout type="success" title="You'll know it worked when">
+            Run <code className="text-emerald-300">npm run db:studio</code> from
+            your project folder. A browser window opens showing your (empty)
+            database tables.
+          </Callout>
+          <Callout type="claude" title="Let Claude handle database changes">
+            Tell Claude &ldquo;add a new table for user preferences&rdquo; and
+            it updates the code, pushes the changes to your database, and
+            verifies everything worked — no SQL required.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 13: Project Config ═══ */}
+        <StepCard stepNumber={13} title="Project Config — The Secret Sauce" id="step-13" time="30 min (worth every minute)">
+          <p>
+            Two files that teach Claude how your project works. Without them,
+            Claude starts every conversation from scratch. With them, it already
+            knows your commands, your patterns, and your rules.
+          </p>
+          <p className="text-white/50 text-xs">
+            Create these files in the top-level folder of your project (the same
+            folder that has <code className="text-purple-300">package.json</code>).
+          </p>
+
+          <p className="font-medium text-white/90">
+            <code className="rounded bg-white/10 px-1.5 py-0.5 text-purple-300">CLAUDE.md</code>{" "}
+            — instructions for Claude Code specifically:
+          </p>
+          <CodeBlock
+            filename="CLAUDE.md"
+            code={`# CLAUDE.md
+
+## Essential Commands
+- \`npm run dev\` — Start dev server
+- \`npm run build\` — Production build
+- \`npm run lint && npm run typecheck\` — Always run after changes
+
+## Key Patterns
+- [What patterns does your project follow?]
+
+## Rules
+- [What should Claude always/never do?]`}
+          />
+
+          <p className="font-medium text-white/90">
+            <code className="rounded bg-white/10 px-1.5 py-0.5 text-purple-300">AGENTS.md</code>{" "}
+            — instructions that work with any AI tool (Claude, Cursor, Copilot):
+          </p>
+          <CodeBlock
+            filename="AGENTS.md"
+            code={`# AGENTS.md
+
+## Project Overview
+- Framework: Next.js 15 App Router
+- Database: PostgreSQL + Drizzle ORM
+- UI: shadcn/ui + Tailwind CSS
+
+## Setup
+npm install && npm run dev
+
+## Principles
+1. Write tests before code
+2. Keep components simple
+3. Always validate user input`}
+          />
+
+          <Callout type="claude" title="Let Claude write the first draft">
+            This is the best use of Claude&apos;s abilities. Tell it:
+            &ldquo;Read through this entire codebase and write a CLAUDE.md and
+            AGENTS.md that captures the key patterns, commands, and rules.&rdquo;
+            Claude gets 80% right — you refine the last 20%.
+          </Callout>
+          <Callout type="success" title="You'll know it worked when">
+            Start a new Claude session in the project and ask &ldquo;what tech
+            stack does this project use?&rdquo; Claude should answer accurately
+            without reading any code — it learned from your AGENTS.md.
+          </Callout>
+          <Callout type="warning" title="This is the secret sauce">
+            A well-written CLAUDE.md means Claude understands your project from
+            the first message. Invest 30 minutes here — it pays back every
+            single session.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ YOU'RE DONE ═══ */}
+        <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.06] p-6 text-center sm:p-8">
+          <PartyPopper className="mx-auto mb-3 h-8 w-8 text-emerald-400" />
+          <h2 className="mb-2 text-lg font-semibold text-white">
+            You&apos;re set up.
+          </h2>
+          <p className="mb-4 text-sm text-white/60">
+            Open cmux, navigate to a project folder, type{" "}
+            <code className="rounded bg-white/10 px-1.5 py-0.5 text-purple-300">cc</code>,
+            and say: &ldquo;Hello — what can you help me build?&rdquo;
+          </p>
+          <p className="text-xs text-white/40">
+            Total setup time: ~45 minutes for a fresh Mac, ~15 minutes if you
+            already had Homebrew and Node.
+          </p>
+        </div>
+      </div>
+
+      {/* ═══ FOOTER ═══ */}
+      <footer className="border-t border-white/[0.06] py-12 text-center">
+        <p className="text-sm text-white/30">Built with Claude Code</p>
+        <p className="mt-1 text-xs text-white/20">
+          Build to Learn — Anna Goncharova
+        </p>
+      </footer>
+    </div>
+  );
+}
