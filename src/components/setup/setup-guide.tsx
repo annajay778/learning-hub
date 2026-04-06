@@ -583,26 +583,82 @@ export function SetupGuide() {
             <code className="text-purple-300">.env.local</code> file.
           </p>
 
-          <p className="font-medium text-white/90">4. Start building — brainstorm first, then build:</p>
-          <p className="text-white/50 text-xs">
-            Use{" "}
-            <code className="text-purple-300">/workflow-brainstorm</code> to
-            explore your idea, then bring in Sage for product coaching:
-          </p>
+          <p className="font-medium text-white/90">4. Brainstorm:</p>
           <CodeBlock code="/workflow-brainstorm" />
-          <p>
-            Describe your prototype idea. Claude will ask clarifying questions
-            to make sure it understands what you want. Then try:
+          <p className="text-white/50 text-xs">
+            Describe your prototype idea. Claude will ask clarifying questions.
+            Then bring in Sage for product coaching:
           </p>
           <CodeBlock code="/sage" />
           <p className="text-white/50 text-xs">
             Sage will coach you on the product angle — is this the right scope?
             What&apos;s the job to be done? What should V1 actually include?
           </p>
-          <p>
-            Once you&apos;re aligned on the direction, kick off the build:
+
+          <p className="font-medium text-white/90">5. Plan:</p>
+          <p className="text-white/50 text-xs">
+            Once you&apos;re feeling good about the brainstorm, move to planning:
           </p>
+          <CodeBlock code="/workflow-plan" />
+          <p className="text-white/50 text-xs">
+            Claude will create an implementation plan. Then use this hot tip:
+          </p>
+          <Callout type="tip" title="Hot tip: the senior engineer review">
+            After the plan is generated, tell Claude: &ldquo;Imagine you&apos;re
+            a senior software engineer with 20 years of experience. Review this
+            plan and make any updates.&rdquo; This catches gaps and raises the
+            quality significantly.
+          </Callout>
+
+          <p className="font-medium text-white/90">6. Build:</p>
           <CodeBlock code="/workflow-work" />
+          <p className="text-white/50 text-xs">
+            Claude builds the prototype. When it&apos;s done, run the same
+            review trick:
+          </p>
+          <Callout type="tip">
+            &ldquo;Imagine you&apos;re a senior software engineer with 20 years
+            of experience. Review this build and make any updates.&rdquo;
+          </Callout>
+
+          <p className="font-medium text-white/90">7. Design pass:</p>
+          <p>Then level up the UI:</p>
+          <CodeBlock code={`Imagine you're a senior designer with 20 years of experience making a UX/UI update to this flow. Create tasks for yourself and then handle the tasks as you go.`} />
+
+          <p className="font-medium text-white/90">8. Sage check:</p>
+          <p className="text-white/50 text-xs">
+            Have Sage take another look at the product:
+          </p>
+          <CodeBlock code="/sage" />
+
+          <p className="font-medium text-white/90">9. Iterate:</p>
+          <p>
+            Keep iterating until you feel like you&apos;ve hit a good enough
+            spot. Talk to Claude in plain English — &ldquo;make the header
+            smaller&rdquo;, &ldquo;add a filter for date range&rdquo;,
+            &ldquo;the table needs a loading state.&rdquo;
+          </p>
+
+          <p className="font-medium text-white/90">10. Ship it:</p>
+          <p>
+            When you&apos;re ready, tell Claude:
+          </p>
+          <CodeBlock code="Commit and push to main" />
+          <p className="text-white/50 text-xs">
+            Vercel auto-deploys on push — you&apos;ll have a live URL within
+            seconds. Share it in Slack.
+          </p>
+
+          <p className="font-medium text-white/90">11. Save what Claude learned:</p>
+          <CodeBlock code="/workflow-review" />
+          <p className="text-white/50 text-xs">
+            Reviews the code for quality and catches issues. Then:
+          </p>
+          <CodeBlock code="/workflow-compound" />
+          <p className="text-white/50 text-xs">
+            Documents what Claude learned so it remembers next time you pick
+            up this project.
+          </p>
 
           <Callout type="success" title="You'll know it worked when">
             You have a running prototype on a live Vercel URL. Share it in
@@ -685,6 +741,32 @@ export function SetupGuide() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* ═══ CONTINUED LEARNING: Worktrees & Branches ═══ */}
+        <div className="mt-8 rounded-2xl border border-white/[0.08] bg-white/[0.04] p-6 sm:p-8">
+          <h2 className="mb-1 text-base font-semibold text-white">
+            Continued learning: worktrees &amp; branches
+          </h2>
+          <p className="mb-4 text-sm text-white/60">
+            Once you&apos;re comfortable with the basic workflow, worktrees let
+            you experiment without risking your working prototype. A worktree is
+            a separate copy of your project where Claude can try something bold —
+            if it works, you merge it in. If not, you throw it away.
+          </p>
+          <p className="font-medium text-sm text-white/90">Try it:</p>
+          <CodeBlock code={`claude --worktree "experiment-name"`} />
+          <p className="text-white/50 text-xs">
+            This creates an isolated copy of your project on a new branch.
+            Claude works there without touching your main code. When you&apos;re
+            happy with the result, merge it into main. If it didn&apos;t work
+            out, the worktree gets cleaned up automatically.
+          </p>
+          <p className="text-white/50 text-xs">
+            This is how you go from &ldquo;one thing at a time&rdquo; to
+            running multiple experiments in parallel — each in its own worktree,
+            each safe from the others.
+          </p>
         </div>
       </div>
 
