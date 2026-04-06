@@ -227,11 +227,34 @@ export function SetupGuide() {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 5: The Workflow ═══ */}
-        <StepCard stepNumber={5} title="The Workflow" id="step-5" time="Read: 3 min">
+        {/* ═══ STEP 5: Vibe Code Starter Pack ═══ */}
+        <StepCard stepNumber={5} title="Vibe Code Starter Pack" id="step-5" time="3 min">
+          <p>
+            This is Spencer&apos;s starter template — a real project with
+            everything pre-configured so you can start building immediately.
+            Clone it into your workspace:
+          </p>
+          <CodeBlock code={`cd ~/AI\ngit clone https://github.com/campminder/vibe_coding_starter_pack.git\ncd vibe_coding_starter_pack`} />
+          <p className="text-white/50 text-xs">
+            This downloads the project to{" "}
+            <code className="text-purple-300">~/AI/vibe_coding_starter_pack</code>.
+            It includes a CLAUDE.md, skills, and project structure already set
+            up.
+          </p>
+          <p className="font-medium text-white/90">Install dependencies and launch Claude:</p>
+          <CodeBlock code={`npm install\ncam`} />
+          <Callout type="success" title="You'll know it worked when">
+            Claude launches in auto mode inside the starter pack folder. Ask
+            it &ldquo;what project am I in?&rdquo; and it should describe the
+            starter pack structure.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 6: The Workflow ═══ */}
+        <StepCard stepNumber={6} title="The Workflow" id="step-6" time="Read: 3 min">
           <p>
             Instead of just chatting with Claude and hoping for the best, these
-            five commands give your conversations structure. Think of them like
+            commands give your conversations structure. Think of them like
             meeting agendas — they keep the AI focused on the right thing at the
             right time.
           </p>
@@ -242,6 +265,12 @@ export function SetupGuide() {
 
           <div className="grid gap-3 sm:grid-cols-2">
             {[
+              {
+                cmd: "/workflow",
+                label: "Full Cycle",
+                desc: "Run the complete workflow — brainstorm, plan, build, review, and document in sequence.",
+                icon: RefreshCw,
+              },
               {
                 cmd: "/brainstorm",
                 label: "Explore",
@@ -255,7 +284,7 @@ export function SetupGuide() {
                 icon: FileCode,
               },
               {
-                cmd: "/work",
+                cmd: "/build",
                 label: "Build",
                 desc: "Actually build the feature, writing tests along the way.",
                 icon: Zap,
@@ -264,7 +293,7 @@ export function SetupGuide() {
                 cmd: "/review",
                 label: "Review",
                 desc: "Check the finished code for bugs, security issues, and quality.",
-                icon: RefreshCw,
+                icon: Search,
               },
               {
                 cmd: "/compound",
@@ -290,10 +319,11 @@ export function SetupGuide() {
           </div>
 
           <Callout type="tip">
-            You don&apos;t always use all 5. Quick fixes might just
-            be <code className="text-purple-300">/work</code>. Big features
-            start with <code className="text-purple-300">/brainstorm</code>.
-            Most of the time you&apos;ll use 2-3.
+            You don&apos;t always use all 6. Quick fixes might just
+            be <code className="text-purple-300">/build</code>. Big features
+            start with <code className="text-purple-300">/brainstorm</code>.{" "}
+            <code className="text-purple-300">/workflow</code> runs the full
+            cycle end-to-end.
           </Callout>
           <Callout type="success" title="You'll know it worked when">
             Inside a Claude session, type{" "}
@@ -303,104 +333,41 @@ export function SetupGuide() {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 6: Skills & Plugins ═══ */}
-        <StepCard stepNumber={6} title="Skills & Plugins" id="step-6" time="Read: 3 min">
+        {/* ═══ STEP 7: Skills & Sage ═══ */}
+        <StepCard stepNumber={7} title="Skills & Sage" id="step-7" time="5 min">
           <p>
             Skills are instruction sets that make Claude an expert at specific
             tasks. Instead of explaining how you want something done every time,
-            the skill handles it. They live in a{" "}
-            <code className="rounded bg-white/10 px-1.5 py-0.5 text-purple-300">
-              .claude/skills/
-            </code>{" "}
-            folder inside the project — when you clone a project that has them,
-            Claude loads them automatically.
+            the skill handles it. We&apos;ll install three skill packs:
           </p>
 
-          <p className="font-medium text-white/90">Key project skills:</p>
-          <div className="space-y-2">
-            {[
-              { name: "smart-clarifier", desc: "Asks 1-7 questions before building to make sure Claude understands what you want" },
-              { name: "feature-builder", desc: "Plans the full architecture of a new feature before writing code" },
-              { name: "tdd-workflow", desc: "Writes a failing test first, then writes code to make it pass — catches bugs early" },
-              { name: "code-reviewer", desc: "Reviews code for security holes, bugs, and quality issues before you ship" },
-              { name: "ui-developer", desc: "Builds interfaces that look polished and work on mobile" },
-            ].map(({ name, desc }) => (
-              <div key={name} className="rounded-lg border border-white/[0.06] bg-white/[0.03] px-4 py-2.5">
-                <code className="text-xs font-semibold text-purple-300">{name}</code>
-                <p className="mt-0.5 text-xs text-white/50">{desc}</p>
-              </div>
-            ))}
-          </div>
-          <p className="text-white/40 text-xs">
-            Plus 11 more project skills and a frontend-design plugin. Claude
-            picks the right one automatically based on what you ask.
-          </p>
-
-          <p className="mt-2 font-medium text-white/90">40+ PM skills (by category):</p>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {[
-              { category: "Discovery", icon: Search, skills: "brainstorm, interview, prioritize, assumption mapping, experiments" },
-              { category: "Strategy", icon: TrendingUp, skills: "pricing, business model, SWOT, competitive analysis, vision" },
-              { category: "Execution", icon: Zap, skills: "PRDs, user stories, sprint planning, OKRs, stakeholder mapping" },
-              { category: "Go-to-Market", icon: Rocket, skills: "launch plans, battlecards, growth loops, ideal customer profiles" },
-              { category: "Marketing", icon: Megaphone, skills: "positioning, North Star metrics, value propositions, naming" },
-              { category: "Toolkit", icon: Wrench, skills: "resume review, NDAs, privacy policies, grammar checking" },
-            ].map(({ category, icon: Icon, skills }) => (
-              <div key={category} className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-3">
-                <div className="mb-1 flex items-center gap-2">
-                  <Icon className="h-3.5 w-3.5 text-orange-400" />
-                  <span className="text-xs font-semibold text-white/80">{category}</span>
-                </div>
-                <p className="text-[11px] text-white/40">{skills}</p>
-              </div>
-            ))}
-          </div>
-          <Callout type="success" title="You'll know it worked when">
-            Ask Claude to build a feature. In its response, you&apos;ll see it
-            mention activating skills like &ldquo;smart-clarifier&rdquo; or
-            &ldquo;feature-builder&rdquo; — that means they&apos;re loaded and
-            working.
-          </Callout>
-        </StepCard>
-
-        {/* ═══ STEP 7: MCP Servers ═══ */}
-        <StepCard stepNumber={7} title="MCP Connections" id="step-7" time="Read: 2 min">
-          <p>
-            Imagine Claude could search your Slack messages, check your
-            calendar, or read a Notion page — without you copy-pasting anything.
-            MCP connections (think of them like plugins that connect Claude to
-            your work tools) make that possible.
-          </p>
+          <p className="font-medium text-white/90">1. CampMinder Product Toolkit (includes Sage):</p>
+          <CodeBlock code={`cd ~/AI\ngit clone https://github.com/campminder/cm-product-toolkit.git`} />
           <p className="text-white/50 text-xs">
-            These are configured in the Claude desktop app or your Claude Code
-            settings — no terminal commands needed. We&apos;ll set them up
-            together in your first working session.
+            This includes <strong className="text-white/70">Sage</strong> — our
+            product coaching AI. Type{" "}
+            <code className="text-purple-300">/sage</code> or say &ldquo;coach
+            me&rdquo; to get product coaching on discovery, delivery, OKRs,
+            JTBD, bets, and prioritization.
           </p>
 
-          <div className="grid gap-3 sm:grid-cols-2">
-            {[
-              { name: "Notion", desc: "Read and write Notion pages, databases, and blocks.", icon: BookOpen },
-              { name: "Slack", desc: "Search channels, read threads, send messages.", icon: MessageSquare },
-              { name: "Gmail", desc: "Search emails, read threads, create drafts.", icon: Mail },
-              { name: "Google Calendar", desc: "List events, find free time, create meetings.", icon: Calendar },
-              { name: "Granola", desc: "Query meeting transcripts and notes.", icon: Mic },
-              { name: "Chrome Automation", desc: "Navigate websites, click buttons, fill forms — hands-free.", icon: MonitorSmartphone },
-              { name: "shadcn/ui", desc: "Look up UI components and get code examples.", icon: Palette },
-              { name: "Context7", desc: "Fetch up-to-date documentation for any library.", icon: BookOpen },
-            ].map(({ name, desc, icon: Icon }) => (
-              <div key={name} className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
-                <div className="mb-1.5 flex items-center gap-2">
-                  <Icon className="h-4 w-4 text-purple-400" />
-                  <span className="text-sm font-medium text-white/90">{name}</span>
-                </div>
-                <p className="text-xs text-white/50">{desc}</p>
-              </div>
-            ))}
-          </div>
+          <p className="font-medium text-white/90">2. PM Skills (40+ product management skills):</p>
+          <CodeBlock code="git clone https://github.com/phuryn/pm-skills.git" />
+          <p className="text-white/50 text-xs">
+            Covers discovery, strategy, execution, go-to-market, and marketing.
+            PRDs, user stories, sprint planning, competitive analysis, pricing
+            strategies, and more.
+          </p>
+
+          <Callout type="info">
+            The Vibe Code Starter Pack (Step 5) already has its own built-in
+            skills. These repos give you additional capabilities you can use
+            across any project.
+          </Callout>
           <Callout type="success" title="You'll know it worked when">
-            Ask Claude &ldquo;what MCP tools do you have access to?&rdquo; and
-            it lists the connected services. Or try &ldquo;search my Slack for
-            messages about the launch&rdquo; and see it pull real results.
+            Open Claude in the cm-product-toolkit folder and type{" "}
+            <code className="text-emerald-300">/sage</code>. Sage should
+            respond as your product coach.
           </Callout>
         </StepCard>
 
@@ -700,6 +667,30 @@ npm install && npm run dev
             <code className="text-purple-300">brew install --cask cmux</code> or{" "}
             <code className="text-purple-300">brew install node</code>.
           </Callout>
+        </div>
+
+        {/* ═══ POST-MEETING: MCP Connections ═══ */}
+        <div className="mt-8 rounded-2xl border border-white/[0.08] bg-white/[0.04] p-6 sm:p-8">
+          <h2 className="mb-1 text-base font-semibold text-white">
+            After the session: connect your tools with MCP
+          </h2>
+          <p className="mb-4 text-sm text-white/60">
+            MCP connections let Claude search your Slack, check your calendar,
+            read Notion pages, and more — without you copy-pasting anything.
+            Type{" "}
+            <code className="rounded bg-white/10 px-1.5 py-0.5 text-purple-300">/mcp</code>{" "}
+            inside a Claude session to start connecting your tools one at a time.
+          </p>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {[
+              "Notion", "Slack", "Gmail", "Google Calendar",
+              "Granola", "Chrome Automation", "shadcn/ui", "Context7",
+            ].map((name) => (
+              <div key={name} className="rounded-lg border border-white/[0.06] bg-white/[0.03] px-3 py-2">
+                <span className="text-xs text-white/60">{name}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
