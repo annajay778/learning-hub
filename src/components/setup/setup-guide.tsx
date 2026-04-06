@@ -266,37 +266,31 @@ export function SetupGuide() {
           <div className="grid gap-3 sm:grid-cols-2">
             {[
               {
-                cmd: "/workflow",
-                label: "Full Cycle",
-                desc: "Run the complete workflow — brainstorm, plan, build, review, and document in sequence.",
-                icon: RefreshCw,
-              },
-              {
-                cmd: "/brainstorm",
+                cmd: "/workflow-brainstorm",
                 label: "Explore",
                 desc: "Ask questions to understand what you're building before jumping in.",
                 icon: Search,
               },
               {
-                cmd: "/plan",
+                cmd: "/workflow-plan",
                 label: "Design",
                 desc: "Break the work into steps and decide how to build it.",
                 icon: FileCode,
               },
               {
-                cmd: "/build",
+                cmd: "/workflow-work",
                 label: "Build",
                 desc: "Actually build the feature, writing tests along the way.",
                 icon: Zap,
               },
               {
-                cmd: "/review",
+                cmd: "/workflow-review",
                 label: "Review",
                 desc: "Check the finished code for bugs, security issues, and quality.",
-                icon: Search,
+                icon: RefreshCw,
               },
               {
-                cmd: "/compound",
+                cmd: "/workflow-compound",
                 label: "Document",
                 desc: "Write down what you learned so Claude remembers it next time.",
                 icon: BookOpen,
@@ -319,17 +313,16 @@ export function SetupGuide() {
           </div>
 
           <Callout type="tip">
-            You don&apos;t always use all 6. Quick fixes might just
-            be <code className="text-purple-300">/build</code>. Big features
-            start with <code className="text-purple-300">/brainstorm</code>.{" "}
-            <code className="text-purple-300">/workflow</code> runs the full
-            cycle end-to-end.
+            You don&apos;t always use all 5. Quick fixes might just
+            be <code className="text-purple-300">/workflow-work</code>. Big features
+            start with <code className="text-purple-300">/workflow-brainstorm</code>.
+            Most of the time you&apos;ll use 2-3.
           </Callout>
           <Callout type="success" title="You'll know it worked when">
             Inside a Claude session, type{" "}
-            <code className="text-emerald-300">/brainstorm</code> and press
-            Enter. Claude should ask you a structured set of questions about
-            what you want to build.
+            <code className="text-emerald-300">/workflow-brainstorm</code> and
+            press Enter. Claude should ask you a structured set of questions
+            about what you want to build.
           </Callout>
         </StepCard>
 
