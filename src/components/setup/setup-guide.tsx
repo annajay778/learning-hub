@@ -173,8 +173,8 @@ export function SetupGuide() {
             Claude reads every file in the folder where you launch it. In the
             future, always navigate to your project folder first (e.g.,{" "}
             <code className="text-purple-300">cd ~/AI/my-project</code>) before
-            running <code className="text-purple-300">claude</code>. For today
-            we&apos;ll keep moving forward.
+            running <code className="text-purple-300">claude</code>. Let&apos;s
+            move onto the next step and get this done.
           </Callout>
         </StepCard>
 
