@@ -734,7 +734,7 @@ export function SetupGuide() {
           <div className="grid gap-2 sm:grid-cols-2">
             {[
               "Notion", "Slack", "Gmail", "Google Calendar",
-              "Granola", "Chrome Automation", "shadcn/ui", "Context7",
+              "Pendo", "Chrome Automation", "Azure DevOps", "Context7",
             ].map((name) => (
               <div key={name} className="rounded-lg border border-white/[0.06] bg-white/[0.03] px-3 py-2">
                 <span className="text-xs text-white/60">{name}</span>
