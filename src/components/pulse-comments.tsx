@@ -10,6 +10,7 @@ import { MessageSquare, Plus, X, ChevronDown, ChevronUp, Trash2 } from "lucide-r
 interface Comment {
   id: string;
   dayKey: string;
+  weekStart: string | null;
   body: string;
   author: string;
   createdAt: Date;
@@ -17,9 +18,11 @@ interface Comment {
 
 export function PulseComments({
   dayKey,
+  weekStart,
   comments,
 }: {
   dayKey: string;
+  weekStart: string;
   comments: Comment[];
 }) {
   const [expanded, setExpanded] = useState(comments.length > 0);
@@ -30,6 +33,7 @@ export function PulseComments({
   async function handleSubmit(formData: FormData) {
     setSubmitting(true);
     formData.set("dayKey", dayKey);
+    formData.set("weekStart", weekStart);
     await createPulseComment(formData);
     formRef.current?.reset();
     setSubmitting(false);

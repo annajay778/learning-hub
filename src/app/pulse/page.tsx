@@ -244,8 +244,9 @@ export default async function PulsePage() {
                     </div>
                     <PulseComments
                       dayKey={day.name.toLowerCase()}
+                      weekStart={plan.weekStart}
                       comments={allComments.filter(
-                        (c) => c.dayKey === day.name.toLowerCase()
+                        (c) => c.dayKey === day.name.toLowerCase() && c.weekStart === plan.weekStart
                       )}
                     />
                   </CardContent>

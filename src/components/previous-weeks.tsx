@@ -24,6 +24,7 @@ interface WeekPlan {
 interface Comment {
   id: string;
   dayKey: string;
+  weekStart: string | null;
   body: string;
   author: string;
   createdAt: Date;
@@ -78,8 +79,9 @@ export function PreviousWeeks({
                     </div>
                     <PulseComments
                       dayKey={day.name.toLowerCase()}
+                      weekStart={week.weekStart}
                       comments={comments.filter(
-                        (c) => c.dayKey === day.name.toLowerCase()
+                        (c) => c.dayKey === day.name.toLowerCase() && c.weekStart === week.weekStart
                       )}
                     />
                   </CardContent>

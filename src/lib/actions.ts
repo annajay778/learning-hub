@@ -413,6 +413,7 @@ export async function getPulseComments() {
 
 export async function createPulseComment(formData: FormData) {
   const dayKey = formData.get("dayKey") as string;
+  const weekStart = formData.get("weekStart") as string;
   const body = formData.get("body") as string;
   const author = formData.get("author") as string;
 
@@ -422,6 +423,7 @@ export async function createPulseComment(formData: FormData) {
 
   await db.insert(lhPulseComments).values({
     dayKey,
+    weekStart: weekStart || null,
     body: body.trim(),
     author: author.trim(),
   });

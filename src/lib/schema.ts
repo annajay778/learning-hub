@@ -112,6 +112,7 @@ export const lhBraindump = pgTable("lh_braindump", {
 export const lhPulseComments = pgTable("lh_pulse_comments", {
   id: uuid("id").defaultRandom().primaryKey(),
   dayKey: text("day_key").notNull(),
+  weekStart: text("week_start"),
   body: text("body").notNull(),
   author: text("author").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
