@@ -36,7 +36,7 @@ export function SetupHero() {
       <p className="mb-5 text-sm text-white/50">
         Already have Claude in your terminal?{" "}
         <button
-          onClick={() => scrollTo("step-5")}
+          onClick={() => scrollTo("step-4")}
           className="text-purple-400 underline decoration-purple-400/30 underline-offset-2 hover:decoration-purple-400"
         >
           Skip ahead

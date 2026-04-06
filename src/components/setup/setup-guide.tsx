@@ -25,7 +25,7 @@ import {
   PartyPopper,
 } from "lucide-react";
 
-const TOTAL_STEPS = 13;
+const TOTAL_STEPS = 12;
 
 export function SetupGuide() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -77,23 +77,21 @@ export function SetupGuide() {
             side, and sends you a notification when Claude finishes a long task
             so you don&apos;t have to babysit.
           </p>
-          <Callout type="info">
-            This command uses Homebrew (Step 2). If you don&apos;t have Homebrew
-            yet, skip this command and{" "}
+          <p className="font-medium text-white/90">Download and install:</p>
+          <p>
             <a
               href="https://github.com/manaflow-ai/cmux/releases"
               target="_blank"
               rel="noopener noreferrer"
               className="text-purple-400 underline decoration-purple-400/30 underline-offset-2 hover:decoration-purple-400"
             >
-              download the DMG directly
-            </a>{" "}
-            instead. You can come back and install via Homebrew later.
-          </Callout>
-          <CodeBlock code="brew install --cask cmux" />
+              Download the DMG from GitHub &rarr;
+            </a>
+          </p>
           <p className="text-white/50 text-xs">
-            The <code className="text-purple-300">--cask</code> flag tells
-            Homebrew this is a desktop app (not a command-line tool).
+            Open the DMG file and drag cmux into your Applications folder.
+            If you have Homebrew, you can also run{" "}
+            <code className="text-purple-300">brew install --cask cmux</code>.
           </p>
           <Callout type="success" title="You'll know it worked when">
             Open cmux from your Applications folder. You should see a terminal
@@ -101,45 +99,8 @@ export function SetupGuide() {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 2: Homebrew ═══ */}
-        <StepCard stepNumber={2} title="Homebrew" id="step-2" time="1–20 min">
-          <p>
-            Think of Homebrew as an App Store for developer tools. Instead of
-            downloading installers from websites, you type one command and
-            Homebrew handles the rest. Nearly every tool in this guide is
-            installed through it.
-          </p>
-          <p className="font-medium text-white/90">Check if you already have it:</p>
-          <CodeBlock code="brew --version" />
-          <p>
-            If you see a version number (like{" "}
-            <code className="rounded bg-white/10 px-1.5 py-0.5 text-emerald-400">Homebrew 5.1.3</code>),
-            you&apos;re good — skip to Step 3. If you see{" "}
-            <code className="rounded bg-white/10 px-1.5 py-0.5 text-red-400">command not found</code>,
-            install it:
-          </p>
-          <CodeBlock
-            code={`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`}
-          />
-          <p className="text-white/50 text-xs">
-            This is a long command, but you just paste it into your terminal and
-            press Enter. It will ask for your Mac password — you won&apos;t see
-            characters as you type, that&apos;s normal.
-          </p>
-          <Callout type="success" title="You'll know it worked when">
-            Running <code className="text-emerald-300">brew --version</code>{" "}
-            prints a version number instead of &ldquo;command not found.&rdquo;
-          </Callout>
-          <Callout type="warning">
-            On a brand-new Mac, Apple will pop up a window asking you to install
-            &ldquo;Command Line Developer Tools&rdquo; — a one-time download.
-            Click <strong className="text-white">Install</strong> and wait
-            15-20 minutes. This only happens once.
-          </Callout>
-        </StepCard>
-
-        {/* ═══ STEP 3: Node.js ═══ */}
-        <StepCard stepNumber={3} title="Node.js" id="step-3" time="1 min">
+        {/* ═══ STEP 2: Node.js ═══ */}
+        <StepCard stepNumber={2} title="Node.js" id="step-2" time="1 min">
           <p>
             Node.js is the engine that makes Claude Code and all our web
             projects run. You won&apos;t interact with it directly — it just
@@ -150,9 +111,23 @@ export function SetupGuide() {
           <p>
             If you see{" "}
             <code className="rounded bg-white/10 px-1.5 py-0.5 text-emerald-400">v20</code>{" "}
-            or higher (e.g., v22.14.0 or v24.13.0), skip to Step 4. Otherwise:
+            or higher (e.g., v22.14.0 or v24.13.0), skip to Step 3. Otherwise:
+          </p>
+          <p>
+            If you have Homebrew installed:
           </p>
           <CodeBlock code="brew install node" />
+          <p>
+            Or{" "}
+            <a
+              href="https://nodejs.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-purple-400 underline decoration-purple-400/30 underline-offset-2 hover:decoration-purple-400"
+            >
+              download the installer from nodejs.org &rarr;
+            </a>
+          </p>
           <Callout type="success" title="You'll know it worked when">
             <code className="text-emerald-300">node -v</code> prints a version
             number like <code className="text-emerald-300">v22.14.0</code>, and{" "}
@@ -161,8 +136,8 @@ export function SetupGuide() {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 4: Claude Code ═══ */}
-        <StepCard stepNumber={4} title="Claude Code" id="step-4" time="2 min">
+        {/* ═══ STEP 3: Claude Code ═══ */}
+        <StepCard stepNumber={3} title="Claude Code" id="step-3" time="2 min">
           <p>
             This is the AI that writes code, runs commands, and builds features
             with you. You talk to it in plain English inside your terminal, and
@@ -202,81 +177,57 @@ export function SetupGuide() {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 5: Your Workspace ═══ */}
-        <StepCard stepNumber={5} title="Your Workspace" id="step-5" time="5 min">
+        {/* ═══ STEP 4: Your Workspace ═══ */}
+        <StepCard stepNumber={4} title="Your Workspace" id="step-4" time="2 min">
           <p>
-            A dedicated folder keeps your AI projects organized. Shortcuts
-            (called &ldquo;aliases&rdquo;) let you type{" "}
-            <code className="rounded bg-white/10 px-1.5 py-0.5 text-purple-300">cc</code>{" "}
-            instead of <code className="text-purple-300">claude</code> every
-            time — small thing, but you&apos;ll use it dozens of times a day.
+            A dedicated folder keeps your AI projects organized, and one
+            shortcut gets you into Claude with auto mode on — meaning Claude
+            acts autonomously instead of asking permission for every step.
           </p>
-
-          <Callout type="claude" title="Easiest path: let Claude do this for you">
-            Open Claude Code and say: &ldquo;Create a ~/AI directory, add
-            aliases cc, ccr, and ccp to my .zshrc, and create
-            .claude/settings.json with the frontend-design plugin enabled.
-            Explain what each one does.&rdquo; Claude will set everything up
-            and walk you through it.
-          </Callout>
-
-          <p className="font-medium text-white/90">Or do it manually:</p>
 
           <p>
             <strong className="text-white/80">1. Create your workspace folder:</strong>
           </p>
-          <CodeBlock code={`mkdir -p ~/AI\ncd ~/AI`} />
+          <CodeBlock code="mkdir -p ~/AI" />
           <p className="text-white/50 text-xs">
             This creates a folder called &ldquo;AI&rdquo; in your home
             directory. All your projects will live here.
           </p>
 
           <p>
-            <strong className="text-white/80">2. Add shortcuts to your shell config:</strong>
+            <strong className="text-white/80">2. Add the CAM shortcut:</strong>
           </p>
           <p className="text-white/50 text-xs">
             Your Mac has a hidden settings file called{" "}
             <code className="text-purple-300">~/.zshrc</code> that runs every
-            time you open a terminal. We&apos;ll add three shortcuts to it.
-            Open it by running:
+            time you open a terminal. Open it:
           </p>
           <CodeBlock code="open -a TextEdit ~/.zshrc" />
           <p className="text-white/50 text-xs">
-            Add these three lines at the bottom of the file, then save and
-            close TextEdit:
+            Add this line at the bottom of the file, then save and close:
           </p>
           <CodeBlock
-            code={`alias cc="claude"          # Launch Claude Code\nalias ccr="claude --resume"  # Resume your last conversation\nalias ccp="claude --plan"    # Start in planning mode`}
+            code={`alias cam="claude --permission-mode auto"  # Claude Auto Mode`}
           />
           <p>Then reload your terminal settings:</p>
           <CodeBlock code="source ~/.zshrc" />
 
-          <p>
-            <strong className="text-white/80">3. Enable the design plugin:</strong>
-          </p>
-          <p className="text-white/50 text-xs">
-            This plugin makes Claude better at building good-looking interfaces.
-            Create this file inside your project&apos;s{" "}
-            <code className="text-purple-300">.claude/</code> folder:
-          </p>
-          <CodeBlock
-            filename=".claude/settings.json"
-            code={`{
-  "enabledPlugins": {
-    "frontend-design@claude-plugins-official": true
-  }
-}`}
-          />
+          <Callout type="info">
+            <strong className="text-white/90">CAM</strong> = Claude Auto Mode.
+            When you type <code className="text-purple-300">cam</code>, Claude
+            launches and handles file edits, commands, and tool calls without
+            stopping to ask. Navigate to your project folder first, then
+            type <code className="text-purple-300">cam</code>.
+          </Callout>
           <Callout type="success" title="You'll know it worked when">
-            Type <code className="text-emerald-300">cc</code> in your terminal
-            and Claude Code launches. Type{" "}
-            <code className="text-emerald-300">ccr</code> and it resumes your
-            last session.
+            <code className="text-emerald-300">cd ~/AI && cam</code> launches
+            Claude in auto mode. You&apos;ll see it start working without
+            permission prompts.
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 6: The Workflow ═══ */}
-        <StepCard stepNumber={6} title="The Workflow" id="step-6" time="Read: 3 min">
+        {/* ═══ STEP 5: The Workflow ═══ */}
+        <StepCard stepNumber={5} title="The Workflow" id="step-5" time="Read: 3 min">
           <p>
             Instead of just chatting with Claude and hoping for the best, these
             five commands give your conversations structure. Think of them like
@@ -351,8 +302,8 @@ export function SetupGuide() {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 7: Skills & Plugins ═══ */}
-        <StepCard stepNumber={7} title="Skills & Plugins" id="step-7" time="Read: 3 min">
+        {/* ═══ STEP 6: Skills & Plugins ═══ */}
+        <StepCard stepNumber={6} title="Skills & Plugins" id="step-6" time="Read: 3 min">
           <p>
             Skills are instruction sets that make Claude an expert at specific
             tasks. Instead of explaining how you want something done every time,
@@ -411,8 +362,8 @@ export function SetupGuide() {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 8: MCP Servers ═══ */}
-        <StepCard stepNumber={8} title="MCP Connections" id="step-8" time="Read: 2 min">
+        {/* ═══ STEP 7: MCP Servers ═══ */}
+        <StepCard stepNumber={7} title="MCP Connections" id="step-7" time="Read: 2 min">
           <p>
             Imagine Claude could search your Slack messages, check your
             calendar, or read a Notion page — without you copy-pasting anything.
@@ -452,8 +403,8 @@ export function SetupGuide() {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 9: Voice Mode ═══ */}
-        <StepCard stepNumber={9} title="Voice Mode" id="step-9" time="30 sec">
+        {/* ═══ STEP 8: Voice Mode ═══ */}
+        <StepCard stepNumber={8} title="Voice Mode" id="step-8" time="30 sec">
           <p>
             Press and hold the <strong className="text-white">spacebar</strong>{" "}
             to talk to Claude. Release to send. It&apos;s like having a
@@ -486,8 +437,8 @@ export function SetupGuide() {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 10: GitHub ═══ */}
-        <StepCard stepNumber={10} title="GitHub" id="step-10" time="3 min">
+        {/* ═══ STEP 9: GitHub ═══ */}
+        <StepCard stepNumber={9} title="GitHub" id="step-9" time="3 min">
           <p>
             GitHub is where your code lives online. Think of it as Google Docs
             for code — it tracks every change, lets you undo mistakes, and
@@ -539,8 +490,8 @@ export function SetupGuide() {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 11: Vercel ═══ */}
-        <StepCard stepNumber={11} title="Vercel" id="step-11" time="2 min">
+        {/* ═══ STEP 10: Vercel ═══ */}
+        <StepCard stepNumber={10} title="Vercel" id="step-10" time="2 min">
           <p>
             Vercel takes your code and puts it on the internet. When you push
             changes to GitHub, Vercel automatically updates the live site within
@@ -564,8 +515,8 @@ export function SetupGuide() {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 12: Neon + Drizzle ═══ */}
-        <StepCard stepNumber={12} title="Neon + Drizzle" id="step-12" time="10 min">
+        {/* ═══ STEP 11: Neon + Drizzle ═══ */}
+        <StepCard stepNumber={11} title="Neon + Drizzle" id="step-11" time="10 min">
           <p>
             Every app needs a place to store data (users, settings, messages).
             That&apos;s what a database is. <strong className="text-white/90">Neon</strong>{" "}
@@ -625,8 +576,8 @@ export function SetupGuide() {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 13: Project Config ═══ */}
-        <StepCard stepNumber={13} title="Project Config — The Secret Sauce" id="step-13" time="30 min (worth every minute)">
+        {/* ═══ STEP 12: Project Config ═══ */}
+        <StepCard stepNumber={12} title="Project Config — The Secret Sauce" id="step-12" time="30 min (worth every minute)">
           <p>
             Two files that teach Claude how your project works. Without them,
             Claude starts every conversation from scratch. With them, it already
@@ -705,13 +656,49 @@ npm install && npm run dev
           </h2>
           <p className="mb-4 text-sm text-white/60">
             Open cmux, navigate to a project folder, type{" "}
-            <code className="rounded bg-white/10 px-1.5 py-0.5 text-purple-300">cc</code>,
+            <code className="rounded bg-white/10 px-1.5 py-0.5 text-purple-300">cam</code>,
             and say: &ldquo;Hello — what can you help me build?&rdquo;
           </p>
           <p className="text-xs text-white/40">
             From here, the workflow is: describe what you want, Claude builds
             it, you iterate together.
           </p>
+        </div>
+
+        {/* ═══ POST-MEETING: Homebrew ═══ */}
+        <div className="mt-12 rounded-2xl border border-white/[0.08] bg-white/[0.04] p-6 sm:p-8">
+          <h2 className="mb-1 text-base font-semibold text-white">
+            After the session: install Homebrew
+          </h2>
+          <p className="mb-4 text-sm text-white/60">
+            Homebrew is an App Store for developer tools. You type one command
+            and it handles the rest. The initial install can take 15-20 minutes
+            on a fresh Mac (Apple needs to download Command Line Tools), so
+            do this when you have a few minutes.
+          </p>
+          <p className="font-medium text-sm text-white/90">Check if you already have it:</p>
+          <CodeBlock code="brew --version" />
+          <p className="text-sm text-white/70">
+            If you see a version number, you&apos;re done. If you see{" "}
+            <code className="rounded bg-white/10 px-1.5 py-0.5 text-red-400">command not found</code>,
+            install it:
+          </p>
+          <CodeBlock
+            code={`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`}
+          />
+          <p className="text-white/50 text-xs">
+            Paste this into your terminal and press Enter. It will ask for your
+            Mac password — you won&apos;t see characters as you type,
+            that&apos;s normal. If Apple prompts you to install Command Line
+            Developer Tools, click Install and wait.
+          </p>
+          <Callout type="info">
+            Once Homebrew is installed, you can use{" "}
+            <code className="text-purple-300">brew install</code> to quickly
+            add tools. For example:{" "}
+            <code className="text-purple-300">brew install --cask cmux</code> or{" "}
+            <code className="text-purple-300">brew install node</code>.
+          </Callout>
         </div>
       </div>
 

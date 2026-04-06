@@ -4,7 +4,6 @@ import Link from "next/link";
 
 const STEP_LABELS = [
   "cmux",
-  "Homebrew",
   "Node.js",
   "Claude Code",
   "Workspace",
