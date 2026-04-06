@@ -57,21 +57,13 @@ export function SetupGuide() {
 
       {/* Prerequisites */}
       <div id="step-1-prereq" className="scroll-mt-20 mx-auto max-w-3xl px-4 pb-6 pt-12 sm:px-6">
-        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] p-6 sm:p-8">
-          <h2 className="mb-3 text-base font-semibold text-white">Before you start</h2>
-          <p className="mb-4 text-sm text-white/60">
-            You&apos;ll need a Mac, an internet connection, and about 45-60
-            minutes. You&apos;ll also need two accounts — create them now if
-            you don&apos;t have them:
+        <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.04] p-6 sm:p-8">
+          <h2 className="mb-3 text-base font-semibold text-white">You&apos;re all set</h2>
+          <p className="text-sm text-white/60">
+            Your GitHub, Vercel, and Anthropic accounts have already been
+            created by the platform team. You just need a Mac and an internet
+            connection.
           </p>
-          <div className="grid gap-2 sm:grid-cols-2">
-            <a href="https://github.com/signup" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.03] px-4 py-2.5 text-sm text-purple-400 transition-colors hover:bg-white/[0.06]">
-              Create a GitHub account &rarr;
-            </a>
-            <a href="https://console.anthropic.com/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.03] px-4 py-2.5 text-sm text-purple-400 transition-colors hover:bg-white/[0.06]">
-              Create an Anthropic account &rarr;
-            </a>
-          </div>
         </div>
       </div>
 
@@ -717,8 +709,8 @@ npm install && npm run dev
             and say: &ldquo;Hello — what can you help me build?&rdquo;
           </p>
           <p className="text-xs text-white/40">
-            Total setup time: ~45 minutes for a fresh Mac, ~15 minutes if you
-            already had Homebrew and Node.
+            From here, the workflow is: describe what you want, Claude builds
+            it, you iterate together.
           </p>
         </div>
       </div>

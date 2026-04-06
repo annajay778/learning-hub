@@ -22,16 +22,14 @@ export function SetupHero() {
         Setup Guide
       </h1>
       <p className="mb-6 max-w-lg text-base text-white/50 sm:text-lg">
-        Everything you need to start building with Claude Code — from zero to
-        your first working prototype.
+        Claude Code is an AI that builds alongside you in the terminal.
+        You describe what you want, it writes the code.
       </p>
 
-      {/* Normalizing the terminal */}
       <p className="mb-10 max-w-md text-sm leading-relaxed text-white/40">
-        If you&apos;ve never opened a terminal before, you&apos;re in good
-        company. It&apos;s just a text box where you type instead of click.
-        Claude Code lives there — you talk to it in plain English, and it
-        does the technical work.
+        The terminal is a text-based interface — you type commands instead of
+        clicking buttons. This guide walks through every step from first
+        launch to first prototype.
       </p>
 
       {/* Skip / Begin */}
