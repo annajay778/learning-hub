@@ -13,8 +13,7 @@ const STEP_LABELS = [
   "Voice",
   "GitHub",
   "Vercel",
-  "Neon + Drizzle",
-  "Project Config",
+  "First Prototype",
 ];
 
 interface SetupNavProps {

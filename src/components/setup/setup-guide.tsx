@@ -25,7 +25,7 @@ import {
   PartyPopper,
 } from "lucide-react";
 
-const TOTAL_STEPS = 12;
+const TOTAL_STEPS = 11;
 
 export function SetupGuide() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -496,136 +496,117 @@ export function SetupGuide() {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 11: Neon + Drizzle ═══ */}
-        <StepCard stepNumber={11} title="Neon + Drizzle" id="step-11" time="10 min">
+        {/* ═══ STEP 11: Your First Prototype ═══ */}
+        <StepCard stepNumber={11} title="Your First Prototype" id="step-11" time="28 min">
+          <p className="font-medium text-white/90 text-base">The exercise</p>
           <p>
-            Every app needs a place to store data (users, settings, messages).
-            That&apos;s what a database is. <strong className="text-white/90">Neon</strong>{" "}
-            gives you a cloud-hosted database that&apos;s free to start and
-            requires no server setup.{" "}
-            <strong className="text-white/90">Drizzle</strong> is the tool that
-            lets your code talk to the database in a type-safe way.
-          </p>
-          <p className="text-white/50 text-xs">
-            We chose Neon because it has a generous free tier, works perfectly
-            with Vercel, and takes under 60 seconds to create.
+            Give prompt guidance, not identical prompts. Each person writes
+            their own and observes how variation in description leads to
+            different results.
           </p>
 
-          <p className="font-medium text-white/90">1. Create a database:</p>
+          <div className="rounded-xl border border-purple-500/20 bg-purple-500/[0.06] p-5 space-y-3">
+            <p className="text-white/80">
+              Think of something small and concrete that relates to your product
+              area. Not a full feature — a single screen or interaction. Some
+              examples:
+            </p>
+            <ul className="space-y-1.5">
+              <li className="flex items-start gap-2">
+                <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-purple-400/60" />
+                A dashboard showing [your metric] with filters for [your segments]
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-purple-400/60" />
+                A form that collects [specific inputs] and shows a confirmation
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-purple-400/60" />
+                A simple table view of [data you work with] with sort and search
+              </li>
+            </ul>
+            <p className="text-white/60 text-xs">
+              If you need a starting point, here are a few real problems from Aha:
+            </p>
+            <ul className="space-y-1.5 text-xs text-white/50">
+              <li className="flex items-start gap-2">
+                <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-orange-400/60" />
+                Camps can&apos;t see which families on the waitlist are most
+                likely to convert, or quickly notify them when a spot opens
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-orange-400/60" />
+                Camp directors have no quick way to see which cabins are over or
+                under capacity across sessions
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-orange-400/60" />
+                Billing staff can&apos;t see at a glance which families have
+                outstanding balances, how overdue they are, and what the total
+                exposure is
+              </li>
+            </ul>
+            <p className="text-white/60 text-xs italic">
+              Describe it to Claude the way you&apos;d describe it to a smart
+              intern who&apos;s never seen Campminder. Be specific about what
+              data should appear. Use plain English.
+            </p>
+          </div>
+
+          <p className="font-medium text-white/90">1. Create your project folder:</p>
+          <p className="text-white/50 text-xs">
+            If you&apos;re inside a Claude session, type{" "}
+            <code className="text-purple-300">/exit</code> first.
+          </p>
+          <CodeBlock code={`cd ~/AI\nmkdir my-prototype\ncd my-prototype`} />
+          <p className="text-white/50 text-xs">
+            Replace <code className="text-purple-300">my-prototype</code> with
+            whatever name fits your idea (e.g.,{" "}
+            <code className="text-purple-300">waitlist-dashboard</code> or{" "}
+            <code className="text-purple-300">cabin-capacity</code>).
+          </p>
+
+          <p className="font-medium text-white/90">2. Create a GitHub repo and connect to Vercel:</p>
+          <p className="text-white/50 text-xs">
+            Launch Claude in your new folder and let it handle the setup:
+          </p>
+          <CodeBlock code="cam" />
+          <p>Then tell Claude:</p>
+          <CodeBlock code={`Initialize this as a Next.js project, create a GitHub repo for it, and connect it to Vercel so it auto-deploys on push.`} />
+
+          <p className="font-medium text-white/90">3. Set up Neon (your database):</p>
+          <p>Still inside Claude, say:</p>
+          <CodeBlock code={`Go to neon.tech and set me up a Neon database for this project. Walk me through the steps.`} />
+          <p className="text-white/50 text-xs">
+            Claude will guide you through creating a Neon project, copying the
+            connection string, and saving it in your{" "}
+            <code className="text-purple-300">.env.local</code> file.
+          </p>
+
+          <p className="font-medium text-white/90">4. Start building — brainstorm first, then build:</p>
+          <p className="text-white/50 text-xs">
+            Use{" "}
+            <code className="text-purple-300">/workflow-brainstorm</code> to
+            explore your idea, then bring in Sage for product coaching:
+          </p>
+          <CodeBlock code="/workflow-brainstorm" />
           <p>
-            Go to{" "}
-            <a href="https://neon.tech" target="_blank" rel="noopener noreferrer" className="text-purple-400 underline decoration-purple-400/30 underline-offset-2 hover:decoration-purple-400">
-              neon.tech
-            </a>
-            , sign up with your GitHub account, click{" "}
-            <strong className="text-white/90">New Project</strong>, give it any
-            name, and click <strong className="text-white/90">Create</strong>.
+            Describe your prototype idea. Claude will ask clarifying questions
+            to make sure it understands what you want. Then try:
           </p>
-
-          <p className="font-medium text-white/90">2. Copy the connection string:</p>
+          <CodeBlock code="/sage" />
           <p className="text-white/50 text-xs">
-            After creating the project, Neon shows you a &ldquo;connection
-            string&rdquo; — this is like a password that lets your app connect
-            to the database. Copy it.
+            Sage will coach you on the product angle — is this the right scope?
+            What&apos;s the job to be done? What should V1 actually include?
           </p>
-
-          <p className="font-medium text-white/90">3. Save it in your project:</p>
-          <p className="text-white/50 text-xs">
-            Create a file called <code className="text-purple-300">.env.local</code>{" "}
-            in your project&apos;s main folder (the one with{" "}
-            <code className="text-purple-300">package.json</code>). This is a
-            secret file that stays on your machine and never gets uploaded to
-            GitHub.
+          <p>
+            Once you&apos;re aligned on the direction, kick off the build:
           </p>
-          <CodeBlock
-            filename=".env.local"
-            code="DATABASE_URL=postgresql://user:pass@ep-xxx.us-east-2.aws.neon.tech/dbname?sslmode=require"
-          />
-          <p className="text-white/50 text-xs">
-            Replace this example with the connection string you copied from Neon.
-          </p>
+          <CodeBlock code="/workflow-work" />
 
           <Callout type="success" title="You'll know it worked when">
-            Run <code className="text-emerald-300">npm run db:studio</code> from
-            your project folder. A browser window opens showing your (empty)
-            database tables.
-          </Callout>
-          <Callout type="claude" title="Let Claude handle database changes">
-            Tell Claude &ldquo;add a new table for user preferences&rdquo; and
-            it updates the code, pushes the changes to your database, and
-            verifies everything worked — no SQL required.
-          </Callout>
-        </StepCard>
-
-        {/* ═══ STEP 12: Project Config ═══ */}
-        <StepCard stepNumber={12} title="Project Config — The Secret Sauce" id="step-12" time="30 min (worth every minute)">
-          <p>
-            Two files that teach Claude how your project works. Without them,
-            Claude starts every conversation from scratch. With them, it already
-            knows your commands, your patterns, and your rules.
-          </p>
-          <p className="text-white/50 text-xs">
-            Create these files in the top-level folder of your project (the same
-            folder that has <code className="text-purple-300">package.json</code>).
-          </p>
-
-          <p className="font-medium text-white/90">
-            <code className="rounded bg-white/10 px-1.5 py-0.5 text-purple-300">CLAUDE.md</code>{" "}
-            — instructions for Claude Code specifically:
-          </p>
-          <CodeBlock
-            filename="CLAUDE.md"
-            code={`# CLAUDE.md
-
-## Essential Commands
-- \`npm run dev\` — Start dev server
-- \`npm run build\` — Production build
-- \`npm run lint && npm run typecheck\` — Always run after changes
-
-## Key Patterns
-- [What patterns does your project follow?]
-
-## Rules
-- [What should Claude always/never do?]`}
-          />
-
-          <p className="font-medium text-white/90">
-            <code className="rounded bg-white/10 px-1.5 py-0.5 text-purple-300">AGENTS.md</code>{" "}
-            — instructions that work with any AI tool (Claude, Cursor, Copilot):
-          </p>
-          <CodeBlock
-            filename="AGENTS.md"
-            code={`# AGENTS.md
-
-## Project Overview
-- Framework: Next.js 15 App Router
-- Database: PostgreSQL + Drizzle ORM
-- UI: shadcn/ui + Tailwind CSS
-
-## Setup
-npm install && npm run dev
-
-## Principles
-1. Write tests before code
-2. Keep components simple
-3. Always validate user input`}
-          />
-
-          <Callout type="claude" title="Let Claude write the first draft">
-            This is the best use of Claude&apos;s abilities. Tell it:
-            &ldquo;Read through this entire codebase and write a CLAUDE.md and
-            AGENTS.md that captures the key patterns, commands, and rules.&rdquo;
-            Claude gets 80% right — you refine the last 20%.
-          </Callout>
-          <Callout type="success" title="You'll know it worked when">
-            Start a new Claude session in the project and ask &ldquo;what tech
-            stack does this project use?&rdquo; Claude should answer accurately
-            without reading any code — it learned from your AGENTS.md.
-          </Callout>
-          <Callout type="warning" title="This is the secret sauce">
-            A well-written CLAUDE.md means Claude understands your project from
-            the first message. Invest 30 minutes here — it pays back every
-            single session.
+            You have a running prototype on a live Vercel URL. Share it in
+            Slack.
           </Callout>
         </StepCard>
 
