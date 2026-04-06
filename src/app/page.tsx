@@ -105,24 +105,39 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Week 3 — current */}
-            <div className="rounded-lg border border-primary/30 bg-card p-3.5 ring-1 ring-primary/10">
+            {/* Week 3 */}
+            <div className="rounded-lg border border-border/50 bg-card p-3.5">
               <div className="flex items-start gap-3">
-                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[10px] font-bold text-emerald-700">
                   3
                 </span>
                 <div>
+                  <p className="text-sm font-medium">March 30 &ndash; April 3</p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
+                    Starting from scratch. Rebuilt both prototypes from the ground up.
+                    Challenged sunk cost fallacies. 3x client touchpoints.
+                    Framed agents, live guardrails, and governance gaps.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Week 4 — current */}
+            <div className="rounded-lg border border-primary/30 bg-card p-3.5 ring-1 ring-primary/10">
+              <div className="flex items-start gap-3">
+                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                  4
+                </span>
+                <div>
                   <div className="mb-1 flex items-center gap-2">
-                    <p className="text-sm font-medium">March 30 &ndash; April 3</p>
+                    <p className="text-sm font-medium">April 6 &ndash; 10</p>
                     <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-primary">
                       This week
                     </span>
                   </div>
                   <p className="text-xs leading-relaxed text-muted-foreground">
-                    Starting from scratch. Rebuilding from the ground up.
-                    Challenging sunk cost fallacies. Adding an extra day of client
-                    touchpoints &mdash; from 2x last week to 3x this week.
-                    Working towards showing the company.
+                    Getting prototypes into the hands of parents.
+                    Thursday &amp; Friday: attempting a full build of the Parent Handbook.
                   </p>
                   <p className="mt-1.5 text-[10px] italic text-muted-foreground/50">
                     More to come.
@@ -195,11 +210,11 @@ export default async function HomePage() {
                 <div className="space-y-3">
                   {(() => {
                     let lastWeekLabel = "";
+                    const WEEK1_START = new Date("2026-03-16T00:00:00");
                     return learnings.map((entry) => {
                       const d = new Date(entry.date + "T12:00:00");
-                      // Week 1 = Mar 16-20, Week 2 = Mar 23+
-                      const dayOfMonth = d.getDate();
-                      const weekLabel = dayOfMonth >= 23 ? "Week 2" : "Week 1";
+                      const weekNum = Math.floor((d.getTime() - WEEK1_START.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
+                      const weekLabel = `Week ${weekNum}`;
                       const showHeader = weekLabel !== lastWeekLabel;
                       lastWeekLabel = weekLabel;
 

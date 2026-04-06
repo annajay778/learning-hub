@@ -24,10 +24,20 @@ function extractWeekInfo(content: string) {
   const titleMatch = content.match(/^#\s+(.+)/m);
   const title = titleMatch ? titleMatch[1].trim() : "This Week";
 
-  // Extract week start date from title (first date mentioned)
-  const dateMatch = title.match(/March\s+(\d+)/);
-  const day = dateMatch ? dateMatch[1].padStart(2, "0") : "23";
-  const weekStart = `2026-03-${day}`;
+  // Parse the first "Month Day" from the title to build a real date
+  const months: Record<string, string> = {
+    January: "01", February: "02", March: "03", April: "04",
+    May: "05", June: "06", July: "07", August: "08",
+    September: "09", October: "10", November: "11", December: "12",
+  };
+  const dateMatch = title.match(
+    new RegExp(`(${Object.keys(months).join("|")})\\s+(\\d+)`)
+  );
+  const yearMatch = title.match(/(\d{4})/);
+  const year = yearMatch ? yearMatch[1] : "2026";
+  const month = dateMatch ? months[dateMatch[1]] : "03";
+  const day = dateMatch ? dateMatch[2].padStart(2, "0") : "16";
+  const weekStart = `${year}-${month}-${day}`;
 
   return { title, weekStart };
 }
