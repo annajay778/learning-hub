@@ -80,7 +80,7 @@ export function SetupGuide() {
           <p className="font-medium text-white/90">Download and install:</p>
           <p>
             <a
-              href="https://github.com/manaflow-ai/cmux/releases"
+              href="https://github.com/manaflow-ai/cmux/releases/latest/download/cmux-macos.dmg"
               target="_blank"
               rel="noopener noreferrer"
               className="text-purple-400 underline decoration-purple-400/30 underline-offset-2 hover:decoration-purple-400"
