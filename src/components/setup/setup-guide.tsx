@@ -365,11 +365,16 @@ export function SetupGuide() {
         </StepCard>
 
         {/* ═══ STEP 8: Voice Mode ═══ */}
-        <StepCard stepNumber={8} title="Voice Mode" id="step-8" time="30 sec">
+        <StepCard stepNumber={8} title="Voice Mode" id="step-8" time="1 min">
           <p>
-            Press and hold the <strong className="text-white">spacebar</strong>{" "}
-            to talk to Claude. Release to send. It&apos;s like having a
-            thinking partner you can talk to out loud.
+            Voice mode lets you talk to Claude instead of typing. Inside a
+            Claude session, type:
+          </p>
+          <CodeBlock code="/voice" />
+          <p>
+            Once enabled, hold the <strong className="text-white">spacebar</strong>{" "}
+            to record. Release to send. Claude transcribes your speech and
+            responds.
           </p>
           <p>Great for:</p>
           <ul className="list-inside space-y-1">
@@ -388,13 +393,15 @@ export function SetupGuide() {
             </li>
           </ul>
           <Callout type="success" title="You'll know it worked when">
-            Hold spacebar inside a Claude session — you&apos;ll see a recording
-            indicator. Release it and your spoken words appear as text input.
+            After typing <code className="text-emerald-300">/voice</code>,
+            hold spacebar — you&apos;ll see a recording indicator. Release it
+            and your spoken words appear as text input.
           </Callout>
           <Callout type="tip">
-            If the spacebar doesn&apos;t respond, type{" "}
-            <code className="text-purple-300">/voice</code> to turn voice mode
-            on manually.
+            Alternatively, you can use a tool like{" "}
+            <strong className="text-white/90">Whisper</strong> for
+            speech-to-text, or connect with Spencer — he built a voice tool
+            and can help you get it into your system.
           </Callout>
         </StepCard>
 
