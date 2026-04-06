@@ -170,10 +170,11 @@ export function SetupGuide() {
             <code className="text-emerald-300">/exit</code> to leave when done.
           </Callout>
           <Callout type="info">
-            Claude reads every file in the folder where you launch it. Always
-            navigate to your project folder first (e.g.,{" "}
+            Claude reads every file in the folder where you launch it. In the
+            future, always navigate to your project folder first (e.g.,{" "}
             <code className="text-purple-300">cd ~/AI/my-project</code>) before
-            running <code className="text-purple-300">claude</code>.
+            running <code className="text-purple-300">claude</code>. For today
+            we&apos;ll keep moving forward.
           </Callout>
         </StepCard>
 
