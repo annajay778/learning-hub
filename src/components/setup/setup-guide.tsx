@@ -413,9 +413,10 @@ export function SetupGuide() {
             makes collaboration possible.
           </p>
           <Callout type="warning">
-            Run these commands in a regular terminal tab — <strong className="text-white">not</strong>{" "}
-            inside a Claude session. The login flow works better outside of
-            Claude.
+            If you&apos;re inside a Claude session, type{" "}
+            <code className="text-purple-300">/exit</code> first. Run these
+            commands in a regular terminal tab — the login flow works better
+            outside of Claude.
           </Callout>
           <p className="font-medium text-white/90">Check if you already have them:</p>
           <CodeBlock code={`git --version\ngh --version`} />
@@ -443,9 +444,16 @@ export function SetupGuide() {
           </p>
           <p className="font-medium text-white/90">Connect your GitHub account:</p>
           <CodeBlock code="gh auth login" />
+          <Callout type="warning" title="Password field looks blank — that's normal">
+            When the terminal asks for your password, it won&apos;t show any
+            characters as you type — no dots, no cursor movement, nothing. This
+            is a security feature. Just type your GitHub password and press
+            Enter. It&apos;s working even though it looks like nothing is
+            happening.
+          </Callout>
           <p className="text-white/50 text-xs">
-            This opens a browser window. Follow the prompts to sign in to
-            GitHub and grant access.
+            Follow the prompts to sign in. It may open a browser window to
+            complete the authentication.
           </p>
           <Callout type="success" title="You'll know it worked when">
             Run <code className="text-emerald-300">gh auth status</code> and
@@ -465,6 +473,11 @@ export function SetupGuide() {
             changes to GitHub, Vercel automatically updates the live site within
             seconds — no manual steps. We use it because it&apos;s built for
             Next.js (our framework) and requires zero server setup.
+          </p>
+          <p className="text-white/50 text-xs">
+            If you&apos;re inside a Claude session, type{" "}
+            <code className="text-purple-300">/exit</code> first, then run
+            these in a regular terminal tab.
           </p>
           <CodeBlock code="npm install -g vercel" />
           <CodeBlock code="vercel login" />
