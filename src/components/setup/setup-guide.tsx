@@ -56,7 +56,7 @@ export function SetupGuide() {
       <SetupHero />
 
       {/* Prerequisites */}
-      <div className="mx-auto max-w-3xl px-4 pb-6 pt-12 sm:px-6">
+      <div id="step-1-prereq" className="scroll-mt-20 mx-auto max-w-3xl px-4 pb-6 pt-12 sm:px-6">
         <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] p-6 sm:p-8">
           <h2 className="mb-3 text-base font-semibold text-white">Before you start</h2>
           <p className="mb-4 text-sm text-white/60">

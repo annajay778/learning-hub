@@ -21,26 +21,44 @@ export function SetupHero() {
       <h1 className="mb-4 bg-gradient-to-r from-purple-400 to-orange-400 bg-clip-text text-4xl font-bold text-transparent sm:text-5xl">
         Setup Guide
       </h1>
-      <p className="mb-10 max-w-lg text-base text-white/50 sm:text-lg">
-        Everything you need to start building with Claude Code — from terminal
-        to deployment.
+      <p className="mb-6 max-w-lg text-base text-white/50 sm:text-lg">
+        Everything you need to start building with Claude Code — from zero to
+        your first working prototype.
       </p>
 
-      {/* CTAs */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
-        <button
-          onClick={() => scrollTo("step-1")}
-          className="rounded-full bg-gradient-to-r from-purple-500 to-orange-500 px-7 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-        >
-          Begin Setup
-        </button>
+      {/* Normalizing the terminal */}
+      <p className="mb-10 max-w-md text-sm leading-relaxed text-white/40">
+        If you&apos;ve never opened a terminal before, you&apos;re in good
+        company. It&apos;s just a text box where you type instead of click.
+        Claude Code lives there — you talk to it in plain English, and it
+        does the technical work.
+      </p>
+
+      {/* Skip / Begin */}
+      <p className="mb-5 text-sm text-white/50">
+        Already have Claude in your terminal?{" "}
         <button
           onClick={() => scrollTo("step-5")}
-          className="rounded-full border border-white/20 px-7 py-2.5 text-sm font-medium text-white/70 transition-colors hover:border-white/40 hover:text-white"
+          className="text-purple-400 underline decoration-purple-400/30 underline-offset-2 hover:decoration-purple-400"
         >
-          Already have Claude? Skip ahead&nbsp;&rarr;
+          Skip ahead
+        </button>{" "}
+        or{" "}
+        <button
+          onClick={() => scrollTo("step-1")}
+          className="text-purple-400 underline decoration-purple-400/30 underline-offset-2 hover:decoration-purple-400"
+        >
+          begin setup
         </button>
-      </div>
+        .
+      </p>
+
+      <button
+        onClick={() => scrollTo("step-1")}
+        className="rounded-full bg-gradient-to-r from-purple-500 to-orange-500 px-7 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+      >
+        Begin Setup
+      </button>
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 animate-bounce text-white/20">

@@ -38,7 +38,7 @@ export function StepCard({ stepNumber, title, id, time, children }: StepCardProp
       ref={cardRef}
       id={id}
       data-step={stepNumber}
-      className={`transition-all duration-700 ease-out rounded-2xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-md p-6 sm:p-8 ${
+      className={`scroll-mt-20 transition-all duration-700 ease-out rounded-2xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-md p-6 sm:p-8 ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
       }`}
     >
