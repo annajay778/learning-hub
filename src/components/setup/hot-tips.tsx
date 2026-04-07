@@ -37,7 +37,9 @@ export function HotTips({ tips }: { tips: Tip[] }) {
             Runs a prompt on a recurring interval. Great for monitoring — e.g.,{" "}
             <code className="text-[var(--s-accent)] text-xs">/loop 5m &quot;check
             the build status&quot;</code> polls every 5 minutes so you don&apos;t
-            have to.
+            have to. It runs indefinitely until you stop it (Ctrl+C, /exit, or
+            close the tab) — and uses tokens the whole time, so don&apos;t
+            forget about it.
           </p>
         </div>
 
