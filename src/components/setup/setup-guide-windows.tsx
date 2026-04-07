@@ -327,6 +327,18 @@ export function SetupGuideWindows({ tips }: { tips: Tip[] }) {
           </p>
           <p className="font-medium text-[var(--s-text-strong)]">Connect your GitHub account:</p>
           <CodeBlock code="gh auth login" />
+          <Callout type="info" title="When prompted, choose these options">
+            <ul className="mt-1 space-y-1">
+              <li className="flex items-start gap-2">
+                <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-purple-400/60" />
+                Where do you use GitHub? &rarr; <strong className="text-[var(--s-text-strong)]">GitHub.com</strong>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-purple-400/60" />
+                Preferred protocol &rarr; <strong className="text-[var(--s-text-strong)]">SSH</strong> (not HTTPS)
+              </li>
+            </ul>
+          </Callout>
           <Callout type="warning" title="Password field looks blank — that's normal">
             When the terminal asks for your password, it won&apos;t show any
             characters as you type — no dots, no cursor movement, nothing. This
@@ -335,7 +347,7 @@ export function SetupGuideWindows({ tips }: { tips: Tip[] }) {
             happening.
           </Callout>
           <p className="text-[var(--s-text-muted)] text-xs">
-            Follow the prompts to sign in. It may open a browser window to
+            Follow the remaining prompts. It may open a browser window to
             complete the authentication.
           </p>
           <Callout type="success" title="You'll know it worked when">
