@@ -6,8 +6,9 @@ import { Sun, Moon } from "lucide-react";
 const STEP_LABELS = [
   "cmux",
   "Node.js",
-  "Claude Code",
   "Workspace",
+  "Install Claude",
+  "Launch & CAM",
   "GitHub",
   "Starter Pack",
   "Workflow",

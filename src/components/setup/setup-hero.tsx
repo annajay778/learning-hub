@@ -41,7 +41,7 @@ export function SetupHero({ theme }: { theme: "dark" | "light" }) {
       <p className="mb-5 text-sm text-[var(--s-text-muted)]">
         Already have Claude in your terminal?{" "}
         <button
-          onClick={() => scrollTo("step-4")}
+          onClick={() => scrollTo("step-5")}
           className="text-[var(--s-accent)] underline decoration-[var(--s-accent)]/30 underline-offset-2 hover:decoration-[var(--s-accent)]"
         >
           Skip ahead

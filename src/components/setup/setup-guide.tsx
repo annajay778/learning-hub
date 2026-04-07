@@ -27,7 +27,7 @@ import {
   Flame,
 } from "lucide-react";
 
-const TOTAL_STEPS = 12;
+const TOTAL_STEPS = 13;
 
 interface Tip {
   id: string;
@@ -121,7 +121,7 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           <p>
             If you see{" "}
             <code className="rounded bg-[var(--s-code-bg)] px-1.5 py-0.5 text-[var(--s-accent-green)]">v20</code>{" "}
-            or higher (e.g., v22.14.0 or v24.13.0), skip to Step 3. Otherwise:
+            or higher (e.g., v22.14.0 or v24.13.0), skip to Step 4. Otherwise:
           </p>
           <p>
             If you have Homebrew installed:
@@ -146,8 +146,27 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 3: Claude Code ═══ */}
-        <StepCard stepNumber={3} title="Claude Code" id="step-3" time="2 min">
+        {/* ═══ STEP 3: Your Workspace ═══ */}
+        <StepCard stepNumber={3} title="Your Workspace" id="step-3" time="1 min">
+          <p>
+            Before we install Claude, we need a folder for it to work in.
+            Claude reads every file in the folder where you launch it, so
+            having a dedicated workspace keeps things organized.
+          </p>
+          <CodeBlock code={`mkdir -p ~/Desktop/AI-Builds\ncd ~/Desktop/AI-Builds`} />
+          <p className="text-[var(--s-text-muted)] text-xs">
+            This creates a folder called &ldquo;AI-Builds&rdquo; on your
+            Desktop where you can see it. All your projects will live here.
+          </p>
+          <Callout type="success" title="You'll know it worked when">
+            You see an <strong className="text-[var(--s-text-strong)]">AI-Builds</strong>{" "}
+            folder on your Desktop, and your terminal prompt shows you&apos;re
+            inside it.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 4: Install Claude Code ═══ */}
+        <StepCard stepNumber={4} title="Install Claude Code" id="step-4" time="2 min">
           <p>
             This is the AI that writes code, runs commands, and builds features
             with you. You talk to it in plain English inside your terminal, and
@@ -166,60 +185,41 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             — this is common on fresh Macs), use this alternative instead:
           </p>
           <CodeBlock code="npx @anthropic-ai/claude-code" />
-          <p className="font-medium text-[var(--s-text-strong)]">Now launch it:</p>
+          <Callout type="warning" title="Don't launch it yet">
+            We just installed Claude — but don&apos;t run it yet. In the next
+            step, we&apos;ll make sure it opens in the right folder and set up
+            a shortcut.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 5: Launch Claude & CAM ═══ */}
+        <StepCard stepNumber={5} title="Launch Claude & CAM" id="step-5" time="2 min">
           <p>
-            Type <code className="rounded bg-[var(--s-code-bg)] px-1.5 py-0.5 text-[var(--s-accent)]">claude</code>{" "}
-            and press Enter. The first time, it will open a browser window where
-            you sign in with your Anthropic account. After you sign in, go back
-            to your terminal.
+            Now let&apos;s launch Claude for the first time — from inside your
+            workspace folder. Then we&apos;ll create a shortcut so you never
+            have to type the full command again.
+          </p>
+          <p className="font-medium text-[var(--s-text-strong)]">1. Make sure you&apos;re in your workspace:</p>
+          <CodeBlock code="cd ~/Desktop/AI-Builds" />
+          <p className="font-medium text-[var(--s-text-strong)]">2. Launch Claude:</p>
+          <CodeBlock code="claude" />
+          <p className="text-[var(--s-text-muted)] text-xs">
+            The first time, it will open a browser window where you sign in
+            with your Anthropic account. After you sign in, go back to your
+            terminal.
           </p>
           <Callout type="success" title="You'll know it worked when">
             Your terminal shows an interactive session with a{" "}
             <code className="text-[var(--s-accent-green)]">&gt;</code> prompt waiting for
-            your input. Type &ldquo;hello&rdquo; — Claude should respond. Type{" "}
-            <code className="text-[var(--s-accent-green)]">/exit</code> to leave when done.
+            your input. Type &ldquo;hello&rdquo; — Claude should respond.
           </Callout>
-          <Callout type="info">
-            Claude reads every file in the folder where you launch it. In the
-            future, always navigate to your project folder first (e.g.,{" "}
-            <code className="text-[var(--s-accent)]">cd ~/Desktop/AI-Builds/my-project</code>) before
-            running <code className="text-[var(--s-accent)]">claude</code>. Let&apos;s
-            move onto the next step and get this done.
-          </Callout>
-        </StepCard>
 
-        {/* ═══ STEP 4: Your Workspace ═══ */}
-        <StepCard stepNumber={4} title="Your Workspace" id="step-4" time="2 min">
-          <p>
-            Before we start building, we need two things: a folder where all
-            your AI projects will live, and a shortcut that launches Claude
-            in auto mode — so it acts autonomously instead of asking
-            permission for every step.
-          </p>
-
-          <p>
-            <strong className="text-[var(--s-text-body)]">1. Create your workspace folder:</strong>
-          </p>
-          <CodeBlock code={`mkdir -p ~/Desktop/AI-Builds\ncd ~/Desktop/AI-Builds`} />
-          <p className="text-[var(--s-text-muted)] text-xs">
-            This creates a folder called &ldquo;AI-Builds&rdquo; on your
-            Desktop where you can see it. All your projects will live here.
-          </p>
-
-          <p>
-            <strong className="text-[var(--s-text-body)]">2. Add the <code className="text-[var(--s-accent)]">cam</code> shortcut:</strong>
-          </p>
+          <p className="font-medium text-[var(--s-text-strong)]">3. Create the <code className="text-[var(--s-accent)]">cam</code> shortcut:</p>
           <p className="text-[var(--s-text-muted)] text-xs">
             Right now, launching Claude requires typing a long command with
             flags. We&apos;re going to create a shortcut so you just type
             three letters: <code className="text-[var(--s-accent)]">cam</code>.
-          </p>
-          <p>
-            Tell Claude to set this up for you:
-          </p>
-          <CodeBlock code={`claude`} />
-          <p className="text-[var(--s-text-muted)] text-xs">
-            Once Claude launches, say:
+            Tell Claude:
           </p>
           <CodeBlock code={`Add an alias called cam to my .zshrc that runs "claude --permission-mode auto". Then reload my shell config. Explain what you did.`} />
 
@@ -227,8 +227,8 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             <strong className="text-[var(--s-text-strong)]">cam</strong> = Claude Auto Mode.
             When you type <code className="text-[var(--s-accent)]">cam</code>, Claude
             launches and handles file edits, commands, and tool calls without
-            stopping to ask. Navigate to your project folder first, then
-            type <code className="text-[var(--s-accent)]">cam</code>.
+            stopping to ask. Always navigate to your project folder first,
+            then type <code className="text-[var(--s-accent)]">cam</code>.
           </Callout>
           <Callout type="success" title="You'll know it worked when">
             Type <code className="text-[var(--s-accent-green)]">/exit</code>,
@@ -237,8 +237,8 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 5: GitHub ═══ */}
-        <StepCard stepNumber={5} title="GitHub" id="step-5" time="3 min">
+        {/* ═══ STEP 6: GitHub ═══ */}
+        <StepCard stepNumber={6} title="GitHub" id="step-6" time="3 min">
           <p>
             GitHub is where your code lives online. Think of it as Google Docs
             for code — it tracks every change, lets you undo mistakes, and
@@ -298,8 +298,8 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 6: Vibe Code Starter Pack ═══ */}
-        <StepCard stepNumber={6} title="Vibe Code Starter Pack" id="step-6" time="3 min">
+        {/* ═══ STEP 7: Vibe Code Starter Pack ═══ */}
+        <StepCard stepNumber={7} title="Vibe Code Starter Pack" id="step-7" time="3 min">
           <p>
             This is Spencer&apos;s starter template — a real project with
             everything pre-configured so you can start building immediately.
@@ -321,8 +321,8 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 7: The Workflow ═══ */}
-        <StepCard stepNumber={7} title="The Workflow" id="step-7" time="Read: 3 min">
+        {/* ═══ STEP 8: The Workflow ═══ */}
+        <StepCard stepNumber={8} title="The Workflow" id="step-8" time="Read: 3 min">
           <p>
             Instead of just chatting with Claude and hoping for the best, these
             commands give your conversations structure. Think of them like
@@ -391,8 +391,8 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 8: Skills & Sage ═══ */}
-        <StepCard stepNumber={8} title="Skills & Sage" id="step-8" time="5 min">
+        {/* ═══ STEP 9: Skills & Sage ═══ */}
+        <StepCard stepNumber={9} title="Skills & Sage" id="step-9" time="5 min">
           <p>
             Skills are instruction sets that make Claude an expert at specific
             tasks. Instead of explaining how you want something done every time,
@@ -425,8 +425,8 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 9: Voice Mode ═══ */}
-        <StepCard stepNumber={9} title="Voice Mode" id="step-9" time="1 min">
+        {/* ═══ STEP 10: Voice Mode ═══ */}
+        <StepCard stepNumber={10} title="Voice Mode" id="step-10" time="1 min">
           <p>
             Voice mode lets you talk to Claude instead of typing. Inside a
             Claude session, type:
@@ -466,8 +466,8 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 10: Vercel ═══ */}
-        <StepCard stepNumber={10} title="Vercel" id="step-10" time="2 min">
+        {/* ═══ STEP 11: Vercel ═══ */}
+        <StepCard stepNumber={11} title="Vercel" id="step-11" time="2 min">
           <p>
             Vercel takes your code and puts it on the internet. When you push
             changes to GitHub, Vercel automatically updates the live site within
@@ -501,8 +501,8 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 11: Status Bar ═══ */}
-        <StepCard stepNumber={11} title="Status Bar" id="step-11" time="1 min">
+        {/* ═══ STEP 12: Status Bar ═══ */}
+        <StepCard stepNumber={12} title="Status Bar" id="step-12" time="1 min">
           <p>
             Before we start building, let&apos;s set up your status bar so you
             can always see what&apos;s happening — which branch you&apos;re on,
@@ -516,8 +516,8 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 12: Your First Prototype ═══ */}
-        <StepCard stepNumber={12} title="Your First Prototype" id="step-12" time="28 min">
+        {/* ═══ STEP 13: Your First Prototype ═══ */}
+        <StepCard stepNumber={13} title="Your First Prototype" id="step-13" time="28 min">
           <p className="font-medium text-[var(--s-text-strong)] text-base">The exercise</p>
           <p>
             Give prompt guidance, not identical prompts. Each person writes
