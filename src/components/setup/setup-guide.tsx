@@ -306,31 +306,8 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 7: Vibe Code Starter Pack ═══ */}
-        <StepCard stepNumber={7} title="Vibe Code Starter Pack" id="step-7" time="3 min">
-          <p>
-            This is Spencer&apos;s starter template — a real project with
-            everything pre-configured so you can start building immediately.
-            Clone it into your workspace:
-          </p>
-          <CodeBlock code={`cd ~/Desktop/AI-Builds\ngit clone https://github.com/campminder/vibe_coding_starter_pack.git\ncd vibe_coding_starter_pack`} />
-          <p className="text-[var(--s-text-muted)] text-xs">
-            This downloads the project to{" "}
-            <code className="text-[var(--s-accent)]">~/Desktop/AI-Builds/vibe_coding_starter_pack</code>.
-            It includes a CLAUDE.md, skills, and project structure already set
-            up.
-          </p>
-          <p className="font-medium text-[var(--s-text-strong)]">Install dependencies and launch Claude:</p>
-          <CodeBlock code={`npm install\ncam`} />
-          <Callout type="success" title="You'll know it worked when">
-            Claude launches in auto mode inside the starter pack folder. Ask
-            it &ldquo;what project am I in?&rdquo; and it should describe the
-            starter pack structure.
-          </Callout>
-        </StepCard>
-
-        {/* ═══ STEP 8: Skills & Sage ═══ */}
-        <StepCard stepNumber={8} title="Skills & Sage" id="step-8" time="5 min">
+        {/* ═══ STEP 7: Skills & Sage ═══ */}
+        <StepCard stepNumber={7} title="Skills & Sage" id="step-7" time="5 min">
           <p>
             Skills are instruction sets that make Claude an expert at specific
             tasks. Instead of explaining how you want something done every time,
@@ -373,6 +350,35 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           <Callout type="success" title="You'll know it worked when">
             Sage responds as your product coach. Try saying &ldquo;coach me on
             discovery&rdquo; and see what happens.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 8: New Project ═══ */}
+        <StepCard stepNumber={8} title="New Project" id="step-8" time="3 min">
+          <p>
+            Now that the CampMinder Product Toolkit is installed, spinning up
+            a new project is one command. First, create a fresh folder inside
+            your workspace and launch Claude there:
+          </p>
+          <CodeBlock code={`cd ~/Desktop/AI-Builds\nmkdir my-first-project\ncd my-first-project\ncam`} />
+          <p className="text-[var(--s-text-muted)] text-xs">
+            Replace <code className="text-[var(--s-accent)]">my-first-project</code>{" "}
+            with whatever you want to call it. Each project lives in its own
+            folder.
+          </p>
+
+          <p className="font-medium text-[var(--s-text-strong)]">Inside Claude, run:</p>
+          <CodeBlock code="/campco-product:new-project" />
+          <p className="text-[var(--s-text-muted)] text-xs">
+            Claude will ask you a few questions about what you&apos;re building
+            and then set everything up for you — CLAUDE.md, project structure,
+            dependencies, the works. Just answer the prompts.
+          </p>
+
+          <Callout type="success" title="You'll know it worked when">
+            Claude finishes the setup and your folder has files in it. Ask
+            &ldquo;what project am I in?&rdquo; and it should describe what it
+            just scaffolded.
           </Callout>
         </StepCard>
 
