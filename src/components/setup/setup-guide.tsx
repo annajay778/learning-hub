@@ -668,12 +668,10 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           </Callout>
 
           <p className="font-medium text-[var(--s-text-strong)]">4. Brainstorm:</p>
-          <CodeBlock code="/brainstorm-ideas-new" />
+          <CodeBlock code="/workflow-brainstorm" />
           <p className="text-[var(--s-text-muted)] text-xs">
-            This skill (from the PM Skills pack) helps you shape your idea from
-            PM, Designer, and Engineer perspectives. Describe your prototype
-            idea and Claude will ask clarifying questions. Then bring in Sage
-            for product coaching:
+            Describe your prototype idea and Claude will ask clarifying
+            questions. Then bring in Sage for product coaching:
           </p>
           <CodeBlock code="/sage" />
           <p className="text-[var(--s-text-muted)] text-xs">
