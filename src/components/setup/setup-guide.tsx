@@ -571,12 +571,12 @@ export function SetupGuide() {
 
           <p className="font-medium text-[var(--s-text-strong)]">3. Set up Neon (your database):</p>
           <p>Still inside Claude, say:</p>
-          <CodeBlock code={`Go to neon.tech and set me up a Neon database for this project. Walk me through the steps.`} />
-          <p className="text-[var(--s-text-muted)] text-xs">
-            Claude will guide you through creating a Neon project, copying the
-            connection string, and saving it in your{" "}
-            <code className="text-[var(--s-accent)]">.env.local</code> file.
-          </p>
+          <CodeBlock code={`Set up a Neon Postgres database for this project through the Vercel integration. Name the database "[Your Name] - [project name]" (e.g. "Anna - waitlist-dashboard"). Save the connection string in .env.local.`} />
+          <Callout type="info">
+            Every database needs your name attached so the team can tell whose
+            is whose. Use the Vercel Neon integration — not neon.tech directly —
+            so the database is linked to your Vercel project automatically.
+          </Callout>
 
           <p className="font-medium text-[var(--s-text-strong)]">4. Brainstorm:</p>
           <CodeBlock code="/workflow-brainstorm" />
