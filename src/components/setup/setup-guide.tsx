@@ -733,8 +733,7 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             Hot Tips
           </h2>
           <p className="mb-5 text-sm text-[var(--s-text-muted)]">
-            Commands and tricks that make you faster. Add your own as you
-            discover them.
+            Useful commands the team has found. Add yours below.
           </p>
           <HotTips tips={tips} />
         </div>
