@@ -200,7 +200,15 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             have to type the full command again.
           </p>
           <p className="font-medium text-[var(--s-text-strong)]">1. Make sure you&apos;re in your workspace:</p>
+          <p className="text-[var(--s-text-muted)] text-xs">
+            If you already have a workspace folder, just cd into it:
+          </p>
           <CodeBlock code="cd ~/Desktop/AI-Builds" />
+          <p className="text-[var(--s-text-muted)] text-xs">
+            If you&apos;re skipping ahead and don&apos;t have one yet, create
+            it now:
+          </p>
+          <CodeBlock code={`mkdir -p ~/Desktop/AI-Builds\ncd ~/Desktop/AI-Builds`} />
           <p className="font-medium text-[var(--s-text-strong)]">2. Launch Claude:</p>
           <CodeBlock code="claude" />
           <p className="text-[var(--s-text-muted)] text-xs">
