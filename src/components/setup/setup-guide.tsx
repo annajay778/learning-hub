@@ -29,7 +29,7 @@ const TOTAL_STEPS = 11;
 
 export function SetupGuide() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [theme, setTheme] = useState<"dark" | "light">("light");
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
 
   useEffect(() => {
     const stepEls = document.querySelectorAll<HTMLElement>("[data-step]");
