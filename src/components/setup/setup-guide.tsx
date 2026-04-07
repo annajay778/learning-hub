@@ -419,9 +419,22 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           </p>
 
           <Callout type="success" title="You'll know it worked when">
-            Claude confirms all plugins installed successfully. Type{" "}
-            <code className="text-[var(--s-accent-green)]">/sage</code> and Sage
-            responds as your product coach.
+            Claude confirms all plugins installed successfully.
+          </Callout>
+
+          <p className="font-medium text-[var(--s-text-strong)]">Try Sage:</p>
+          <p className="text-[var(--s-text-muted)] text-xs">
+            You&apos;ll likely need to restart your session for the new skills
+            to load. Type{" "}
+            <code className="text-[var(--s-accent)]">/exit</code>, then{" "}
+            <code className="text-[var(--s-accent)]">cam</code> to relaunch
+            (or <code className="text-[var(--s-accent)]">claude --resume</code>{" "}
+            to pick up where you left off). Then try:
+          </p>
+          <CodeBlock code="/sage" />
+          <Callout type="success" title="You'll know it worked when">
+            Sage responds as your product coach. Try saying &ldquo;coach me on
+            discovery&rdquo; and see what happens.
           </Callout>
         </StepCard>
 
