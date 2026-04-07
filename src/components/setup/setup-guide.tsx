@@ -40,6 +40,23 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
+  // Initialize theme from localStorage or OS preference
+  useEffect(() => {
+    const stored = localStorage.getItem("setup-theme");
+    if (stored === "dark" || stored === "light") {
+      setTheme(stored);
+      return;
+    }
+    if (window.matchMedia("(prefers-color-scheme: light)").matches) {
+      setTheme("light");
+    }
+  }, []);
+
+  // Persist theme on change
+  useEffect(() => {
+    localStorage.setItem("setup-theme", theme);
+  }, [theme]);
+
   useEffect(() => {
     const stepEls = document.querySelectorAll<HTMLElement>("[data-step]");
     if (stepEls.length === 0) return;
