@@ -329,8 +329,55 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 8: The Workflow ═══ */}
-        <StepCard stepNumber={8} title="The Workflow" id="step-8" time="Read: 3 min">
+        {/* ═══ STEP 8: Skills & Sage ═══ */}
+        <StepCard stepNumber={8} title="Skills & Sage" id="step-8" time="5 min">
+          <p>
+            Skills are instruction sets that make Claude an expert at specific
+            tasks. Instead of explaining how you want something done every time,
+            the skill handles it. Copy paste the commands below into Claude and
+            tell it to execute — it&apos;ll download and install everything.
+          </p>
+
+          <p className="font-medium text-[var(--s-text-strong)]">Tell Claude:</p>
+          <CodeBlock code={`Clone these repos into ~/Desktop/AI-Builds/ and install all plugins and skills from them:\n\n1. https://github.com/campminder/cm-product-toolkit.git\n2. https://github.com/phuryn/pm-skills.git\n\nExecute these commands and confirm when done.`} />
+
+          <p className="text-[var(--s-text-muted)] text-xs">
+            The <strong className="text-[var(--s-text-body)]">CampMinder Product Toolkit</strong>{" "}
+            includes <strong className="text-[var(--s-text-body)]">Sage</strong> — our
+            product coaching AI. Type{" "}
+            <code className="text-[var(--s-accent)]">/sage</code> or say &ldquo;coach
+            me&rdquo; for product coaching on discovery, delivery, OKRs,
+            JTBD, bets, and prioritization.
+          </p>
+          <p className="text-[var(--s-text-muted)] text-xs">
+            The <strong className="text-[var(--s-text-body)]">PM Skills</strong> pack
+            adds 40+ skills covering strategy, execution, go-to-market,
+            marketing, PRDs, user stories, sprint planning, competitive
+            analysis, and more.
+          </p>
+
+          <Callout type="success" title="You'll know it worked when">
+            Claude confirms all plugins installed successfully.
+          </Callout>
+
+          <p className="font-medium text-[var(--s-text-strong)]">Try Sage:</p>
+          <p className="text-[var(--s-text-muted)] text-xs">
+            You&apos;ll likely need to restart your session for the new skills
+            to load. Type{" "}
+            <code className="text-[var(--s-accent)]">/exit</code>, then{" "}
+            <code className="text-[var(--s-accent)]">cam</code> to relaunch
+            (or <code className="text-[var(--s-accent)]">claude --resume</code>{" "}
+            to pick up where you left off). Then try:
+          </p>
+          <CodeBlock code="/sage" />
+          <Callout type="success" title="You'll know it worked when">
+            Sage responds as your product coach. Try saying &ldquo;coach me on
+            discovery&rdquo; and see what happens.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 9: The Workflow ═══ */}
+        <StepCard stepNumber={9} title="The Workflow" id="step-9" time="Read: 3 min">
           <p>
             Instead of just chatting with Claude and hoping for the best, these
             commands give your conversations structure. Think of them like
@@ -396,53 +443,6 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             <code className="text-[var(--s-accent-green)]">/workflow-brainstorm</code> and
             press Enter. Claude should ask you a structured set of questions
             about what you want to build.
-          </Callout>
-        </StepCard>
-
-        {/* ═══ STEP 9: Skills & Sage ═══ */}
-        <StepCard stepNumber={9} title="Skills & Sage" id="step-9" time="5 min">
-          <p>
-            Skills are instruction sets that make Claude an expert at specific
-            tasks. Instead of explaining how you want something done every time,
-            the skill handles it. Copy paste the commands below into Claude and
-            tell it to execute — it&apos;ll download and install everything.
-          </p>
-
-          <p className="font-medium text-[var(--s-text-strong)]">Tell Claude:</p>
-          <CodeBlock code={`Clone these repos into ~/Desktop/AI-Builds/ and install all plugins and skills from them:\n\n1. https://github.com/campminder/cm-product-toolkit.git\n2. https://github.com/phuryn/pm-skills.git\n\nExecute these commands and confirm when done.`} />
-
-          <p className="text-[var(--s-text-muted)] text-xs">
-            The <strong className="text-[var(--s-text-body)]">CampMinder Product Toolkit</strong>{" "}
-            includes <strong className="text-[var(--s-text-body)]">Sage</strong> — our
-            product coaching AI. Type{" "}
-            <code className="text-[var(--s-accent)]">/sage</code> or say &ldquo;coach
-            me&rdquo; for product coaching on discovery, delivery, OKRs,
-            JTBD, bets, and prioritization.
-          </p>
-          <p className="text-[var(--s-text-muted)] text-xs">
-            The <strong className="text-[var(--s-text-body)]">PM Skills</strong> pack
-            adds 40+ skills covering strategy, execution, go-to-market,
-            marketing, PRDs, user stories, sprint planning, competitive
-            analysis, and more.
-          </p>
-
-          <Callout type="success" title="You'll know it worked when">
-            Claude confirms all plugins installed successfully.
-          </Callout>
-
-          <p className="font-medium text-[var(--s-text-strong)]">Try Sage:</p>
-          <p className="text-[var(--s-text-muted)] text-xs">
-            You&apos;ll likely need to restart your session for the new skills
-            to load. Type{" "}
-            <code className="text-[var(--s-accent)]">/exit</code>, then{" "}
-            <code className="text-[var(--s-accent)]">cam</code> to relaunch
-            (or <code className="text-[var(--s-accent)]">claude --resume</code>{" "}
-            to pick up where you left off). Then try:
-          </p>
-          <CodeBlock code="/sage" />
-          <Callout type="success" title="You'll know it worked when">
-            Sage responds as your product coach. Try saying &ldquo;coach me on
-            discovery&rdquo; and see what happens.
           </Callout>
         </StepCard>
 
