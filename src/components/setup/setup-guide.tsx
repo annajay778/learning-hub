@@ -313,12 +313,6 @@ export function SetupGuide() {
             ))}
           </div>
 
-          <Callout type="tip">
-            You don&apos;t always use all 5. Quick fixes might just
-            be <code className="text-[var(--s-accent)]">/workflow-work</code>. Big features
-            start with <code className="text-[var(--s-accent)]">/workflow-brainstorm</code>.
-            Most of the time you&apos;ll use 2-3.
-          </Callout>
           <Callout type="success" title="You'll know it worked when">
             Inside a Claude session, type{" "}
             <code className="text-[var(--s-accent-green)]">/workflow-brainstorm</code> and
