@@ -8,11 +8,11 @@ const STEP_LABELS = [
   "Node.js",
   "Claude Code",
   "Workspace",
+  "GitHub",
   "Starter Pack",
   "Workflow",
   "Skills & Sage",
   "Voice",
-  "GitHub",
   "Vercel",
   "First Prototype",
 ];

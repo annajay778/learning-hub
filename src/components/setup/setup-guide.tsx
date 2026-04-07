@@ -228,8 +228,69 @@ export function SetupGuide() {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 5: Vibe Code Starter Pack ═══ */}
-        <StepCard stepNumber={5} title="Vibe Code Starter Pack" id="step-5" time="3 min">
+        {/* ═══ STEP 5: GitHub ═══ */}
+        <StepCard stepNumber={5} title="GitHub" id="step-5" time="3 min">
+          <p>
+            GitHub is where your code lives online. Think of it as Google Docs
+            for code — it tracks every change, lets you undo mistakes, and
+            makes collaboration possible.
+          </p>
+          <Callout type="warning">
+            If you&apos;re inside a Claude session, type{" "}
+            <code className="text-[var(--s-accent)]">/exit</code> first. Run these
+            commands in a regular terminal tab — the login flow works better
+            outside of Claude.
+          </Callout>
+          <p className="font-medium text-[var(--s-text-strong)]">Check if you already have them:</p>
+          <CodeBlock code={`git --version\ngh --version`} />
+          <p>
+            If either says{" "}
+            <code className="rounded bg-[var(--s-code-bg)] px-1.5 py-0.5 text-red-400">command not found</code>,
+            install both:
+          </p>
+          <CodeBlock code="brew install gh git" />
+          <p className="text-[var(--s-text-muted)] text-xs">
+            <code className="text-[var(--s-accent)]">git</code> is the version control
+            tool that tracks changes.{" "}
+            <code className="text-[var(--s-accent)]">gh</code> is GitHub&apos;s helper
+            that makes it easier to create pull requests and manage your code
+            from the terminal.
+          </p>
+          <p className="font-medium text-[var(--s-text-strong)]">Tell Git who you are:</p>
+          <CodeBlock
+            code={`git config --global user.name "Your Name"\ngit config --global user.email "you@campminder.com"\ngit config --global init.defaultBranch main`}
+          />
+          <p className="text-[var(--s-text-muted)] text-xs">
+            This labels your changes with your name and email so your team knows
+            who made what. The last line sets &ldquo;main&rdquo; as the default
+            branch name (an industry standard).
+          </p>
+          <p className="font-medium text-[var(--s-text-strong)]">Connect your GitHub account:</p>
+          <CodeBlock code="gh auth login" />
+          <Callout type="warning" title="Password field looks blank — that's normal">
+            When the terminal asks for your password, it won&apos;t show any
+            characters as you type — no dots, no cursor movement, nothing. This
+            is a security feature. Just type your GitHub password and press
+            Enter. It&apos;s working even though it looks like nothing is
+            happening.
+          </Callout>
+          <p className="text-[var(--s-text-muted)] text-xs">
+            Follow the prompts to sign in. It may open a browser window to
+            complete the authentication.
+          </p>
+          <Callout type="success" title="You'll know it worked when">
+            Run <code className="text-[var(--s-accent-green)]">gh auth status</code> and
+            you see your GitHub username and &ldquo;Logged in to github.com.&rdquo;
+          </Callout>
+          <Callout type="claude" title="After this, Claude handles git for you">
+            You&apos;ll never need to memorize git commands. Just tell Claude
+            &ldquo;commit and push this to GitHub&rdquo; or &ldquo;create a PR
+            for this change.&rdquo; It handles everything.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 6: Vibe Code Starter Pack ═══ */}
+        <StepCard stepNumber={6} title="Vibe Code Starter Pack" id="step-6" time="3 min">
           <p>
             This is Spencer&apos;s starter template — a real project with
             everything pre-configured so you can start building immediately.
@@ -251,8 +312,8 @@ export function SetupGuide() {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 6: The Workflow ═══ */}
-        <StepCard stepNumber={6} title="The Workflow" id="step-6" time="Read: 3 min">
+        {/* ═══ STEP 7: The Workflow ═══ */}
+        <StepCard stepNumber={7} title="The Workflow" id="step-7" time="Read: 3 min">
           <p>
             Instead of just chatting with Claude and hoping for the best, these
             commands give your conversations structure. Think of them like
@@ -321,8 +382,8 @@ export function SetupGuide() {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 7: Skills & Sage ═══ */}
-        <StepCard stepNumber={7} title="Skills & Sage" id="step-7" time="5 min">
+        {/* ═══ STEP 8: Skills & Sage ═══ */}
+        <StepCard stepNumber={8} title="Skills & Sage" id="step-8" time="5 min">
           <p>
             Skills are instruction sets that make Claude an expert at specific
             tasks. Instead of explaining how you want something done every time,
@@ -359,8 +420,8 @@ export function SetupGuide() {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 8: Voice Mode ═══ */}
-        <StepCard stepNumber={8} title="Voice Mode" id="step-8" time="1 min">
+        {/* ═══ STEP 9: Voice Mode ═══ */}
+        <StepCard stepNumber={9} title="Voice Mode" id="step-9" time="1 min">
           <p>
             Voice mode lets you talk to Claude instead of typing. Inside a
             Claude session, type:
@@ -397,67 +458,6 @@ export function SetupGuide() {
             <strong className="text-[var(--s-text-strong)]">Whisper</strong> for
             speech-to-text, or connect with Spencer — he built a voice tool
             and can help you get it into your system.
-          </Callout>
-        </StepCard>
-
-        {/* ═══ STEP 9: GitHub ═══ */}
-        <StepCard stepNumber={9} title="GitHub" id="step-9" time="3 min">
-          <p>
-            GitHub is where your code lives online. Think of it as Google Docs
-            for code — it tracks every change, lets you undo mistakes, and
-            makes collaboration possible.
-          </p>
-          <Callout type="warning">
-            If you&apos;re inside a Claude session, type{" "}
-            <code className="text-[var(--s-accent)]">/exit</code> first. Run these
-            commands in a regular terminal tab — the login flow works better
-            outside of Claude.
-          </Callout>
-          <p className="font-medium text-[var(--s-text-strong)]">Check if you already have them:</p>
-          <CodeBlock code={`git --version\ngh --version`} />
-          <p>
-            If either says{" "}
-            <code className="rounded bg-[var(--s-code-bg)] px-1.5 py-0.5 text-red-400">command not found</code>,
-            install both:
-          </p>
-          <CodeBlock code="brew install gh git" />
-          <p className="text-[var(--s-text-muted)] text-xs">
-            <code className="text-[var(--s-accent)]">git</code> is the version control
-            tool that tracks changes.{" "}
-            <code className="text-[var(--s-accent)]">gh</code> is GitHub&apos;s helper
-            that makes it easier to create pull requests and manage your code
-            from the terminal.
-          </p>
-          <p className="font-medium text-[var(--s-text-strong)]">Tell Git who you are:</p>
-          <CodeBlock
-            code={`git config --global user.name "Your Name"\ngit config --global user.email "you@campminder.com"\ngit config --global init.defaultBranch main`}
-          />
-          <p className="text-[var(--s-text-muted)] text-xs">
-            This labels your changes with your name and email so your team knows
-            who made what. The last line sets &ldquo;main&rdquo; as the default
-            branch name (an industry standard).
-          </p>
-          <p className="font-medium text-[var(--s-text-strong)]">Connect your GitHub account:</p>
-          <CodeBlock code="gh auth login" />
-          <Callout type="warning" title="Password field looks blank — that's normal">
-            When the terminal asks for your password, it won&apos;t show any
-            characters as you type — no dots, no cursor movement, nothing. This
-            is a security feature. Just type your GitHub password and press
-            Enter. It&apos;s working even though it looks like nothing is
-            happening.
-          </Callout>
-          <p className="text-[var(--s-text-muted)] text-xs">
-            Follow the prompts to sign in. It may open a browser window to
-            complete the authentication.
-          </p>
-          <Callout type="success" title="You'll know it worked when">
-            Run <code className="text-[var(--s-accent-green)]">gh auth status</code> and
-            you see your GitHub username and &ldquo;Logged in to github.com.&rdquo;
-          </Callout>
-          <Callout type="claude" title="After this, Claude handles git for you">
-            You&apos;ll never need to memorize git commands. Just tell Claude
-            &ldquo;commit and push this to GitHub&rdquo; or &ldquo;create a PR
-            for this change.&rdquo; It handles everything.
           </Callout>
         </StepCard>
 
