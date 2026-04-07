@@ -527,6 +527,14 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             Your terminal status bar updates to show branch name, token usage,
             and context usage. These update in real time as you work.
           </Callout>
+          <Callout type="warning" title="When context hits ~80%, use /compact">
+            As you work, the context window fills up with conversation history.
+            When it gets to around 80%, Claude starts slowing down and giving
+            worse responses. Type{" "}
+            <code className="text-[var(--s-accent)]">/compact</code> to compress
+            the conversation — Claude keeps the important context but frees up
+            space so you can keep building.
+          </Callout>
         </StepCard>
 
         {/* ═══ STEP 13: Your First Prototype ═══ */}
