@@ -118,6 +118,13 @@ export const lhPulseComments = pgTable("lh_pulse_comments", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const lhHotTips = pgTable("lh_hot_tips", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  body: text("body").notNull(),
+  author: text("author").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const lhSyncLog = pgTable("lh_sync_log", {
   id: uuid("id").defaultRandom().primaryKey(),
   syncedAt: timestamp("synced_at").defaultNow().notNull(),

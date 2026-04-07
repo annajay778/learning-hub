@@ -14,6 +14,7 @@ import {
   lhClientFeedback,
   lhPulseComments,
   lhBraindump,
+  lhHotTips,
 } from "@/lib/schema";
 import { eq, desc, and, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -565,4 +566,31 @@ export async function getSyncLogs() {
     .select()
     .from(lhSyncLog)
     .orderBy(desc(lhSyncLog.syncedAt));
+}
+
+// ── Hot Tips ────────────────────────────────────────────────────
+
+export async function getHotTips() {
+  return db
+    .select()
+    .from(lhHotTips)
+    .orderBy(desc(lhHotTips.createdAt));
+}
+
+export async function createHotTip(formData: FormData) {
+  "use server";
+  const body = formData.get("body") as string;
+  const author = formData.get("author") as string;
+
+  if (!body?.trim() || !author?.trim()) {
+    return { error: "Tip and name are required" };
+  }
+
+  await db.insert(lhHotTips).values({
+    body: body.trim(),
+    author: author.trim(),
+  });
+
+  revalidatePath("/setup");
+  return { success: true };
 }

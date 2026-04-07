@@ -6,6 +6,7 @@ import { SetupHero } from "./setup-hero";
 import { StepCard } from "./step-card";
 import { CodeBlock } from "./code-block";
 import { Callout } from "./callout";
+import { HotTips } from "./hot-tips";
 import {
   RefreshCw,
   Mic,
@@ -23,11 +24,19 @@ import {
   BookOpen,
   Palette,
   PartyPopper,
+  Flame,
 } from "lucide-react";
 
 const TOTAL_STEPS = 11;
 
-export function SetupGuide() {
+interface Tip {
+  id: string;
+  body: string;
+  author: string;
+  createdAt: Date;
+}
+
+export function SetupGuide({ tips }: { tips: Tip[] }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
@@ -676,6 +685,19 @@ export function SetupGuide() {
             From here, the workflow is: describe what you want, Claude builds
             it, you iterate together.
           </p>
+        </div>
+
+        {/* ═══ HOT TIPS ═══ */}
+        <div className="mt-12 rounded-2xl border border-orange-500/20 bg-orange-500/[0.04] p-6 sm:p-8">
+          <h2 className="mb-1 flex items-center gap-2 text-base font-semibold text-[var(--s-text)]">
+            <Flame className="h-4 w-4 text-orange-500" />
+            Hot Tips
+          </h2>
+          <p className="mb-5 text-sm text-[var(--s-text-muted)]">
+            Commands and tricks that make you faster. Add your own as you
+            discover them.
+          </p>
+          <HotTips tips={tips} />
         </div>
 
         {/* ═══ POST-MEETING: Homebrew ═══ */}
