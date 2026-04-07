@@ -27,7 +27,7 @@ import {
   Flame,
 } from "lucide-react";
 
-const TOTAL_STEPS = 11;
+const TOTAL_STEPS = 12;
 
 interface Tip {
   id: string;
@@ -182,7 +182,7 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           <Callout type="info">
             Claude reads every file in the folder where you launch it. In the
             future, always navigate to your project folder first (e.g.,{" "}
-            <code className="text-[var(--s-accent)]">cd ~/AI/my-project</code>) before
+            <code className="text-[var(--s-accent)]">cd ~/Desktop/AI-Builds/my-project</code>) before
             running <code className="text-[var(--s-accent)]">claude</code>. Let&apos;s
             move onto the next step and get this done.
           </Callout>
@@ -191,49 +191,49 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
         {/* ═══ STEP 4: Your Workspace ═══ */}
         <StepCard stepNumber={4} title="Your Workspace" id="step-4" time="2 min">
           <p>
-            A dedicated folder keeps your AI projects organized, and one
-            shortcut gets you into Claude with auto mode on — meaning Claude
-            acts autonomously instead of asking permission for every step.
+            Before we start building, we need two things: a folder where all
+            your AI projects will live, and a shortcut that launches Claude
+            in auto mode — so it acts autonomously instead of asking
+            permission for every step.
           </p>
 
           <p>
             <strong className="text-[var(--s-text-body)]">1. Create your workspace folder:</strong>
           </p>
-          <CodeBlock code="mkdir -p ~/AI" />
+          <CodeBlock code={`mkdir -p ~/Desktop/AI-Builds\ncd ~/Desktop/AI-Builds`} />
           <p className="text-[var(--s-text-muted)] text-xs">
-            This creates a folder called &ldquo;AI&rdquo; in your home
-            directory. All your projects will live here.
+            This creates a folder called &ldquo;AI-Builds&rdquo; on your
+            Desktop where you can see it. All your projects will live here.
           </p>
 
           <p>
-            <strong className="text-[var(--s-text-body)]">2. Add the CAM shortcut:</strong>
+            <strong className="text-[var(--s-text-body)]">2. Add the <code className="text-[var(--s-accent)]">cam</code> shortcut:</strong>
           </p>
           <p className="text-[var(--s-text-muted)] text-xs">
-            Your Mac has a hidden settings file called{" "}
-            <code className="text-[var(--s-accent)]">~/.zshrc</code> that runs every
-            time you open a terminal. Open it:
+            Right now, launching Claude requires typing a long command with
+            flags. We&apos;re going to create a shortcut so you just type
+            three letters: <code className="text-[var(--s-accent)]">cam</code>.
           </p>
-          <CodeBlock code="open -a TextEdit ~/.zshrc" />
+          <p>
+            Tell Claude to set this up for you:
+          </p>
+          <CodeBlock code={`claude`} />
           <p className="text-[var(--s-text-muted)] text-xs">
-            Add this line at the bottom of the file, then save and close:
+            Once Claude launches, say:
           </p>
-          <CodeBlock
-            code={`alias cam="claude --permission-mode auto"  # Claude Auto Mode`}
-          />
-          <p>Then reload your terminal settings:</p>
-          <CodeBlock code="source ~/.zshrc" />
+          <CodeBlock code={`Add an alias called cam to my .zshrc that runs "claude --permission-mode auto". Then reload my shell config. Explain what you did.`} />
 
           <Callout type="info">
-            <strong className="text-[var(--s-text-strong)]">CAM</strong> = Claude Auto Mode.
+            <strong className="text-[var(--s-text-strong)]">cam</strong> = Claude Auto Mode.
             When you type <code className="text-[var(--s-accent)]">cam</code>, Claude
             launches and handles file edits, commands, and tool calls without
             stopping to ask. Navigate to your project folder first, then
             type <code className="text-[var(--s-accent)]">cam</code>.
           </Callout>
           <Callout type="success" title="You'll know it worked when">
-            <code className="text-[var(--s-accent-green)]">cd ~/AI && cam</code> launches
-            Claude in auto mode. You&apos;ll see it start working without
-            permission prompts.
+            Type <code className="text-[var(--s-accent-green)]">/exit</code>,
+            then <code className="text-[var(--s-accent-green)]">cam</code> —
+            Claude launches in auto mode without permission prompts.
           </Callout>
         </StepCard>
 
@@ -305,10 +305,10 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             everything pre-configured so you can start building immediately.
             Clone it into your workspace:
           </p>
-          <CodeBlock code={`cd ~/AI\ngit clone https://github.com/campminder/vibe_coding_starter_pack.git\ncd vibe_coding_starter_pack`} />
+          <CodeBlock code={`cd ~/Desktop/AI-Builds\ngit clone https://github.com/campminder/vibe_coding_starter_pack.git\ncd vibe_coding_starter_pack`} />
           <p className="text-[var(--s-text-muted)] text-xs">
             This downloads the project to{" "}
-            <code className="text-[var(--s-accent)]">~/AI/vibe_coding_starter_pack</code>.
+            <code className="text-[var(--s-accent)]">~/Desktop/AI-Builds/vibe_coding_starter_pack</code>.
             It includes a CLAUDE.md, skills, and project structure already set
             up.
           </p>
@@ -396,36 +396,32 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           <p>
             Skills are instruction sets that make Claude an expert at specific
             tasks. Instead of explaining how you want something done every time,
-            the skill handles it. We&apos;ll install three skill packs:
+            the skill handles it. Copy paste the commands below into Claude and
+            tell it to execute — it&apos;ll download and install everything.
           </p>
 
-          <p className="font-medium text-[var(--s-text-strong)]">1. CampMinder Product Toolkit (includes Sage):</p>
-          <CodeBlock code={`cd ~/AI\ngit clone https://github.com/campminder/cm-product-toolkit.git`} />
+          <p className="font-medium text-[var(--s-text-strong)]">Tell Claude:</p>
+          <CodeBlock code={`Clone these repos into ~/Desktop/AI-Builds/ and install all plugins and skills from them:\n\n1. https://github.com/campminder/cm-product-toolkit.git\n2. https://github.com/phuryn/pm-skills.git\n\nExecute these commands and confirm when done.`} />
+
           <p className="text-[var(--s-text-muted)] text-xs">
-            This includes <strong className="text-[var(--s-text-body)]">Sage</strong> — our
+            The <strong className="text-[var(--s-text-body)]">CampMinder Product Toolkit</strong>{" "}
+            includes <strong className="text-[var(--s-text-body)]">Sage</strong> — our
             product coaching AI. Type{" "}
             <code className="text-[var(--s-accent)]">/sage</code> or say &ldquo;coach
-            me&rdquo; to get product coaching on discovery, delivery, OKRs,
+            me&rdquo; for product coaching on discovery, delivery, OKRs,
             JTBD, bets, and prioritization.
           </p>
-
-          <p className="font-medium text-[var(--s-text-strong)]">2. PM Skills (40+ product management skills):</p>
-          <CodeBlock code="git clone https://github.com/phuryn/pm-skills.git" />
           <p className="text-[var(--s-text-muted)] text-xs">
-            Covers discovery, strategy, execution, go-to-market, and marketing.
-            PRDs, user stories, sprint planning, competitive analysis, pricing
-            strategies, and more.
+            The <strong className="text-[var(--s-text-body)]">PM Skills</strong> pack
+            adds 40+ skills covering strategy, execution, go-to-market,
+            marketing, PRDs, user stories, sprint planning, competitive
+            analysis, and more.
           </p>
 
-          <Callout type="info">
-            The Vibe Code Starter Pack (Step 5) already has its own built-in
-            skills. These repos give you additional capabilities you can use
-            across any project.
-          </Callout>
           <Callout type="success" title="You'll know it worked when">
-            Open Claude in the cm-product-toolkit folder and type{" "}
-            <code className="text-[var(--s-accent-green)]">/sage</code>. Sage should
-            respond as your product coach.
+            Claude confirms all plugins installed successfully. Type{" "}
+            <code className="text-[var(--s-accent-green)]">/sage</code> and Sage
+            responds as your product coach.
           </Callout>
         </StepCard>
 
@@ -484,7 +480,12 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             these in a regular terminal tab.
           </p>
           <CodeBlock code="npm install -g vercel" />
-          <CodeBlock code="vercel login" />
+          <CodeBlock code="! vercel login" />
+          <p className="text-[var(--s-text-muted)] text-xs">
+            The <code className="text-[var(--s-accent)]">!</code> prefix runs
+            the command in your terminal session directly — needed for
+            interactive logins.
+          </p>
           <p className="text-[var(--s-text-muted)] text-xs">
             This opens a browser window to sign in. Use your GitHub account
             for the simplest setup.
@@ -500,8 +501,23 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           </Callout>
         </StepCard>
 
-        {/* ═══ STEP 11: Your First Prototype ═══ */}
-        <StepCard stepNumber={11} title="Your First Prototype" id="step-11" time="28 min">
+        {/* ═══ STEP 11: Status Bar ═══ */}
+        <StepCard stepNumber={11} title="Status Bar" id="step-11" time="1 min">
+          <p>
+            Before we start building, let&apos;s set up your status bar so you
+            can always see what&apos;s happening — which branch you&apos;re on,
+            how many tokens you&apos;ve used, and how much context is left.
+          </p>
+          <p>Inside a Claude session, say:</p>
+          <CodeBlock code={`Add information to my status bar: show the current git branch, the percentage of tokens used, and the percentage of context used.`} />
+          <Callout type="success" title="You'll know it worked when">
+            Your terminal status bar updates to show branch name, token usage,
+            and context usage. These update in real time as you work.
+          </Callout>
+        </StepCard>
+
+        {/* ═══ STEP 12: Your First Prototype ═══ */}
+        <StepCard stepNumber={12} title="Your First Prototype" id="step-12" time="28 min">
           <p className="font-medium text-[var(--s-text-strong)] text-base">The exercise</p>
           <p>
             Give prompt guidance, not identical prompts. Each person writes
@@ -562,7 +578,7 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             If you&apos;re inside a Claude session, type{" "}
             <code className="text-[var(--s-accent)]">/exit</code> first.
           </p>
-          <CodeBlock code={`cd ~/AI\nmkdir my-prototype\ncd my-prototype`} />
+          <CodeBlock code={`cd ~/Desktop/AI-Builds\nmkdir my-prototype\ncd my-prototype`} />
           <p className="text-[var(--s-text-muted)] text-xs">
             Replace <code className="text-[var(--s-accent)]">my-prototype</code> with
             whatever name fits your idea (e.g.,{" "}
@@ -588,10 +604,12 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           </Callout>
 
           <p className="font-medium text-[var(--s-text-strong)]">4. Brainstorm:</p>
-          <CodeBlock code="/workflow-brainstorm" />
+          <CodeBlock code="/brainstorm-ideas-new" />
           <p className="text-[var(--s-text-muted)] text-xs">
-            Describe your prototype idea. Claude will ask clarifying questions.
-            Then bring in Sage for product coaching:
+            This skill (from the PM Skills pack) helps you shape your idea from
+            PM, Designer, and Engineer perspectives. Describe your prototype
+            idea and Claude will ask clarifying questions. Then bring in Sage
+            for product coaching:
           </p>
           <CodeBlock code="/sage" />
           <p className="text-[var(--s-text-muted)] text-xs">

@@ -14,6 +14,7 @@ const STEP_LABELS = [
   "Skills & Sage",
   "Voice",
   "Vercel",
+  "Status Bar",
   "First Prototype",
 ];
 
