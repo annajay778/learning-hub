@@ -38,7 +38,7 @@ export function StepCard({ stepNumber, title, id, time, children }: StepCardProp
       ref={cardRef}
       id={id}
       data-step={stepNumber}
-      className={`scroll-mt-20 transition-all duration-700 ease-out rounded-2xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-md p-6 sm:p-8 ${
+      className={`scroll-mt-20 transition-all duration-700 ease-out rounded-2xl border border-[var(--s-card-border)] bg-[var(--s-card-bg)] p-6 sm:p-8 ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
       }`}
     >
@@ -47,16 +47,16 @@ export function StepCard({ stepNumber, title, id, time, children }: StepCardProp
           {stepNumber}
         </span>
         <div className="flex-1">
-          <h2 className="text-lg font-semibold text-white">{title}</h2>
+          <h2 className="text-lg font-semibold text-[var(--s-text)]">{title}</h2>
         </div>
         {time && (
-          <span className="flex items-center gap-1 text-[11px] text-white/30">
+          <span className="flex items-center gap-1 text-[11px] text-[var(--s-text-dim)]">
             <Clock className="h-3 w-3" />
             {time}
           </span>
         )}
       </div>
-      <div className="space-y-4 text-sm leading-relaxed text-white/70">
+      <div className="space-y-4 text-sm leading-relaxed text-[var(--s-text-body)]">
         {children}
       </div>
     </section>

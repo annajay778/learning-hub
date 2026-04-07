@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Sun, Moon } from "lucide-react";
 
 const STEP_LABELS = [
   "cmux",
@@ -19,9 +20,11 @@ const STEP_LABELS = [
 interface SetupNavProps {
   currentStep: number;
   totalSteps: number;
+  theme: "dark" | "light";
+  onToggleTheme: () => void;
 }
 
-export function SetupNav({ currentStep, totalSteps }: SetupNavProps) {
+export function SetupNav({ currentStep, totalSteps, theme, onToggleTheme }: SetupNavProps) {
   const progress = totalSteps > 0 ? (currentStep / totalSteps) * 100 : 0;
 
   function scrollToStep(step: number) {
@@ -30,12 +33,12 @@ export function SetupNav({ currentStep, totalSteps }: SetupNavProps) {
   }
 
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#0B1120]/90 backdrop-blur-md">
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-[var(--s-card-border)] bg-[var(--s-nav-bg)] backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4 sm:px-6">
         {/* Left: Brand */}
         <Link
           href="/"
-          className="text-xs font-semibold tracking-tight text-white/60 transition-colors hover:text-white/90"
+          className="text-xs font-semibold tracking-tight text-[var(--s-text-muted)] transition-colors hover:text-[var(--s-text)]"
         >
           Build to Learn
         </Link>
@@ -58,8 +61,8 @@ export function SetupNav({ currentStep, totalSteps }: SetupNavProps) {
                     isCurrent
                       ? "scale-125 bg-gradient-to-br from-purple-400 to-orange-400"
                       : isPast
-                        ? "bg-white/40"
-                        : "bg-white/15"
+                        ? "bg-[var(--s-dot-past)]"
+                        : "bg-[var(--s-dot-future)]"
                   }`}
                 />
               </button>
@@ -67,16 +70,25 @@ export function SetupNav({ currentStep, totalSteps }: SetupNavProps) {
           })}
         </div>
 
-        {/* Right: Step counter */}
-        <span className="text-xs tabular-nums text-white/40">
-          {currentStep > 0
-            ? `Step ${currentStep} of ${totalSteps}`
-            : `${totalSteps} Steps`}
-        </span>
+        {/* Right: Theme toggle + Step counter */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onToggleTheme}
+            className="flex h-7 w-7 items-center justify-center rounded-md border border-[var(--s-card-border)] text-[var(--s-text-muted)] transition-colors hover:text-[var(--s-text)]"
+            title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {theme === "dark" ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
+          </button>
+          <span className="text-xs tabular-nums text-[var(--s-text-dim)]">
+            {currentStep > 0
+              ? `Step ${currentStep} of ${totalSteps}`
+              : `${totalSteps} Steps`}
+          </span>
+        </div>
       </div>
 
       {/* Progress bar */}
-      <div className="h-0.5 w-full bg-white/[0.04]">
+      <div className="h-0.5 w-full bg-[var(--s-progress-bar-bg)]">
         <div
           className="h-full bg-gradient-to-r from-purple-500 to-orange-500 transition-[width] duration-500 ease-out"
           style={{ width: `${progress}%` }}

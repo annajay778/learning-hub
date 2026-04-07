@@ -29,6 +29,7 @@ const TOTAL_STEPS = 11;
 
 export function SetupGuide() {
   const [currentStep, setCurrentStep] = useState(0);
+  const [theme, setTheme] = useState<"dark" | "light">("light");
 
   useEffect(() => {
     const stepEls = document.querySelectorAll<HTMLElement>("[data-step]");
@@ -51,15 +52,15 @@ export function SetupGuide() {
   }, []);
 
   return (
-    <div className="min-h-svh bg-[#0B1120]">
-      <SetupNav currentStep={currentStep} totalSteps={TOTAL_STEPS} />
-      <SetupHero />
+    <div className={`min-h-svh bg-[var(--s-bg)] ${theme === "dark" ? "setup-dark" : "setup-light"}`}>
+      <SetupNav currentStep={currentStep} totalSteps={TOTAL_STEPS} theme={theme} onToggleTheme={() => setTheme(t => t === "dark" ? "light" : "dark")} />
+      <SetupHero theme={theme} />
 
       {/* Prerequisites */}
       <div id="step-1-prereq" className="scroll-mt-20 mx-auto max-w-3xl px-4 pb-6 pt-12 sm:px-6">
         <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.04] p-6 sm:p-8">
-          <h2 className="mb-3 text-base font-semibold text-white">You&apos;re all set</h2>
-          <p className="text-sm text-white/60">
+          <h2 className="mb-3 text-base font-semibold text-[var(--s-text)]">You&apos;re all set</h2>
+          <p className="text-sm text-[var(--s-text-muted)]">
             Your GitHub, Vercel, and Anthropic accounts have already been
             created by the platform team. You just need a Mac and an internet
             connection.
@@ -77,21 +78,21 @@ export function SetupGuide() {
             side, and sends you a notification when Claude finishes a long task
             so you don&apos;t have to babysit.
           </p>
-          <p className="font-medium text-white/90">Download and install:</p>
+          <p className="font-medium text-[var(--s-text-strong)]">Download and install:</p>
           <p>
             <a
               href="https://github.com/manaflow-ai/cmux/releases/latest/download/cmux-macos.dmg"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-purple-400 underline decoration-purple-400/30 underline-offset-2 hover:decoration-purple-400"
+              className="text-[var(--s-accent)] underline decoration-[var(--s-accent)]/30 underline-offset-2 hover:decoration-[var(--s-accent)]"
             >
               Download the DMG from GitHub &rarr;
             </a>
           </p>
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             Open the DMG file and drag cmux into your Applications folder.
             If you have Homebrew, you can also run{" "}
-            <code className="text-purple-300">brew install --cask cmux</code>.
+            <code className="text-[var(--s-accent)]">brew install --cask cmux</code>.
           </p>
           <Callout type="success" title="You'll know it worked when">
             Open cmux from your Applications folder. You should see a terminal
@@ -106,11 +107,11 @@ export function SetupGuide() {
             projects run. You won&apos;t interact with it directly — it just
             needs to be installed on your Mac.
           </p>
-          <p className="font-medium text-white/90">Check if you already have it:</p>
+          <p className="font-medium text-[var(--s-text-strong)]">Check if you already have it:</p>
           <CodeBlock code="node -v" />
           <p>
             If you see{" "}
-            <code className="rounded bg-white/10 px-1.5 py-0.5 text-emerald-400">v20</code>{" "}
+            <code className="rounded bg-[var(--s-code-bg)] px-1.5 py-0.5 text-[var(--s-accent-green)]">v20</code>{" "}
             or higher (e.g., v22.14.0 or v24.13.0), skip to Step 3. Otherwise:
           </p>
           <p>
@@ -123,15 +124,15 @@ export function SetupGuide() {
               href="https://nodejs.org/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-purple-400 underline decoration-purple-400/30 underline-offset-2 hover:decoration-purple-400"
+              className="text-[var(--s-accent)] underline decoration-[var(--s-accent)]/30 underline-offset-2 hover:decoration-[var(--s-accent)]"
             >
               download the installer from nodejs.org &rarr;
             </a>
           </p>
           <Callout type="success" title="You'll know it worked when">
-            <code className="text-emerald-300">node -v</code> prints a version
-            number like <code className="text-emerald-300">v22.14.0</code>, and{" "}
-            <code className="text-emerald-300">npm -v</code> also prints a
+            <code className="text-[var(--s-accent-green)]">node -v</code> prints a version
+            number like <code className="text-[var(--s-accent-green)]">v22.14.0</code>, and{" "}
+            <code className="text-[var(--s-accent-green)]">npm -v</code> also prints a
             number (npm is a tool that comes bundled with Node automatically).
           </Callout>
         </StepCard>
@@ -144,36 +145,36 @@ export function SetupGuide() {
             it does the work.
           </p>
           <CodeBlock code="npm install -g @anthropic-ai/claude-code" />
-          <p className="text-white/50 text-xs">
-            The <code className="text-purple-300">-g</code> flag installs it
+          <p className="text-[var(--s-text-muted)] text-xs">
+            The <code className="text-[var(--s-accent)]">-g</code> flag installs it
             globally, meaning you can run{" "}
-            <code className="text-purple-300">claude</code> from any folder on
+            <code className="text-[var(--s-accent)]">claude</code> from any folder on
             your Mac.
           </p>
           <p>
             If you get a permission error (you&apos;ll see the word{" "}
-            <code className="rounded bg-white/10 px-1.5 py-0.5 text-red-400">EACCES</code>{" "}
+            <code className="rounded bg-[var(--s-code-bg)] px-1.5 py-0.5 text-red-400">EACCES</code>{" "}
             — this is common on fresh Macs), use this alternative instead:
           </p>
           <CodeBlock code="npx @anthropic-ai/claude-code" />
-          <p className="font-medium text-white/90">Now launch it:</p>
+          <p className="font-medium text-[var(--s-text-strong)]">Now launch it:</p>
           <p>
-            Type <code className="rounded bg-white/10 px-1.5 py-0.5 text-purple-300">claude</code>{" "}
+            Type <code className="rounded bg-[var(--s-code-bg)] px-1.5 py-0.5 text-[var(--s-accent)]">claude</code>{" "}
             and press Enter. The first time, it will open a browser window where
             you sign in with your Anthropic account. After you sign in, go back
             to your terminal.
           </p>
           <Callout type="success" title="You'll know it worked when">
             Your terminal shows an interactive session with a{" "}
-            <code className="text-emerald-300">&gt;</code> prompt waiting for
+            <code className="text-[var(--s-accent-green)]">&gt;</code> prompt waiting for
             your input. Type &ldquo;hello&rdquo; — Claude should respond. Type{" "}
-            <code className="text-emerald-300">/exit</code> to leave when done.
+            <code className="text-[var(--s-accent-green)]">/exit</code> to leave when done.
           </Callout>
           <Callout type="info">
             Claude reads every file in the folder where you launch it. In the
             future, always navigate to your project folder first (e.g.,{" "}
-            <code className="text-purple-300">cd ~/AI/my-project</code>) before
-            running <code className="text-purple-300">claude</code>. Let&apos;s
+            <code className="text-[var(--s-accent)]">cd ~/AI/my-project</code>) before
+            running <code className="text-[var(--s-accent)]">claude</code>. Let&apos;s
             move onto the next step and get this done.
           </Callout>
         </StepCard>
@@ -187,24 +188,24 @@ export function SetupGuide() {
           </p>
 
           <p>
-            <strong className="text-white/80">1. Create your workspace folder:</strong>
+            <strong className="text-[var(--s-text-body)]">1. Create your workspace folder:</strong>
           </p>
           <CodeBlock code="mkdir -p ~/AI" />
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             This creates a folder called &ldquo;AI&rdquo; in your home
             directory. All your projects will live here.
           </p>
 
           <p>
-            <strong className="text-white/80">2. Add the CAM shortcut:</strong>
+            <strong className="text-[var(--s-text-body)]">2. Add the CAM shortcut:</strong>
           </p>
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             Your Mac has a hidden settings file called{" "}
-            <code className="text-purple-300">~/.zshrc</code> that runs every
+            <code className="text-[var(--s-accent)]">~/.zshrc</code> that runs every
             time you open a terminal. Open it:
           </p>
           <CodeBlock code="open -a TextEdit ~/.zshrc" />
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             Add this line at the bottom of the file, then save and close:
           </p>
           <CodeBlock
@@ -214,14 +215,14 @@ export function SetupGuide() {
           <CodeBlock code="source ~/.zshrc" />
 
           <Callout type="info">
-            <strong className="text-white/90">CAM</strong> = Claude Auto Mode.
-            When you type <code className="text-purple-300">cam</code>, Claude
+            <strong className="text-[var(--s-text-strong)]">CAM</strong> = Claude Auto Mode.
+            When you type <code className="text-[var(--s-accent)]">cam</code>, Claude
             launches and handles file edits, commands, and tool calls without
             stopping to ask. Navigate to your project folder first, then
-            type <code className="text-purple-300">cam</code>.
+            type <code className="text-[var(--s-accent)]">cam</code>.
           </Callout>
           <Callout type="success" title="You'll know it worked when">
-            <code className="text-emerald-300">cd ~/AI && cam</code> launches
+            <code className="text-[var(--s-accent-green)]">cd ~/AI && cam</code> launches
             Claude in auto mode. You&apos;ll see it start working without
             permission prompts.
           </Callout>
@@ -235,13 +236,13 @@ export function SetupGuide() {
             Clone it into your workspace:
           </p>
           <CodeBlock code={`cd ~/AI\ngit clone https://github.com/campminder/vibe_coding_starter_pack.git\ncd vibe_coding_starter_pack`} />
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             This downloads the project to{" "}
-            <code className="text-purple-300">~/AI/vibe_coding_starter_pack</code>.
+            <code className="text-[var(--s-accent)]">~/AI/vibe_coding_starter_pack</code>.
             It includes a CLAUDE.md, skills, and project structure already set
             up.
           </p>
-          <p className="font-medium text-white/90">Install dependencies and launch Claude:</p>
+          <p className="font-medium text-[var(--s-text-strong)]">Install dependencies and launch Claude:</p>
           <CodeBlock code={`npm install\ncam`} />
           <Callout type="success" title="You'll know it worked when">
             Claude launches in auto mode inside the starter pack folder. Ask
@@ -258,7 +259,7 @@ export function SetupGuide() {
             meeting agendas — they keep the AI focused on the right thing at the
             right time.
           </p>
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             These are slash commands you type inside a Claude Code session.
             They&apos;re built into the project — you don&apos;t install them.
           </p>
@@ -298,29 +299,29 @@ export function SetupGuide() {
             ].map(({ cmd, label, desc, icon: Icon }) => (
               <div
                 key={cmd}
-                className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4"
+                className="rounded-xl border border-[var(--s-card-border)] bg-[var(--s-card-bg)] p-4"
               >
                 <div className="mb-2 flex items-center gap-2">
-                  <Icon className="h-4 w-4 text-purple-400" />
-                  <code className="text-sm font-semibold text-purple-300">
+                  <Icon className="h-4 w-4 text-[var(--s-accent)]" />
+                  <code className="text-sm font-semibold text-[var(--s-accent)]">
                     {cmd}
                   </code>
                 </div>
-                <p className="text-xs font-medium text-white/50">{label}</p>
-                <p className="mt-1 text-xs text-white/40">{desc}</p>
+                <p className="text-xs font-medium text-[var(--s-text-muted)]">{label}</p>
+                <p className="mt-1 text-xs text-[var(--s-text-dim)]">{desc}</p>
               </div>
             ))}
           </div>
 
           <Callout type="tip">
             You don&apos;t always use all 5. Quick fixes might just
-            be <code className="text-purple-300">/workflow-work</code>. Big features
-            start with <code className="text-purple-300">/workflow-brainstorm</code>.
+            be <code className="text-[var(--s-accent)]">/workflow-work</code>. Big features
+            start with <code className="text-[var(--s-accent)]">/workflow-brainstorm</code>.
             Most of the time you&apos;ll use 2-3.
           </Callout>
           <Callout type="success" title="You'll know it worked when">
             Inside a Claude session, type{" "}
-            <code className="text-emerald-300">/workflow-brainstorm</code> and
+            <code className="text-[var(--s-accent-green)]">/workflow-brainstorm</code> and
             press Enter. Claude should ask you a structured set of questions
             about what you want to build.
           </Callout>
@@ -334,19 +335,19 @@ export function SetupGuide() {
             the skill handles it. We&apos;ll install three skill packs:
           </p>
 
-          <p className="font-medium text-white/90">1. CampMinder Product Toolkit (includes Sage):</p>
+          <p className="font-medium text-[var(--s-text-strong)]">1. CampMinder Product Toolkit (includes Sage):</p>
           <CodeBlock code={`cd ~/AI\ngit clone https://github.com/campminder/cm-product-toolkit.git`} />
-          <p className="text-white/50 text-xs">
-            This includes <strong className="text-white/70">Sage</strong> — our
+          <p className="text-[var(--s-text-muted)] text-xs">
+            This includes <strong className="text-[var(--s-text-body)]">Sage</strong> — our
             product coaching AI. Type{" "}
-            <code className="text-purple-300">/sage</code> or say &ldquo;coach
+            <code className="text-[var(--s-accent)]">/sage</code> or say &ldquo;coach
             me&rdquo; to get product coaching on discovery, delivery, OKRs,
             JTBD, bets, and prioritization.
           </p>
 
-          <p className="font-medium text-white/90">2. PM Skills (40+ product management skills):</p>
+          <p className="font-medium text-[var(--s-text-strong)]">2. PM Skills (40+ product management skills):</p>
           <CodeBlock code="git clone https://github.com/phuryn/pm-skills.git" />
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             Covers discovery, strategy, execution, go-to-market, and marketing.
             PRDs, user stories, sprint planning, competitive analysis, pricing
             strategies, and more.
@@ -359,7 +360,7 @@ export function SetupGuide() {
           </Callout>
           <Callout type="success" title="You'll know it worked when">
             Open Claude in the cm-product-toolkit folder and type{" "}
-            <code className="text-emerald-300">/sage</code>. Sage should
+            <code className="text-[var(--s-accent-green)]">/sage</code>. Sage should
             respond as your product coach.
           </Callout>
         </StepCard>
@@ -372,7 +373,7 @@ export function SetupGuide() {
           </p>
           <CodeBlock code="/voice" />
           <p>
-            Once enabled, hold the <strong className="text-white">spacebar</strong>{" "}
+            Once enabled, hold the <strong className="text-[var(--s-text)]">spacebar</strong>{" "}
             to record. Release to send. Claude transcribes your speech and
             responds.
           </p>
@@ -393,13 +394,13 @@ export function SetupGuide() {
             </li>
           </ul>
           <Callout type="success" title="You'll know it worked when">
-            After typing <code className="text-emerald-300">/voice</code>,
+            After typing <code className="text-[var(--s-accent-green)]">/voice</code>,
             hold spacebar — you&apos;ll see a recording indicator. Release it
             and your spoken words appear as text input.
           </Callout>
           <Callout type="tip">
             Alternatively, you can use a tool like{" "}
-            <strong className="text-white/90">Whisper</strong> for
+            <strong className="text-[var(--s-text-strong)]">Whisper</strong> for
             speech-to-text, or connect with Spencer — he built a voice tool
             and can help you get it into your system.
           </Callout>
@@ -414,35 +415,35 @@ export function SetupGuide() {
           </p>
           <Callout type="warning">
             If you&apos;re inside a Claude session, type{" "}
-            <code className="text-purple-300">/exit</code> first. Run these
+            <code className="text-[var(--s-accent)]">/exit</code> first. Run these
             commands in a regular terminal tab — the login flow works better
             outside of Claude.
           </Callout>
-          <p className="font-medium text-white/90">Check if you already have them:</p>
+          <p className="font-medium text-[var(--s-text-strong)]">Check if you already have them:</p>
           <CodeBlock code={`git --version\ngh --version`} />
           <p>
             If either says{" "}
-            <code className="rounded bg-white/10 px-1.5 py-0.5 text-red-400">command not found</code>,
+            <code className="rounded bg-[var(--s-code-bg)] px-1.5 py-0.5 text-red-400">command not found</code>,
             install both:
           </p>
           <CodeBlock code="brew install gh git" />
-          <p className="text-white/50 text-xs">
-            <code className="text-purple-300">git</code> is the version control
+          <p className="text-[var(--s-text-muted)] text-xs">
+            <code className="text-[var(--s-accent)]">git</code> is the version control
             tool that tracks changes.{" "}
-            <code className="text-purple-300">gh</code> is GitHub&apos;s helper
+            <code className="text-[var(--s-accent)]">gh</code> is GitHub&apos;s helper
             that makes it easier to create pull requests and manage your code
             from the terminal.
           </p>
-          <p className="font-medium text-white/90">Tell Git who you are:</p>
+          <p className="font-medium text-[var(--s-text-strong)]">Tell Git who you are:</p>
           <CodeBlock
             code={`git config --global user.name "Your Name"\ngit config --global user.email "you@campminder.com"\ngit config --global init.defaultBranch main`}
           />
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             This labels your changes with your name and email so your team knows
             who made what. The last line sets &ldquo;main&rdquo; as the default
             branch name (an industry standard).
           </p>
-          <p className="font-medium text-white/90">Connect your GitHub account:</p>
+          <p className="font-medium text-[var(--s-text-strong)]">Connect your GitHub account:</p>
           <CodeBlock code="gh auth login" />
           <Callout type="warning" title="Password field looks blank — that's normal">
             When the terminal asks for your password, it won&apos;t show any
@@ -451,12 +452,12 @@ export function SetupGuide() {
             Enter. It&apos;s working even though it looks like nothing is
             happening.
           </Callout>
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             Follow the prompts to sign in. It may open a browser window to
             complete the authentication.
           </p>
           <Callout type="success" title="You'll know it worked when">
-            Run <code className="text-emerald-300">gh auth status</code> and
+            Run <code className="text-[var(--s-accent-green)]">gh auth status</code> and
             you see your GitHub username and &ldquo;Logged in to github.com.&rdquo;
           </Callout>
           <Callout type="claude" title="After this, Claude handles git for you">
@@ -474,19 +475,19 @@ export function SetupGuide() {
             seconds — no manual steps. We use it because it&apos;s built for
             Next.js (our framework) and requires zero server setup.
           </p>
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             If you&apos;re inside a Claude session, type{" "}
-            <code className="text-purple-300">/exit</code> first, then run
+            <code className="text-[var(--s-accent)]">/exit</code> first, then run
             these in a regular terminal tab.
           </p>
           <CodeBlock code="npm install -g vercel" />
           <CodeBlock code="vercel login" />
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             This opens a browser window to sign in. Use your GitHub account
             for the simplest setup.
           </p>
           <Callout type="success" title="You'll know it worked when">
-            Run <code className="text-emerald-300">vercel whoami</code> and it
+            Run <code className="text-[var(--s-accent-green)]">vercel whoami</code> and it
             prints your Vercel username.
           </Callout>
           <Callout type="claude" title="Let Claude deploy for you">
@@ -498,7 +499,7 @@ export function SetupGuide() {
 
         {/* ═══ STEP 11: Your First Prototype ═══ */}
         <StepCard stepNumber={11} title="Your First Prototype" id="step-11" time="28 min">
-          <p className="font-medium text-white/90 text-base">The exercise</p>
+          <p className="font-medium text-[var(--s-text-strong)] text-base">The exercise</p>
           <p>
             Give prompt guidance, not identical prompts. Each person writes
             their own and observes how variation in description leads to
@@ -506,7 +507,7 @@ export function SetupGuide() {
           </p>
 
           <div className="rounded-xl border border-purple-500/20 bg-purple-500/[0.06] p-5 space-y-3">
-            <p className="text-white/80">
+            <p className="text-[var(--s-text-body)]">
               Think of something small and concrete that relates to your product
               area. Not a full feature — a single screen or interaction. Some
               examples:
@@ -525,10 +526,10 @@ export function SetupGuide() {
                 A simple table view of [data you work with] with sort and search
               </li>
             </ul>
-            <p className="text-white/60 text-xs">
+            <p className="text-[var(--s-text-muted)] text-xs">
               If you need a starting point, here are a few real problems from Aha:
             </p>
-            <ul className="space-y-1.5 text-xs text-white/50">
+            <ul className="space-y-1.5 text-xs text-[var(--s-text-muted)]">
               <li className="flex items-start gap-2">
                 <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-orange-400/60" />
                 Camps can&apos;t see which families on the waitlist are most
@@ -546,61 +547,61 @@ export function SetupGuide() {
                 exposure is
               </li>
             </ul>
-            <p className="text-white/60 text-xs italic">
+            <p className="text-[var(--s-text-muted)] text-xs italic">
               Describe it to Claude the way you&apos;d describe it to a smart
               intern who&apos;s never seen Campminder. Be specific about what
               data should appear. Use plain English.
             </p>
           </div>
 
-          <p className="font-medium text-white/90">1. Create your project folder:</p>
-          <p className="text-white/50 text-xs">
+          <p className="font-medium text-[var(--s-text-strong)]">1. Create your project folder:</p>
+          <p className="text-[var(--s-text-muted)] text-xs">
             If you&apos;re inside a Claude session, type{" "}
-            <code className="text-purple-300">/exit</code> first.
+            <code className="text-[var(--s-accent)]">/exit</code> first.
           </p>
           <CodeBlock code={`cd ~/AI\nmkdir my-prototype\ncd my-prototype`} />
-          <p className="text-white/50 text-xs">
-            Replace <code className="text-purple-300">my-prototype</code> with
+          <p className="text-[var(--s-text-muted)] text-xs">
+            Replace <code className="text-[var(--s-accent)]">my-prototype</code> with
             whatever name fits your idea (e.g.,{" "}
-            <code className="text-purple-300">waitlist-dashboard</code> or{" "}
-            <code className="text-purple-300">cabin-capacity</code>).
+            <code className="text-[var(--s-accent)]">waitlist-dashboard</code> or{" "}
+            <code className="text-[var(--s-accent)]">cabin-capacity</code>).
           </p>
 
-          <p className="font-medium text-white/90">2. Create a GitHub repo and connect to Vercel:</p>
-          <p className="text-white/50 text-xs">
+          <p className="font-medium text-[var(--s-text-strong)]">2. Create a GitHub repo and connect to Vercel:</p>
+          <p className="text-[var(--s-text-muted)] text-xs">
             Launch Claude in your new folder and let it handle the setup:
           </p>
           <CodeBlock code="cam" />
           <p>Then tell Claude:</p>
           <CodeBlock code={`Initialize this as a Next.js project, create a GitHub repo for it, and connect it to Vercel so it auto-deploys on push.`} />
 
-          <p className="font-medium text-white/90">3. Set up Neon (your database):</p>
+          <p className="font-medium text-[var(--s-text-strong)]">3. Set up Neon (your database):</p>
           <p>Still inside Claude, say:</p>
           <CodeBlock code={`Go to neon.tech and set me up a Neon database for this project. Walk me through the steps.`} />
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             Claude will guide you through creating a Neon project, copying the
             connection string, and saving it in your{" "}
-            <code className="text-purple-300">.env.local</code> file.
+            <code className="text-[var(--s-accent)]">.env.local</code> file.
           </p>
 
-          <p className="font-medium text-white/90">4. Brainstorm:</p>
+          <p className="font-medium text-[var(--s-text-strong)]">4. Brainstorm:</p>
           <CodeBlock code="/workflow-brainstorm" />
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             Describe your prototype idea. Claude will ask clarifying questions.
             Then bring in Sage for product coaching:
           </p>
           <CodeBlock code="/sage" />
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             Sage will coach you on the product angle — is this the right scope?
             What&apos;s the job to be done? What should V1 actually include?
           </p>
 
-          <p className="font-medium text-white/90">5. Plan:</p>
-          <p className="text-white/50 text-xs">
+          <p className="font-medium text-[var(--s-text-strong)]">5. Plan:</p>
+          <p className="text-[var(--s-text-muted)] text-xs">
             Once you&apos;re feeling good about the brainstorm, move to planning:
           </p>
           <CodeBlock code="/workflow-plan" />
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             Claude will create an implementation plan. Then use this hot tip:
           </p>
           <Callout type="tip" title="Hot tip: the senior engineer review">
@@ -610,9 +611,9 @@ export function SetupGuide() {
             quality significantly.
           </Callout>
 
-          <p className="font-medium text-white/90">6. Build:</p>
+          <p className="font-medium text-[var(--s-text-strong)]">6. Build:</p>
           <CodeBlock code="/workflow-work" />
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             Claude builds the prototype. When it&apos;s done, run the same
             review trick:
           </p>
@@ -621,17 +622,17 @@ export function SetupGuide() {
             of experience. Review this build and make any updates.&rdquo;
           </Callout>
 
-          <p className="font-medium text-white/90">7. Design pass:</p>
+          <p className="font-medium text-[var(--s-text-strong)]">7. Design pass:</p>
           <p>Then level up the UI:</p>
           <CodeBlock code={`Imagine you're a senior designer with 20 years of experience making a UX/UI update to this flow. Create tasks for yourself and then handle the tasks as you go.`} />
 
-          <p className="font-medium text-white/90">8. Sage check:</p>
-          <p className="text-white/50 text-xs">
+          <p className="font-medium text-[var(--s-text-strong)]">8. Sage check:</p>
+          <p className="text-[var(--s-text-muted)] text-xs">
             Have Sage take another look at the product:
           </p>
           <CodeBlock code="/sage" />
 
-          <p className="font-medium text-white/90">9. Iterate:</p>
+          <p className="font-medium text-[var(--s-text-strong)]">9. Iterate:</p>
           <p>
             Keep iterating until you feel like you&apos;ve hit a good enough
             spot. Talk to Claude in plain English — &ldquo;make the header
@@ -639,23 +640,23 @@ export function SetupGuide() {
             &ldquo;the table needs a loading state.&rdquo;
           </p>
 
-          <p className="font-medium text-white/90">10. Ship it:</p>
+          <p className="font-medium text-[var(--s-text-strong)]">10. Ship it:</p>
           <p>
             When you&apos;re ready, tell Claude:
           </p>
           <CodeBlock code="Commit and push to main" />
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             Vercel auto-deploys on push — you&apos;ll have a live URL within
             seconds. Share it in Slack.
           </p>
 
-          <p className="font-medium text-white/90">11. Save what Claude learned:</p>
+          <p className="font-medium text-[var(--s-text-strong)]">11. Save what Claude learned:</p>
           <CodeBlock code="/workflow-review" />
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             Reviews the code for quality and catches issues. Then:
           </p>
           <CodeBlock code="/workflow-compound" />
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             Documents what Claude learned so it remembers next time you pick
             up this project.
           </p>
@@ -668,43 +669,43 @@ export function SetupGuide() {
 
         {/* ═══ YOU'RE DONE ═══ */}
         <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.06] p-6 text-center sm:p-8">
-          <PartyPopper className="mx-auto mb-3 h-8 w-8 text-emerald-400" />
-          <h2 className="mb-2 text-lg font-semibold text-white">
+          <PartyPopper className="mx-auto mb-3 h-8 w-8 text-[var(--s-accent-green)]" />
+          <h2 className="mb-2 text-lg font-semibold text-[var(--s-text)]">
             You&apos;re set up.
           </h2>
-          <p className="mb-4 text-sm text-white/60">
+          <p className="mb-4 text-sm text-[var(--s-text-muted)]">
             Open cmux, navigate to a project folder, type{" "}
-            <code className="rounded bg-white/10 px-1.5 py-0.5 text-purple-300">cam</code>,
+            <code className="rounded bg-[var(--s-code-bg)] px-1.5 py-0.5 text-[var(--s-accent)]">cam</code>,
             and say: &ldquo;Hello — what can you help me build?&rdquo;
           </p>
-          <p className="text-xs text-white/40">
+          <p className="text-xs text-[var(--s-text-dim)]">
             From here, the workflow is: describe what you want, Claude builds
             it, you iterate together.
           </p>
         </div>
 
         {/* ═══ POST-MEETING: Homebrew ═══ */}
-        <div className="mt-12 rounded-2xl border border-white/[0.08] bg-white/[0.04] p-6 sm:p-8">
-          <h2 className="mb-1 text-base font-semibold text-white">
+        <div className="mt-12 rounded-2xl border border-[var(--s-card-border)] bg-[var(--s-card-bg)] p-6 sm:p-8">
+          <h2 className="mb-1 text-base font-semibold text-[var(--s-text)]">
             After the session: install Homebrew
           </h2>
-          <p className="mb-4 text-sm text-white/60">
+          <p className="mb-4 text-sm text-[var(--s-text-muted)]">
             Homebrew is an App Store for developer tools. You type one command
             and it handles the rest. The initial install can take 15-20 minutes
             on a fresh Mac (Apple needs to download Command Line Tools), so
             do this when you have a few minutes.
           </p>
-          <p className="font-medium text-sm text-white/90">Check if you already have it:</p>
+          <p className="font-medium text-sm text-[var(--s-text-strong)]">Check if you already have it:</p>
           <CodeBlock code="brew --version" />
-          <p className="text-sm text-white/70">
+          <p className="text-sm text-[var(--s-text-body)]">
             If you see a version number, you&apos;re done. If you see{" "}
-            <code className="rounded bg-white/10 px-1.5 py-0.5 text-red-400">command not found</code>,
+            <code className="rounded bg-[var(--s-code-bg)] px-1.5 py-0.5 text-red-400">command not found</code>,
             install it:
           </p>
           <CodeBlock
             code={`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`}
           />
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             Paste this into your terminal and press Enter. It will ask for your
             Mac password — you won&apos;t see characters as you type,
             that&apos;s normal. If Apple prompts you to install Command Line
@@ -712,23 +713,23 @@ export function SetupGuide() {
           </p>
           <Callout type="info">
             Once Homebrew is installed, you can use{" "}
-            <code className="text-purple-300">brew install</code> to quickly
+            <code className="text-[var(--s-accent)]">brew install</code> to quickly
             add tools. For example:{" "}
-            <code className="text-purple-300">brew install --cask cmux</code> or{" "}
-            <code className="text-purple-300">brew install node</code>.
+            <code className="text-[var(--s-accent)]">brew install --cask cmux</code> or{" "}
+            <code className="text-[var(--s-accent)]">brew install node</code>.
           </Callout>
         </div>
 
         {/* ═══ POST-MEETING: MCP Connections ═══ */}
-        <div className="mt-8 rounded-2xl border border-white/[0.08] bg-white/[0.04] p-6 sm:p-8">
-          <h2 className="mb-1 text-base font-semibold text-white">
+        <div className="mt-8 rounded-2xl border border-[var(--s-card-border)] bg-[var(--s-card-bg)] p-6 sm:p-8">
+          <h2 className="mb-1 text-base font-semibold text-[var(--s-text)]">
             After the session: connect your tools with MCP
           </h2>
-          <p className="mb-4 text-sm text-white/60">
+          <p className="mb-4 text-sm text-[var(--s-text-muted)]">
             MCP connections let Claude search your Slack, check your calendar,
             read Notion pages, and more — without you copy-pasting anything.
             Type{" "}
-            <code className="rounded bg-white/10 px-1.5 py-0.5 text-purple-300">/mcp</code>{" "}
+            <code className="rounded bg-[var(--s-code-bg)] px-1.5 py-0.5 text-[var(--s-accent)]">/mcp</code>{" "}
             inside a Claude session to start connecting your tools one at a time.
           </p>
           <div className="grid gap-2 sm:grid-cols-2">
@@ -736,33 +737,33 @@ export function SetupGuide() {
               "Notion", "Slack", "Gmail", "Google Calendar",
               "Pendo", "Chrome Automation", "Azure DevOps", "Context7",
             ].map((name) => (
-              <div key={name} className="rounded-lg border border-white/[0.06] bg-white/[0.03] px-3 py-2">
-                <span className="text-xs text-white/60">{name}</span>
+              <div key={name} className="rounded-lg border border-[var(--s-card-border)] bg-[var(--s-card-bg)] px-3 py-2">
+                <span className="text-xs text-[var(--s-text-muted)]">{name}</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* ═══ CONTINUED LEARNING: Worktrees & Branches ═══ */}
-        <div className="mt-8 rounded-2xl border border-white/[0.08] bg-white/[0.04] p-6 sm:p-8">
-          <h2 className="mb-1 text-base font-semibold text-white">
+        <div className="mt-8 rounded-2xl border border-[var(--s-card-border)] bg-[var(--s-card-bg)] p-6 sm:p-8">
+          <h2 className="mb-1 text-base font-semibold text-[var(--s-text)]">
             Continued learning: worktrees &amp; branches
           </h2>
-          <p className="mb-4 text-sm text-white/60">
+          <p className="mb-4 text-sm text-[var(--s-text-muted)]">
             Once you&apos;re comfortable with the basic workflow, worktrees let
             you experiment without risking your working prototype. A worktree is
             a separate copy of your project where Claude can try something bold —
             if it works, you merge it in. If not, you throw it away.
           </p>
-          <p className="font-medium text-sm text-white/90">Try it:</p>
+          <p className="font-medium text-sm text-[var(--s-text-strong)]">Try it:</p>
           <CodeBlock code={`claude --worktree "experiment-name"`} />
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             This creates an isolated copy of your project on a new branch.
             Claude works there without touching your main code. When you&apos;re
             happy with the result, merge it into main. If it didn&apos;t work
             out, the worktree gets cleaned up automatically.
           </p>
-          <p className="text-white/50 text-xs">
+          <p className="text-[var(--s-text-muted)] text-xs">
             This is how you go from &ldquo;one thing at a time&rdquo; to
             running multiple experiments in parallel — each in its own worktree,
             each safe from the others.
@@ -771,9 +772,9 @@ export function SetupGuide() {
       </div>
 
       {/* ═══ FOOTER ═══ */}
-      <footer className="border-t border-white/[0.06] py-12 text-center">
-        <p className="text-sm text-white/30">Built with Claude Code</p>
-        <p className="mt-1 text-xs text-white/20">
+      <footer className="border-t border-[var(--s-card-border)] py-12 text-center">
+        <p className="text-sm text-[var(--s-text)]/30">Built with Claude Code</p>
+        <p className="mt-1 text-xs text-[var(--s-text)]/20">
           Build to Learn — Anna Goncharova
         </p>
       </footer>
