@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "db:setup": "npx tsx scripts/setup-db.ts",
     "db:studio": "drizzle-kit studio",
-    "sync:week": "npx tsx scripts/sync-week-plan.ts"
+    "sync:week": "npx tsx scripts/sync-week-plan.ts",
+    "sync:learnings": "npx tsx scripts/sync-learnings-from-notion.ts"
   },
   "dependencies": {
     "@notionhq/client": "^2.3.0",
