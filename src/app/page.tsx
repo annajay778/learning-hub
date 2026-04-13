@@ -122,22 +122,41 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Week 4 — current */}
-            <div className="rounded-lg border border-primary/30 bg-card p-3.5 ring-1 ring-primary/10">
+            {/* Week 4 */}
+            <div className="rounded-lg border border-border/50 bg-card p-3.5">
               <div className="flex items-start gap-3">
-                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[10px] font-bold text-emerald-700">
                   4
                 </span>
                 <div>
+                  <p className="text-sm font-medium">April 6 &ndash; 10</p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
+                    Onboarded the product team to Claude Code. Cloned the pairing
+                    model across workstreams. Built async-capable prototypes so
+                    camps can test without us in the room. Kicked off the Parent
+                    Handbook build with Jeremy.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Week 5 — current */}
+            <div className="rounded-lg border border-primary/30 bg-card p-3.5 ring-1 ring-primary/10">
+              <div className="flex items-start gap-3">
+                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                  5
+                </span>
+                <div>
                   <div className="mb-1 flex items-center gap-2">
-                    <p className="text-sm font-medium">April 6 &ndash; 10</p>
+                    <p className="text-sm font-medium">April 13 &ndash; 17</p>
                     <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-primary">
                       This week
                     </span>
                   </div>
                   <p className="text-xs leading-relaxed text-muted-foreground">
-                    Getting prototypes into the hands of parents.
-                    Thursday &amp; Friday: attempting a full build of the Parent Handbook.
+                    Parent Handbook in parent hands. Capturing async feedback
+                    across beta camps. Supporting Jeremy&apos;s build and scaling
+                    the pairing pattern.
                   </p>
                   <p className="mt-1.5 text-[10px] italic text-muted-foreground/50">
                     More to come.
