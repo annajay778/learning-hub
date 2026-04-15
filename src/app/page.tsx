@@ -114,9 +114,10 @@ export default async function HomePage() {
                 <div>
                   <p className="text-sm font-medium">March 30 &ndash; April 3</p>
                   <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
-                    Starting from scratch. Rebuilt both prototypes from the ground up.
-                    Challenged sunk cost fallacies. 3x client touchpoints.
-                    Framed agents, live guardrails, and governance gaps.
+                    Rebuilt both prototypes from the ground up based on client
+                    feedback. 3x client touchpoints. Reframed features as
+                    agents, iterated on live guardrails, and surfaced
+                    governance questions to bring to leadership.
                   </p>
                 </div>
               </div>
