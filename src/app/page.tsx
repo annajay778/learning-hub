@@ -116,8 +116,7 @@ export default async function HomePage() {
                   <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
                     Rebuilt both prototypes from the ground up based on client
                     feedback. 3x client touchpoints. Reframed features as
-                    agents, iterated on live guardrails, and surfaced
-                    governance questions to bring to leadership.
+                    agents and iterated on live guardrails.
                   </p>
                 </div>
               </div>
@@ -155,9 +154,10 @@ export default async function HomePage() {
                     </span>
                   </div>
                   <p className="text-xs leading-relaxed text-muted-foreground">
-                    Parent Handbook in parent hands. Capturing async feedback
-                    across beta camps. Supporting Jeremy&apos;s build and scaling
-                    the pairing pattern.
+                    Parent Handbook AI is live in CampMinder for select beta
+                    clients. Jeremy shipped a ConfigCat skill that extends
+                    Claude Code into our feature flag workflow &mdash; another
+                    reusable capability for the team.
                   </p>
                   <p className="mt-1.5 text-[10px] italic text-muted-foreground/50">
                     More to come.
