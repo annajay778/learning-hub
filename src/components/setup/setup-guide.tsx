@@ -170,15 +170,28 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             Claude reads every file in the folder where you launch it, so
             having a dedicated workspace keeps things organized.
           </p>
-          <CodeBlock code={`mkdir -p ~/Desktop/AI-Builds\ncd ~/Desktop/AI-Builds`} />
+          <CodeBlock code={`mkdir -p ~/ai-builds\ncd ~/ai-builds`} />
           <p className="text-[var(--s-text-muted)] text-xs">
-            This creates a folder called &ldquo;AI-Builds&rdquo; on your
-            Desktop where you can see it. All your projects will live here.
+            This creates an <code className="text-[var(--s-accent)]">ai-builds</code>{" "}
+            folder in your home directory. All your projects will live here.
           </p>
+          <Callout type="warning" title="Don't put this in Desktop or Documents if you sync to iCloud">
+            iCloud sync on Desktop or Documents causes file conflicts once
+            Claude starts writing dozens of files at once. Keep the folder in
+            your home directory (<code className="text-[var(--s-accent)]">~/ai-builds</code>) —
+            not on your Desktop, not in iCloud-synced folders.
+          </Callout>
+          <Callout type="tip" title="Mac tip: Copy as Pathname">
+            In Finder, hold <strong className="text-[var(--s-text-strong)]">Option</strong>,
+            right-click any folder, and choose{" "}
+            <strong className="text-[var(--s-text-strong)]">Copy as Pathname</strong>.
+            Paste it after <code className="text-[var(--s-accent)]">cd</code> in your
+            terminal instead of typing long paths.
+          </Callout>
           <Callout type="success" title="You'll know it worked when">
-            You see an <strong className="text-[var(--s-text-strong)]">AI-Builds</strong>{" "}
-            folder on your Desktop, and your terminal prompt shows you&apos;re
-            inside it.
+            You see an <strong className="text-[var(--s-text-strong)]">ai-builds</strong>{" "}
+            folder in your home directory, and your terminal prompt shows
+            you&apos;re inside it.
           </Callout>
         </StepCard>
 
@@ -202,6 +215,17 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             — this is common on fresh Macs), use this alternative instead:
           </p>
           <CodeBlock code="npx @anthropic-ai/claude-code" />
+          <Callout type="info" title="Why the terminal and not the desktop app?">
+            We use Claude Code in the terminal (not the desktop app) because
+            the CLI gives better outputs, you can watch each step as it runs,
+            it&apos;s faster in practice, and plugin install is more reliable.
+          </Callout>
+          <Callout type="warning" title="About the &ldquo;unlimited extra usage&rdquo; prompt">
+            Claude may ask whether to allow extra usage for long tasks. For
+            product team prototyping, it&apos;s safe to accept — usage at this
+            scale is well within plan limits. If a single run looks runaway,
+            you can always stop it mid-task.
+          </Callout>
           <Callout type="warning" title="Don't launch it yet">
             We just installed Claude — but don&apos;t run it yet. In the next
             step, we&apos;ll make sure it opens in the right folder and set up
@@ -220,12 +244,12 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           <p className="text-[var(--s-text-muted)] text-xs">
             If you already have a workspace folder, just cd into it:
           </p>
-          <CodeBlock code="cd ~/Desktop/AI-Builds" />
+          <CodeBlock code="cd ~/ai-builds" />
           <p className="text-[var(--s-text-muted)] text-xs">
             If you&apos;re skipping ahead and don&apos;t have one yet, create
             it now:
           </p>
-          <CodeBlock code={`mkdir -p ~/Desktop/AI-Builds\ncd ~/Desktop/AI-Builds`} />
+          <CodeBlock code={`mkdir -p ~/ai-builds\ncd ~/ai-builds`} />
           <p className="font-medium text-[var(--s-text-strong)]">2. Launch Claude:</p>
           <CodeBlock code="claude" />
           <p className="text-[var(--s-text-muted)] text-xs">
@@ -241,10 +265,11 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
 
           <p className="font-medium text-[var(--s-text-strong)]">3. Create the <code className="text-[var(--s-accent)]">cam</code> shortcut:</p>
           <p className="text-[var(--s-text-muted)] text-xs">
-            Right now, launching Claude requires typing a long command with
-            flags. We&apos;re going to create a shortcut so you just type
-            three letters: <code className="text-[var(--s-accent)]">cam</code>.
-            Tell Claude:
+            <strong className="text-[var(--s-text-body)]">What this does:</strong>{" "}
+            <code className="text-[var(--s-accent)]">cam</code> is a shortcut
+            that opens Claude Code in whatever folder you&apos;re in with auto
+            permissions enabled — so you don&apos;t have to retype the same
+            command every time. Tell Claude:
           </p>
           <CodeBlock code={`Add an alias called cam to my .zshrc that runs "claude --permission-mode auto". Then reload my shell config. Explain what you did.`} />
 
@@ -255,10 +280,17 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             stopping to ask. Always navigate to your project folder first,
             then type <code className="text-[var(--s-accent)]">cam</code>.
           </Callout>
+          <Callout type="warning" title="Fully quit cmux and re-open it after install">
+            Reloading your shell config (<code className="text-[var(--s-accent)]">source ~/.zshrc</code>)
+            only updates Claude&apos;s subprocess — not your terminal. If you
+            type <code className="text-[var(--s-accent)]">cam</code> and see{" "}
+            <code className="text-red-400">command not found</code>, quit cmux
+            completely (Cmd+Q), re-open it, and try again.
+          </Callout>
           <Callout type="success" title="You'll know it worked when">
-            Type <code className="text-[var(--s-accent-green)]">/exit</code>,
-            then <code className="text-[var(--s-accent-green)]">cam</code> —
-            Claude launches in auto mode without permission prompts.
+            After quitting and re-opening cmux, typing{" "}
+            <code className="text-[var(--s-accent-green)]">cam</code> launches
+            Claude in auto mode without permission prompts.
           </Callout>
         </StepCard>
 
@@ -309,9 +341,31 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-purple-400/60" />
-                Preferred protocol &rarr; <strong className="text-[var(--s-text-strong)]">SSH</strong> (not HTTPS)
+                Preferred protocol &rarr; <strong className="text-[var(--s-text-strong)]">HTTPS</strong> (not SSH)
               </li>
             </ul>
+            HTTPS is simpler for this team — SSH adds key management that
+            isn&apos;t worth the overhead for prototyping.
+          </Callout>
+          <Callout type="warning" title="Copy the one-time code before the browser opens">
+            The CLI prints an{" "}
+            <strong className="text-[var(--s-text-strong)]">8-character one-time code</strong>{" "}
+            in the terminal and then opens a browser. Copy the code first — the
+            browser page asks for it and won&apos;t remind you where it came
+            from.
+          </Callout>
+          <Callout type="warning" title="If browser auth keeps looping in cmux">
+            cmux&apos;s embedded browser doesn&apos;t support passkeys. If auth
+            loops endlessly: open <strong className="text-[var(--s-text-strong)]">cmux Settings → Browser</strong>{" "}
+            and turn <strong className="text-[var(--s-text-strong)]">off</strong>{" "}
+            both &ldquo;open terminal links in cmux browser&rdquo; toggles.
+            Terminal links will then open in your default browser where
+            passkeys work. Backup: run the auth step from the native macOS
+            Terminal app instead of cmux.
+          </Callout>
+          <Callout type="warning" title="2FA adds extra steps">
+            GitHub 2FA is mandatory now. Budget a few extra clicks — grab your
+            authenticator app or physical key before you start.
           </Callout>
           <Callout type="warning" title="Password field looks blank — that's normal">
             When the terminal asks for your password, it won&apos;t show any
@@ -320,13 +374,25 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             Enter. It&apos;s working even though it looks like nothing is
             happening.
           </Callout>
-          <p className="text-[var(--s-text-muted)] text-xs">
-            Follow the remaining prompts. It may open a browser window to
-            complete the authentication.
-          </p>
+          <Callout type="tip" title="If auth keeps failing, hand it to Claude">
+            If you&apos;ve tried auth several times and it&apos;s still looping,
+            exit Claude, launch it in the same folder, and paste: <em>&ldquo;I&apos;ve
+            been doing this over and over again, this is not working — figure
+            out what&apos;s wrong.&rdquo;</em> Claude can usually diagnose and
+            fix it.
+          </Callout>
           <Callout type="success" title="You'll know it worked when">
             Run <code className="text-[var(--s-accent-green)]">gh auth status</code> and
             you see your GitHub username and &ldquo;Logged in to github.com.&rdquo;
+          </Callout>
+          <Callout type="info" title="Already set up on SSH? Switch to HTTPS">
+            If you set up earlier using SSH, switch any existing repo with:
+            <ol className="mt-2 list-decimal space-y-1 pl-5">
+              <li>Type <code className="text-[var(--s-accent)]">/clear</code> inside Claude to start fresh context</li>
+              <li><code className="text-[var(--s-accent)]">cd</code> into the repo you want to switch</li>
+              <li>Tell Claude: <em>&ldquo;Switch this repo from SSH to HTTPS in GitHub&rdquo;</em></li>
+              <li>Authenticate when prompted</li>
+            </ol>
           </Callout>
           <Callout type="claude" title="After this, Claude handles git for you">
             You&apos;ll never need to memorize git commands. Just tell Claude
@@ -340,12 +406,55 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           <p>
             Skills are instruction sets that make Claude an expert at specific
             tasks. Instead of explaining how you want something done every time,
-            the skill handles it. Copy paste the commands below into Claude and
-            tell it to execute — it&apos;ll download and install everything.
+            the skill handles it. We&apos;ll install two plugin packs from the
+            Claude Code marketplace.
           </p>
 
-          <p className="font-medium text-[var(--s-text-strong)]">Tell Claude:</p>
-          <CodeBlock code={`Clone these repos into ~/Desktop/AI-Builds/ and install all plugins and skills from them:\n\n1. https://github.com/campminder/cm-product-toolkit.git\n2. https://github.com/phuryn/pm-skills.git\n\nExecute these commands and confirm when done.`} />
+          <p className="font-medium text-[var(--s-text-strong)]">Inside a Claude session, install the CampMinder Product Toolkit:</p>
+          <ol className="list-decimal space-y-2 pl-5 text-sm">
+            <li>
+              Type <code className="text-[var(--s-accent)]">/plugin</code> and
+              press Enter
+            </li>
+            <li>
+              Choose <strong className="text-[var(--s-text-strong)]">Marketplace</strong> →{" "}
+              <strong className="text-[var(--s-text-strong)]">Add marketplace</strong>
+            </li>
+            <li>
+              Paste:{" "}
+              <code className="text-[var(--s-accent)]">https://github.com/campminder/cm-product-toolkit</code>{" "}
+              and press Enter
+            </li>
+            <li>
+              Choose <strong className="text-[var(--s-text-strong)]">Browse plugins</strong> →{" "}
+              <strong className="text-[var(--s-text-strong)]">Install for you</strong>
+            </li>
+            <li>
+              Type <code className="text-[var(--s-accent)]">/reload plugins</code>
+            </li>
+            <li>
+              Type <code className="text-[var(--s-accent)]">/exit</code>, then
+              relaunch with <code className="text-[var(--s-accent)]">cam</code>
+            </li>
+          </ol>
+
+          <Callout type="warning" title="The exit-and-relaunch step is not optional">
+            Plugins don&apos;t activate until Claude fully restarts. If{" "}
+            <code className="text-[var(--s-accent)]">/sage</code> still
+            isn&apos;t there after relaunch, run{" "}
+            <code className="text-[var(--s-accent)]">/reload plugins</code>{" "}
+            and <code className="text-[var(--s-accent)]">/exit</code> again.
+          </Callout>
+
+          <p className="font-medium text-[var(--s-text-strong)]">Then repeat for the PM Skills pack:</p>
+          <p className="text-[var(--s-text-muted)] text-xs">
+            Same flow — <code className="text-[var(--s-accent)]">/plugin</code> →
+            Marketplace → Add marketplace → paste:{" "}
+            <code className="text-[var(--s-accent)]">https://github.com/phuryn/pm-skills</code>{" "}
+            → Browse plugins → Install for you →{" "}
+            <code className="text-[var(--s-accent)]">/reload plugins</code> →
+            exit and relaunch.
+          </p>
 
           <p className="text-[var(--s-text-muted)] text-xs">
             The <strong className="text-[var(--s-text-body)]">CampMinder Product Toolkit</strong>{" "}
@@ -362,19 +471,7 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             analysis, and more.
           </p>
 
-          <Callout type="success" title="You'll know it worked when">
-            Claude confirms all plugins installed successfully.
-          </Callout>
-
           <p className="font-medium text-[var(--s-text-strong)]">Try Sage:</p>
-          <p className="text-[var(--s-text-muted)] text-xs">
-            You&apos;ll likely need to restart your session for the new skills
-            to load. Type{" "}
-            <code className="text-[var(--s-accent)]">/exit</code>, then{" "}
-            <code className="text-[var(--s-accent)]">cam</code> to relaunch
-            (or <code className="text-[var(--s-accent)]">claude --resume</code>{" "}
-            to pick up where you left off). Then try:
-          </p>
           <CodeBlock code="/sage" />
           <Callout type="success" title="You'll know it worked when">
             Sage responds as your product coach. Try saying &ldquo;coach me on
@@ -389,20 +486,23 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             a new project is one command. First, create a fresh folder inside
             your workspace and launch Claude there:
           </p>
-          <CodeBlock code={`cd ~/Desktop/AI-Builds\nmkdir my-first-project\ncd my-first-project\ncam`} />
+          <CodeBlock code={`cd ~/ai-builds\nmkdir my-first-project\ncd my-first-project\ncam`} />
           <p className="text-[var(--s-text-muted)] text-xs">
-            Replace <code className="text-[var(--s-accent)]">my-first-project</code>{" "}
-            with whatever you want to call it. Each project lives in its own
-            folder.
+            <code className="text-[var(--s-accent)]">my-first-project</code>{" "}
+            is just the folder name — call it whatever you want. Each project
+            lives in its own folder.
           </p>
 
           <p className="font-medium text-[var(--s-text-strong)]">Inside Claude, run:</p>
           <CodeBlock code="/campco-product:new-project" />
-          <p className="text-[var(--s-text-muted)] text-xs">
-            Claude will ask you a few questions about what you&apos;re building
-            and then set everything up for you — CLAUDE.md, project structure,
-            dependencies, the works. Just answer the prompts.
-          </p>
+          <Callout type="info" title="What this does">
+            <code className="text-[var(--s-accent)]">/campco-product:new-project</code>{" "}
+            scaffolds a fresh Next.js + database + AI SDK starter into your
+            folder so you have all the pieces the workflow expects — project
+            structure, CLAUDE.md, dependencies, the works. Claude will ask a
+            few questions about what you&apos;re building, then set everything
+            up. Just answer the prompts.
+          </Callout>
 
           <Callout type="success" title="You'll know it worked when">
             Claude finishes the setup and your folder has files in it. Ask
@@ -642,7 +742,7 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             If you&apos;re inside a Claude session, type{" "}
             <code className="text-[var(--s-accent)]">/exit</code> first.
           </p>
-          <CodeBlock code={`cd ~/Desktop/AI-Builds\nmkdir my-prototype\ncd my-prototype`} />
+          <CodeBlock code={`cd ~/ai-builds\nmkdir my-prototype\ncd my-prototype`} />
           <p className="text-[var(--s-text-muted)] text-xs">
             Replace <code className="text-[var(--s-accent)]">my-prototype</code> with
             whatever name fits your idea (e.g.,{" "}
@@ -732,6 +832,12 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             Vercel auto-deploys on push — you&apos;ll have a live URL within
             seconds. Share it in Slack.
           </p>
+          <Callout type="tip" title="Mac tip: Cmd+click terminal links to open them">
+            When Claude prints a <code className="text-[var(--s-accent)]">http://localhost:...</code>{" "}
+            URL or a Vercel preview link, plain clicking won&apos;t open it.{" "}
+            <strong className="text-[var(--s-text-strong)]">Hold Cmd and click</strong>{" "}
+            any blue link in the terminal to open it in your default browser.
+          </Callout>
 
           <p className="font-medium text-[var(--s-text-strong)]">11. Save what Claude learned:</p>
           <CodeBlock code="/workflow-review" />
