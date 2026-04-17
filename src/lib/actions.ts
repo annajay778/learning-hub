@@ -594,3 +594,11 @@ export async function createHotTip(formData: FormData) {
   revalidatePath("/setup");
   return { success: true };
 }
+
+export async function deleteHotTip(id: string) {
+  "use server";
+  if (!id) return { error: "id required" };
+  await db.delete(lhHotTips).where(eq(lhHotTips.id, id));
+  revalidatePath("/setup");
+  return { success: true };
+}

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { createHotTip } from "@/lib/actions";
-import { Flame, Plus, X } from "lucide-react";
+import { useState, useRef, useTransition } from "react";
+import { createHotTip, deleteHotTip } from "@/lib/actions";
+import { Flame, Plus, X, Trash2 } from "lucide-react";
 
 interface Tip {
   id: string;
@@ -14,6 +14,8 @@ interface Tip {
 export function HotTips({ tips }: { tips: Tip[] }) {
   const [adding, setAdding] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
 
   async function handleSubmit(formData: FormData) {
@@ -22,6 +24,15 @@ export function HotTips({ tips }: { tips: Tip[] }) {
     formRef.current?.reset();
     setSubmitting(false);
     setAdding(false);
+  }
+
+  function handleDelete(id: string) {
+    if (!confirm("Delete this tip?")) return;
+    setDeletingId(id);
+    startTransition(async () => {
+      await deleteHotTip(id);
+      setDeletingId(null);
+    });
   }
 
   return (
@@ -78,9 +89,20 @@ export function HotTips({ tips }: { tips: Tip[] }) {
           {tips.map((tip) => (
             <div
               key={tip.id}
-              className="rounded-xl border border-[var(--s-card-border)] bg-[var(--s-card-bg)] p-4"
+              className={`group relative rounded-xl border border-[var(--s-card-border)] bg-[var(--s-card-bg)] p-4 transition-opacity ${
+                deletingId === tip.id ? "opacity-50" : ""
+              }`}
             >
-              <p className="text-sm text-[var(--s-text-body)]">{tip.body}</p>
+              <button
+                type="button"
+                onClick={() => handleDelete(tip.id)}
+                disabled={deletingId === tip.id}
+                aria-label="Delete tip"
+                className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-md text-[var(--s-text-dim)] opacity-0 transition-all hover:bg-red-500/10 hover:text-red-400 focus:opacity-100 focus:outline-none focus:ring-1 focus:ring-red-500/40 group-hover:opacity-100 disabled:pointer-events-none"
+              >
+                <Trash2 className="h-3.5 w-3.5" />
+              </button>
+              <p className="pr-8 text-sm text-[var(--s-text-body)]">{tip.body}</p>
               <p className="mt-2 text-[10px] text-[var(--s-text-dim)]">
                 {tip.author} &middot;{" "}
                 {new Date(tip.createdAt).toLocaleDateString("en-US", {

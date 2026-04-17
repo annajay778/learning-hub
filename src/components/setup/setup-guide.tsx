@@ -122,16 +122,6 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             <li className="flex items-start gap-2">
               <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-purple-400/60" />
               <span>
-                <strong className="text-[var(--s-text-strong)]">CampMinder QA/test access:</strong>{" "}
-                confirm you can log into CampMinder QA and the test site. If
-                your account is broken (Auth0 transition leaves some orphaned),
-                ping Javi before the session — you can&apos;t iterate a
-                prototype against Campminder if you can&apos;t log in.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-purple-400/60" />
-              <span>
                 <strong className="text-[var(--s-text-strong)]">Turn off cmux&apos;s embedded browser:</strong>{" "}
                 open cmux Settings → scroll to Browser → turn{" "}
                 <strong className="text-[var(--s-text-strong)]">off</strong>{" "}
@@ -141,13 +131,6 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
               </span>
             </li>
           </ul>
-
-          <Callout type="warning" title="Windows users — get a 1:1 with Justin first">
-            Windows setup is well-known to be problematic (executable
-            association issues, different shell, different paths). Plan a 1:1
-            with Justin (UltraCamp IT) before attempting this on Windows —
-            don&apos;t try to muscle through alone.
-          </Callout>
 
           <Callout type="tip" title="Claude is lazy — make it do the work">
             If Claude tells you to do something, tell Claude to do it for you
