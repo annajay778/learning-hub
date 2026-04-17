@@ -55,6 +55,21 @@ export function HotTips({ tips }: { tips: Tip[] }) {
             with the AI.
           </p>
         </div>
+
+        <div className="rounded-xl border border-[var(--s-card-border)] bg-[var(--s-card-bg)] p-4">
+          <div className="mb-2 flex items-center gap-2">
+            <Flame className="h-4 w-4 text-orange-500" />
+            <span className="text-sm font-semibold text-[var(--s-accent)]">
+              Claude is lazy
+            </span>
+          </div>
+          <p className="text-sm text-[var(--s-text-body)]">
+            If Claude tells you to do something, tell Claude to do it for you
+            and report back when it&apos;s done. It will default to handing
+            you tasks it could easily handle itself — running commands, copying
+            files, checking state. Push back and let it do the work.
+          </p>
+        </div>
       </div>
 
       {/* Community tips */}

@@ -94,6 +94,70 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
         </div>
       </div>
 
+      {/* Before you start */}
+      <div className="mx-auto max-w-3xl px-4 pb-2 sm:px-6">
+        <div className="rounded-2xl border border-[var(--s-card-border)] bg-[var(--s-card-bg)] p-6 sm:p-8">
+          <h2 className="mb-3 text-base font-semibold text-[var(--s-text)]">Before you start</h2>
+
+          <p className="mb-5 text-sm italic text-[var(--s-text-muted)]">
+            Most of us think &ldquo;in software.&rdquo; This setup asks you to
+            think &ldquo;in your computer.&rdquo; That shift is the hardest
+            part — not the commands. If you feel disoriented, that&apos;s
+            normal.
+          </p>
+
+          <p className="mb-2 text-sm font-medium text-[var(--s-text-strong)]">Pre-session checklist</p>
+          <ul className="mb-5 space-y-2 text-sm text-[var(--s-text-body)]">
+            <li className="flex items-start gap-2">
+              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-purple-400/60" />
+              <span>
+                <strong className="text-[var(--s-text-strong)]">GitHub org access:</strong>{" "}
+                check your email for a platform-team invite to the CampMinder
+                GitHub org. If you can&apos;t find it, ping platform with your
+                exact GitHub username{" "}
+                <em>before</em> the session. Invites tied to the wrong username
+                never land.
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-purple-400/60" />
+              <span>
+                <strong className="text-[var(--s-text-strong)]">CampMinder QA/test access:</strong>{" "}
+                confirm you can log into CampMinder QA and the test site. If
+                your account is broken (Auth0 transition leaves some orphaned),
+                ping Javi before the session — you can&apos;t iterate a
+                prototype against Campminder if you can&apos;t log in.
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-purple-400/60" />
+              <span>
+                <strong className="text-[var(--s-text-strong)]">Turn off cmux&apos;s embedded browser:</strong>{" "}
+                open cmux Settings → scroll to Browser → turn{" "}
+                <strong className="text-[var(--s-text-strong)]">off</strong>{" "}
+                both &ldquo;open terminal links in cmux browser&rdquo;
+                toggles. Terminal links will then open in your real default
+                browser, where passkeys and 2FA work properly.
+              </span>
+            </li>
+          </ul>
+
+          <Callout type="warning" title="Windows users — get a 1:1 with Justin first">
+            Windows setup is well-known to be problematic (executable
+            association issues, different shell, different paths). Plan a 1:1
+            with Justin (UltraCamp IT) before attempting this on Windows —
+            don&apos;t try to muscle through alone.
+          </Callout>
+
+          <Callout type="tip" title="Claude is lazy — make it do the work">
+            If Claude tells you to do something, tell Claude to do it for you
+            and report back when it&apos;s done. Don&apos;t run commands
+            yourself unless you have to. It will default to handing you tasks
+            it could easily handle itself — push back.
+          </Callout>
+        </div>
+      </div>
+
       <div className="mx-auto max-w-3xl space-y-8 px-4 pb-24 sm:px-6">
         {/* ═══ STEP 1: cmux Terminal ═══ */}
         <StepCard stepNumber={1} title="cmux Terminal" id="step-1" time="2 min">
@@ -856,6 +920,76 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
           </Callout>
         </StepCard>
 
+        {/* ═══ FROM LOCAL TO SHAREABLE LINK ═══ */}
+        <div className="rounded-2xl border border-[var(--s-card-border)] bg-[var(--s-card-bg)] p-6 sm:p-8">
+          <h2 className="mb-1 text-base font-semibold text-[var(--s-text)]">
+            From local to shareable link
+          </h2>
+          <p className="mb-4 text-sm text-[var(--s-text-muted)]">
+            The mental model: <strong className="text-[var(--s-text-body)]">GitHub</strong>{" "}
+            is your remote save folder.{" "}
+            <strong className="text-[var(--s-text-body)]">Vercel</strong> is the
+            place that hosts your code as a clickable link for clients. Here&apos;s
+            the 4-step recipe once your prototype is working locally:
+          </p>
+          <ol className="list-decimal space-y-2 pl-5 text-sm text-[var(--s-text-body)]">
+            <li>
+              Make sure you&apos;re <code className="text-[var(--s-accent)]">cd</code>&apos;d
+              into the <strong className="text-[var(--s-text-strong)]">project</strong>{" "}
+              folder (not the parent <code className="text-[var(--s-accent)]">ai-builds</code>)
+            </li>
+            <li>
+              Tell Claude: <em>&ldquo;Push this to GitHub&rdquo;</em> — it
+              creates the remote repo and pushes
+            </li>
+            <li>
+              Tell Claude: <em>&ldquo;Connect this to Vercel and deploy to production&rdquo;</em> —
+              Vercel CLI handles the rest
+            </li>
+            <li>
+              Cmd+click the deploy URL Claude returns. Share it in Slack.
+            </li>
+          </ol>
+        </div>
+
+        {/* ═══ WHERE PROTOTYPES LIVE ═══ */}
+        <div className="rounded-2xl border border-[var(--s-card-border)] bg-[var(--s-card-bg)] p-6 sm:p-8">
+          <h2 className="mb-1 text-base font-semibold text-[var(--s-text)]">
+            Where your prototypes live
+          </h2>
+          <p className="mb-4 text-sm text-[var(--s-text-muted)]">
+            Not every prototype needs to be in the CampMinder org from day one.
+            Use this split:
+          </p>
+          <ul className="space-y-2 text-sm text-[var(--s-text-body)]">
+            <li className="flex items-start gap-2">
+              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-purple-400/60" />
+              <span>
+                <strong className="text-[var(--s-text-strong)]">Personal GitHub</strong> is
+                fine for learning and early prototyping
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-purple-400/60" />
+              <span>
+                <strong className="text-[var(--s-text-strong)]">Move to the CampMinder org</strong>{" "}
+                before sharing with clients or handing off to engineering
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-purple-400/60" />
+              <span>
+                Spencer&apos;s rule: <em>anything for sale lives on the
+                Campminder GitHub org</em>
+              </span>
+            </li>
+          </ul>
+          <p className="mt-4 text-[var(--s-text-muted)] text-xs">
+            Claude can handle the migration — just tell it &ldquo;link this
+            repo to the Campminder GitHub org&rdquo; when you&apos;re ready.
+          </p>
+        </div>
+
         {/* ═══ YOU'RE DONE ═══ */}
         <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.06] p-6 text-center sm:p-8">
           <PartyPopper className="mx-auto mb-3 h-8 w-8 text-[var(--s-accent-green)]" />
@@ -968,6 +1102,74 @@ export function SetupGuide({ tips }: { tips: Tip[] }) {
             This is how you go from &ldquo;one thing at a time&rdquo; to
             running multiple experiments in parallel — each in its own worktree,
             each safe from the others.
+          </p>
+        </div>
+
+        {/* ═══ CONTINUED LEARNING: Claude in Chrome for design ═══ */}
+        <div className="mt-8 rounded-2xl border border-[var(--s-card-border)] bg-[var(--s-card-bg)] p-6 sm:p-8">
+          <h2 className="mb-1 text-base font-semibold text-[var(--s-text)]">
+            Continued learning: make it look like CampMinder
+          </h2>
+          <p className="mb-4 text-sm text-[var(--s-text-muted)]">
+            Claude Code iterates against your code, not against a live page.
+            For visual fidelity — matching the feel of CampMinder — use{" "}
+            <strong className="text-[var(--s-text-body)]">Claude in Chrome</strong>{" "}
+            instead. It looks at the rendered page and iterates visually.
+          </p>
+          <p className="font-medium text-sm text-[var(--s-text-strong)]">Tell Claude in Chrome:</p>
+          <CodeBlock code={`Go to this CampMinder page (make sure you're logged in), then iterate on my design until it looks and feels like CampMinder.`} />
+          <p className="text-[var(--s-text-muted)] text-xs">
+            Note: Claude in Chrome doesn&apos;t pull from your codebase — it
+            iterates visually against the live page. A dedicated design-system
+            skill (tokens, colors, fonts from Erica) is in progress and will
+            cover the codebase side separately.
+          </p>
+        </div>
+
+        {/* ═══ CONTINUED LEARNING: Hybrid workflow ═══ */}
+        <div className="mt-8 rounded-2xl border border-[var(--s-card-border)] bg-[var(--s-card-bg)] p-6 sm:p-8">
+          <h2 className="mb-1 text-base font-semibold text-[var(--s-text)]">
+            Continued learning: brainstorm in desktop, build in CLI
+          </h2>
+          <p className="mb-4 text-sm text-[var(--s-text-muted)]">
+            The CLI is great for building but hard to read for long
+            discovery/brainstorm conversations. The hybrid flow that works
+            well:
+          </p>
+          <ol className="list-decimal space-y-2 pl-5 text-sm text-[var(--s-text-body)]">
+            <li>
+              Use the <strong className="text-[var(--s-text-strong)]">Claude desktop app</strong>{" "}
+              with Sage to brainstorm, refine, and produce a one-pager
+              (intentions, outcomes, look & feel)
+            </li>
+            <li>
+              Drop that one-pager into <strong className="text-[var(--s-text-strong)]">Claude Code</strong>{" "}
+              in the terminal and say &ldquo;make a plan from this&rdquo;
+            </li>
+            <li>
+              Continue the workflow → plan → build → review loop in the CLI
+            </li>
+          </ol>
+          <p className="mt-4 text-[var(--s-text-muted)] text-xs">
+            This is the biggest unlock for people who find the CLI hard to
+            read during exploratory thinking.
+          </p>
+        </div>
+
+        {/* ═══ CONTINUED LEARNING: Feedback widget ═══ */}
+        <div className="mt-8 rounded-2xl border border-[var(--s-card-border)] bg-[var(--s-card-bg)] p-6 sm:p-8">
+          <h2 className="mb-1 text-base font-semibold text-[var(--s-text)]">
+            Continued learning: make your prototype collect its own feedback
+          </h2>
+          <p className="mb-4 text-sm text-[var(--s-text-muted)]">
+            Once your prototype is out in the world, the fastest way to learn
+            is to have it collect feedback on itself. Tell Claude:
+          </p>
+          <CodeBlock code={`Add a feedback widget on every page that captures timestamp, page, and a free-text comment. Add a /feedback admin page that lists submissions.`} />
+          <p className="text-[var(--s-text-muted)] text-xs">
+            For click-level tracking on prototypes, Pendo can also be added —
+            worth a separate &ldquo;instrument your prototype&rdquo; pass once
+            feedback is flowing.
           </p>
         </div>
       </div>
