@@ -5,13 +5,18 @@ import { desc } from "drizzle-orm";
 
 // GET /api/learnings — public, returns all entries reverse-chrono
 export async function GET() {
-  const entries = await db
-    .select()
-    .from(lhLearnings)
-    .orderBy(desc(lhLearnings.date), desc(lhLearnings.createdAt))
-    .limit(100);
+  try {
+    const entries = await db
+      .select()
+      .from(lhLearnings)
+      .orderBy(desc(lhLearnings.date), desc(lhLearnings.createdAt))
+      .limit(100);
 
-  return NextResponse.json(entries);
+    return NextResponse.json(entries);
+  } catch (err) {
+    console.error("[api/learnings] read failed:", err instanceof Error ? err.message : err);
+    return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
+  }
 }
 
 // POST /api/learnings — requires LEARNING_HUB_API_KEY

@@ -30,11 +30,21 @@ const TAG_COLORS: Record<string, string> = {
 };
 
 export default async function HomePage() {
-  const [learnings, demoLinks, coachNotes] = await Promise.all([
+  // Each read is independent; allSettled lets the page render with empty
+  // sections if Postgres is unreachable rather than 500ing the whole route.
+  const [learningsRes, demoLinksRes, coachNotesRes] = await Promise.allSettled([
     getLearnings(20),
     getDemoLinks(),
     getCoachNotes(),
   ]);
+  const learnings = learningsRes.status === "fulfilled" ? learningsRes.value : [];
+  const demoLinks = demoLinksRes.status === "fulfilled" ? demoLinksRes.value : [];
+  const coachNotes = coachNotesRes.status === "fulfilled" ? coachNotesRes.value : [];
+  for (const r of [learningsRes, demoLinksRes, coachNotesRes]) {
+    if (r.status === "rejected") {
+      console.error("[home] read failed:", r.reason instanceof Error ? r.reason.message : r.reason);
+    }
+  }
 
   return (
     <div className="relative min-h-svh">

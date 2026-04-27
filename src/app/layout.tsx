@@ -21,7 +21,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const lastSync = await getLastSync();
+  // DB read intentionally non-fatal: if Postgres is unreachable, render the
+  // shell so users still see the nav and can navigate, instead of a blank 500.
+  let lastSync: Awaited<ReturnType<typeof getLastSync>> | null = null;
+  try {
+    lastSync = await getLastSync();
+  } catch (err) {
+    console.error("[layout] getLastSync failed:", err instanceof Error ? err.message : err);
+  }
 
   return (
     <html
