@@ -11,6 +11,13 @@ export const metadata: Metadata = {
 };
 
 export default async function SetupPage() {
-  const tips = await getHotTips();
+  // Hot tips is optional content; render the guide even if the DB read fails
+  // (e.g., schema drift, table missing). Same defensive pattern as in layout/home.
+  let tips: Awaited<ReturnType<typeof getHotTips>> = [];
+  try {
+    tips = await getHotTips();
+  } catch (err) {
+    console.error("[setup] getHotTips failed:", err instanceof Error ? err.message : err);
+  }
   return <SetupGuide tips={tips} />;
 }
