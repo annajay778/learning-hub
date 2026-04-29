@@ -1,0 +1,1955 @@
+"use client";
+/* eslint-disable react/no-unescaped-entities */
+
+import React from "react";
+import { interpolate, spring } from "remotion";
+import { useFrame } from "../components/frame";
+import {
+  Body,
+  Counter,
+  FadeUp,
+  Kicker,
+  Rule,
+  SlideChrome,
+  SlideFrame,
+  Title,
+} from "../components/primitives";
+import type { Theme } from "../themes";
+
+export type SlideProps = { theme: Theme; slideNumber: number; total: number };
+
+// ============================================================================
+// 01 — Title
+// ============================================================================
+export function Slide01({ theme, slideNumber, total }: SlideProps) {
+  const frame = useFrame();
+  return (
+    <SlideFrame theme={theme} align="center">
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} />
+      <div style={{ display: "flex", flexDirection: "column", gap: 36, paddingLeft: 0 }}>
+        <Kicker theme={theme} delay={0}>
+          A build-to-learn experiment · CampCo
+        </Kicker>
+        <Rule theme={theme} delay={6} thickness={2} />
+        <Title theme={theme} size={128} delay={10}>
+          Six weeks of building<br />
+          <span style={{ color: theme.accent, fontStyle: theme.id === "editorial" ? "italic" : "normal" }}>
+            AI in production.
+          </span>
+        </Title>
+        <FadeUp delay={28}>
+          <div
+            style={{
+              fontFamily: theme.fontMono,
+              fontSize: 18,
+              color: theme.fgMuted,
+              letterSpacing: "0.05em",
+              marginTop: 16,
+            }}
+          >
+            Spencer Mroczek + Anna · CampCo
+          </div>
+        </FadeUp>
+        {/* Subtle accent block, drawn in */}
+        <div style={{ position: "absolute", right: 96, bottom: 120, width: 360 }}>
+          <FadeUp delay={36}>
+            <div
+              style={{
+                fontFamily: theme.fontMono,
+                fontSize: 14,
+                color: theme.fgSubtle,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                marginBottom: 14,
+              }}
+            >
+              ~10 minutes
+            </div>
+            <div
+              style={{
+                height: 4,
+                background: theme.accent,
+                width: `${interpolate(frame, [36, 90], [0, 100], { extrapolateRight: "clamp" })}%`,
+              }}
+            />
+          </FadeUp>
+        </div>
+      </div>
+    </SlideFrame>
+  );
+}
+
+// ============================================================================
+// 02 — The ask, the timeframe, what shipped
+// ============================================================================
+export function Slide02({ theme, slideNumber, total }: SlideProps) {
+  return (
+    <SlideFrame theme={theme}>
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="The setup" />
+      <div style={{ marginTop: 100, display: "flex", flexDirection: "column", gap: 44 }}>
+        <Kicker theme={theme}>The frame</Kicker>
+
+        <Row theme={theme} label="The ask" value="Ship a parent-facing AI experience." delay={6} />
+        <Row theme={theme} label="The timeframe" value="Six weeks." delay={20} />
+        <Row
+          theme={theme}
+          label="What shipped"
+          value={
+            <>
+              <span>Ask Camp — live with real parents at our beta camps. </span>
+              <span style={{ color: theme.accent, fontWeight: 600 }}>
+                Hit production at week 4 — five days before the prototype date we'd circled.
+              </span>
+            </>
+          }
+          delay={34}
+        />
+      </div>
+    </SlideFrame>
+  );
+}
+
+function Row({
+  theme,
+  label,
+  value,
+  delay,
+}: {
+  theme: Theme;
+  label: string;
+  value: React.ReactNode;
+  delay: number;
+}) {
+  return (
+    <FadeUp delay={delay}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "260px 1fr",
+          gap: 48,
+          alignItems: "baseline",
+          paddingBottom: 28,
+          borderBottom: `1px solid ${theme.rule}`,
+        }}
+      >
+        <div
+          style={{
+            fontFamily: theme.fontMono,
+            fontSize: 18,
+            letterSpacing: "0.16em",
+            textTransform: "uppercase",
+            color: theme.fgSubtle,
+          }}
+        >
+          {label}
+        </div>
+        <div
+          style={{
+            fontFamily: theme.fontHeading,
+            fontSize: 52,
+            fontWeight: theme.headingWeight,
+            letterSpacing: theme.headingTracking,
+            lineHeight: 1.15,
+            color: theme.fg,
+          }}
+        >
+          {value}
+        </div>
+      </div>
+    </FadeUp>
+  );
+}
+
+// ============================================================================
+// 03 — Timeline
+// ============================================================================
+export function Slide03({ theme, slideNumber, total }: SlideProps) {
+  const frame = useFrame();
+  const weeks = [
+    { w: "Week 1", e: "Kickoff. Parent Handbook Lesson at the camp. RAG pilot." },
+    { w: "Week 2", e: "First prototype in customer hands." },
+    { w: "Week 3", e: "AI Lab #1: Smart Nudges feedback exposes the personalization problem." },
+    { w: "Week 4", e: "Ask Camp ships to production.", flag: true },
+    { w: "Week 5", e: "Evals + prompt registry online. Three LLM-as-judge graders running." },
+    { w: "Week 6", e: "Smart Nudges scoped down. Live with real parents." },
+  ];
+  const lineProgress = interpolate(frame, [10, 80], [0, 1], { extrapolateRight: "clamp" });
+
+  return (
+    <SlideFrame theme={theme}>
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="Timeline" />
+      <div style={{ marginTop: 100, display: "flex", flexDirection: "column", gap: 32 }}>
+        <Kicker theme={theme}>Six weeks</Kicker>
+        <Title theme={theme} size={64} delay={4}>
+          The pace mattered.
+        </Title>
+      </div>
+
+      {/* Timeline */}
+      <div style={{ marginTop: 80, position: "relative" }}>
+        {/* Track */}
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 28,
+            height: 2,
+            background: theme.rule,
+          }}
+        />
+        {/* Filled track */}
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            top: 28,
+            height: 2,
+            width: `${lineProgress * 100}%`,
+            background: theme.accent,
+          }}
+        />
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 16 }}>
+          {weeks.map((w, i) => {
+            const dotIn = i / 6;
+            const visible = lineProgress >= dotIn;
+            const opacity = visible ? 1 : 0.25;
+            return (
+              <div key={i} style={{ position: "relative", paddingTop: 56 }}>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 18,
+                    left: 0,
+                    width: 22,
+                    height: 22,
+                    borderRadius: w.flag ? 0 : 999,
+                    background: visible ? theme.accent : theme.rule,
+                    border: w.flag ? `3px solid ${theme.accent}` : "none",
+                    transform: w.flag ? "rotate(45deg)" : "none",
+                  }}
+                />
+                <div
+                  style={{
+                    fontFamily: theme.fontMono,
+                    fontSize: 16,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    color: w.flag ? theme.accent : theme.fgSubtle,
+                    marginBottom: 12,
+                    opacity,
+                    fontWeight: w.flag ? 600 : 500,
+                  }}
+                >
+                  {w.w}
+                </div>
+                <div
+                  style={{
+                    fontFamily: theme.fontBody,
+                    fontSize: 18,
+                    lineHeight: 1.35,
+                    color: theme.fg,
+                    opacity,
+                  }}
+                >
+                  {w.e}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <FadeUp delay={70} style={{ position: "absolute", left: 96, bottom: 110, right: 96 }}>
+        <div
+          style={{
+            fontFamily: theme.fontMono,
+            fontSize: 16,
+            color: theme.fgSubtle,
+            letterSpacing: "0.06em",
+          }}
+        >
+          ◆ Production ship at week 4 — five days ahead of the prototype date.
+        </div>
+      </FadeUp>
+    </SlideFrame>
+  );
+}
+
+// ============================================================================
+// 04 — Section 1 header
+// ============================================================================
+export function Slide04({ theme, slideNumber, total }: SlideProps) {
+  return SectionHeader({
+    theme,
+    slideNumber,
+    total,
+    n: "01",
+    title: "The workflow",
+    subtitle: "What a PM and an engineer building with AI actually look like, day to day.",
+  });
+}
+
+function SectionHeader({
+  theme,
+  slideNumber,
+  total,
+  n,
+  title,
+  subtitle,
+}: {
+  theme: Theme;
+  slideNumber: number;
+  total: number;
+  n: string;
+  title: string;
+  subtitle: string;
+}) {
+  const frame = useFrame();
+  const numScale = spring({ frame, fps: 30, config: { damping: 200 } });
+  return (
+    <SlideFrame theme={theme} align="center">
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section={`Section ${n}`} />
+      <div style={{ display: "flex", alignItems: "center", gap: 80 }}>
+        <div
+          style={{
+            fontFamily: theme.fontHeading,
+            fontSize: 360,
+            fontWeight: theme.headingWeight,
+            color: theme.accent,
+            lineHeight: 0.85,
+            letterSpacing: "-0.04em",
+            opacity: interpolate(frame, [0, 14], [0, 1]),
+            transform: `scale(${interpolate(numScale, [0, 1], [0.92, 1])})`,
+            transformOrigin: "left center",
+          }}
+        >
+          {n}
+        </div>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 28 }}>
+          <Rule theme={theme} delay={4} thickness={2} />
+          <Title theme={theme} size={88} delay={10}>
+            {title}
+          </Title>
+          <Body theme={theme} size={28} delay={20} muted>
+            {subtitle}
+          </Body>
+        </div>
+      </div>
+    </SlideFrame>
+  );
+}
+
+// ============================================================================
+// 05 — PM in the build loop (quote)
+// ============================================================================
+export function Slide05({ theme, slideNumber, total }: SlideProps) {
+  return (
+    <SlideFrame theme={theme} align="center">
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="01 · The workflow" />
+      <div style={{ display: "flex", flexDirection: "column", gap: 48 }}>
+        <Kicker theme={theme}>The shift</Kicker>
+        <Title theme={theme} size={84} delay={6}>
+          The PM is in the build loop.
+        </Title>
+        <FadeUp delay={20}>
+          <Body theme={theme} size={32} muted>
+            Anna writes prompts, runs Claude, ships prototypes — instead of writing specs and waiting on engineering.
+          </Body>
+        </FadeUp>
+
+        <FadeUp delay={36}>
+          <div
+            style={{
+              marginTop: 24,
+              padding: "44px 56px",
+              borderLeft: `4px solid ${theme.accent}`,
+              background: theme.panel,
+              fontFamily: theme.fontHeading,
+              fontStyle: theme.id === "editorial" ? "italic" : "normal",
+              fontSize: 42,
+              fontWeight: theme.headingWeight,
+              lineHeight: 1.25,
+              color: theme.fg,
+            }}
+          >
+            "I had it running during a meeting, and by the time we met, I had something ready to show."
+            <div
+              style={{
+                marginTop: 24,
+                fontFamily: theme.fontMono,
+                fontSize: 16,
+                fontStyle: "normal",
+                fontWeight: 400,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color: theme.fgMuted,
+              }}
+            >
+              — Anna · Week 1
+            </div>
+          </div>
+        </FadeUp>
+      </div>
+    </SlideFrame>
+  );
+}
+
+// ============================================================================
+// 06 — In six weeks, Anna…
+// ============================================================================
+export function Slide06({ theme, slideNumber, total }: SlideProps) {
+  const items = [
+    "Set up a developer environment from scratch",
+    "Built and shipped prototypes without pulling engineering time",
+    "Fixed bugs live during client calls",
+    "Submitted PRs to engineering instead of writing tickets",
+  ];
+  return (
+    <SlideFrame theme={theme}>
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="01 · The workflow" />
+      <div style={{ marginTop: 100, display: "flex", flexDirection: "column", gap: 28 }}>
+        <Kicker theme={theme}>In six weeks, a PM with no prior coding background</Kicker>
+        <Title theme={theme} size={64} delay={4}>
+          The unit of work changed.
+        </Title>
+      </div>
+
+      <div style={{ marginTop: 72, display: "flex", flexDirection: "column", gap: 0 }}>
+        {items.map((it, i) => (
+          <FadeUp key={i} delay={16 + i * 12}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "120px 1fr",
+                gap: 32,
+                alignItems: "baseline",
+                padding: "26px 0",
+                borderTop: `1px solid ${theme.rule}`,
+                ...(i === items.length - 1 ? { borderBottom: `1px solid ${theme.rule}` } : {}),
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: theme.fontMono,
+                  fontSize: 16,
+                  letterSpacing: "0.14em",
+                  color: theme.accent,
+                }}
+              >
+                {String(i + 1).padStart(2, "0")}
+              </div>
+              <div
+                style={{
+                  fontFamily: theme.fontHeading,
+                  fontSize: 38,
+                  fontWeight: theme.headingWeight,
+                  letterSpacing: theme.headingTracking,
+                  lineHeight: 1.2,
+                  color: theme.fg,
+                }}
+              >
+                {it}
+              </div>
+            </div>
+          </FadeUp>
+        ))}
+      </div>
+    </SlideFrame>
+  );
+}
+
+// ============================================================================
+// 07 — Anna's mode by week 4 (quote)
+// ============================================================================
+export function Slide07({ theme, slideNumber, total }: SlideProps) {
+  return (
+    <SlideFrame theme={theme} align="center">
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="01 · The workflow" />
+      <div style={{ display: "flex", flexDirection: "column", gap: 32, maxWidth: 1400 }}>
+        <Kicker theme={theme}>Week 4</Kicker>
+        <FadeUp delay={8}>
+          <div
+            style={{
+              fontFamily: theme.fontHeading,
+              fontStyle: theme.id === "editorial" ? "italic" : "normal",
+              fontSize: 96,
+              fontWeight: theme.headingWeight,
+              lineHeight: 1.08,
+              letterSpacing: theme.headingTracking,
+              color: theme.fg,
+            }}
+          >
+            "I'm not even going to meet with my engineers.
+            <br />
+            <span style={{ color: theme.accent }}>I'm just going to code it out and submit a PR."</span>
+          </div>
+        </FadeUp>
+        <FadeUp delay={36}>
+          <div
+            style={{
+              marginTop: 24,
+              fontFamily: theme.fontMono,
+              fontSize: 18,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: theme.fgMuted,
+            }}
+          >
+            — Anna
+          </div>
+        </FadeUp>
+      </div>
+    </SlideFrame>
+  );
+}
+
+// ============================================================================
+// 08 — Spencer's approach: product-first
+// ============================================================================
+export function Slide08({ theme, slideNumber, total }: SlideProps) {
+  const steps = [
+    {
+      n: "01",
+      h: "Sat in the Parent Handbook Lesson at the camp",
+      s: "Heard the complaints, the hopes, the fears — in the room.",
+    },
+    {
+      n: "02",
+      h: "Built the interface and workflow",
+      s: "With no AI in it yet.",
+    },
+    {
+      n: "03",
+      h: "Refined the AI parts last",
+      s: "Only after the product shape was clear.",
+    },
+  ];
+  return (
+    <SlideFrame theme={theme}>
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="01 · The workflow" />
+      <div style={{ marginTop: 100, display: "flex", flexDirection: "column", gap: 24 }}>
+        <Kicker theme={theme}>How I (Spencer) approached it</Kicker>
+        <Title theme={theme} size={68} delay={4}>
+          Started product-first.<br />
+          <span style={{ color: theme.accent }}>AI came last.</span>
+        </Title>
+      </div>
+
+      <div style={{ marginTop: 72, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32 }}>
+        {steps.map((step, i) => (
+          <FadeUp key={i} delay={16 + i * 14}>
+            <div
+              style={{
+                padding: 36,
+                background: theme.panel,
+                border: `1px solid ${theme.rule}`,
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                gap: 20,
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: theme.fontMono,
+                  fontSize: 14,
+                  letterSpacing: "0.18em",
+                  color: theme.accent,
+                }}
+              >
+                STEP {step.n}
+              </div>
+              <div
+                style={{
+                  fontFamily: theme.fontHeading,
+                  fontSize: 30,
+                  fontWeight: theme.headingWeight,
+                  lineHeight: 1.2,
+                  color: theme.fg,
+                  letterSpacing: theme.headingTracking,
+                }}
+              >
+                {step.h}
+              </div>
+              <div
+                style={{
+                  fontFamily: theme.fontBody,
+                  fontSize: 19,
+                  lineHeight: 1.4,
+                  color: theme.fgMuted,
+                }}
+              >
+                {step.s}
+              </div>
+            </div>
+          </FadeUp>
+        ))}
+      </div>
+
+      <FadeUp delay={64} style={{ position: "absolute", bottom: 100, left: 96, right: 96 }}>
+        <div
+          style={{
+            fontFamily: theme.fontMono,
+            fontSize: 18,
+            color: theme.fgMuted,
+            letterSpacing: "0.04em",
+          }}
+        >
+          Most engineers reach for AI first. The AI is only the bottleneck after you know the product shape.
+        </div>
+      </FadeUp>
+    </SlideFrame>
+  );
+}
+
+// ============================================================================
+// 09 — How I work with Claude on hard problems
+// ============================================================================
+export function Slide09({ theme, slideNumber, total }: SlideProps) {
+  const items = [
+    { kw: "Dictate", t: "Don't type.", s: "Monologue the problem in technical detail." },
+    { kw: "Lead with the problem", t: "Not the solution.", s: '"RAG quality is mostly a document-processing problem."' },
+    { kw: "Research first", t: "Then plan.", s: "Ask Claude to map the problem space and report back." },
+    { kw: "Correct, then build", t: "Don't accept the first plan.", s: "Point out what it missed, what's wrong." },
+  ];
+  return (
+    <SlideFrame theme={theme}>
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="01 · The workflow" />
+      <div style={{ marginTop: 100, display: "flex", flexDirection: "column", gap: 24 }}>
+        <Kicker theme={theme}>My pattern with Claude</Kicker>
+        <Title theme={theme} size={62} delay={4}>
+          The single biggest time-saver I learned.
+        </Title>
+      </div>
+
+      <div style={{ marginTop: 72, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28 }}>
+        {items.map((it, i) => (
+          <FadeUp key={i} delay={14 + i * 10}>
+            <div
+              style={{
+                padding: "28px 32px",
+                borderLeft: `4px solid ${theme.accent}`,
+                background: theme.panel,
+                display: "flex",
+                flexDirection: "column",
+                gap: 10,
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: theme.fontMono,
+                  fontSize: 14,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  color: theme.accent,
+                }}
+              >
+                {it.kw}
+              </div>
+              <div
+                style={{
+                  fontFamily: theme.fontHeading,
+                  fontSize: 32,
+                  fontWeight: theme.headingWeight,
+                  letterSpacing: theme.headingTracking,
+                  color: theme.fg,
+                  lineHeight: 1.2,
+                }}
+              >
+                {it.t}
+              </div>
+              <div
+                style={{
+                  fontFamily: theme.fontBody,
+                  fontSize: 18,
+                  color: theme.fgMuted,
+                  lineHeight: 1.4,
+                }}
+              >
+                {it.s}
+              </div>
+            </div>
+          </FadeUp>
+        ))}
+      </div>
+    </SlideFrame>
+  );
+}
+
+// ============================================================================
+// 10 — Section 2 header
+// ============================================================================
+export function Slide10({ theme, slideNumber, total }: SlideProps) {
+  return SectionHeader({
+    theme,
+    slideNumber,
+    total,
+    n: "02",
+    title: "What's a good AI candidate?",
+    subtitle: "The hard part isn't building AI. It's figuring out what to point AI at.",
+  });
+}
+
+// ============================================================================
+// 11 — Two tracks, two outcomes
+// ============================================================================
+export function Slide11({ theme, slideNumber, total }: SlideProps) {
+  return (
+    <SlideFrame theme={theme}>
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="02 · AI candidates" />
+      <div style={{ marginTop: 96, display: "flex", flexDirection: "column", gap: 20 }}>
+        <Kicker theme={theme}>Two tracks. Same six weeks. Same clients.</Kicker>
+        <Title theme={theme} size={56} delay={4}>
+          Same team. Same workflow. Different fits.
+        </Title>
+      </div>
+
+      <div style={{ marginTop: 72, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40 }}>
+        <FadeUp delay={16}>
+          <TrackCard
+            theme={theme}
+            tag="ASK CAMP"
+            quote='"This feels right. Good usage of AI."'
+            verdict="VALIDATED"
+            tone="positive"
+          />
+        </FadeUp>
+        <FadeUp delay={28}>
+          <TrackCard
+            theme={theme}
+            tag="SMART NUDGES"
+            quote='"Too sensitive a channel. Too much AI in the wrong place."'
+            verdict="REJECTED"
+            tone="negative"
+          />
+        </FadeUp>
+      </div>
+    </SlideFrame>
+  );
+}
+
+function TrackCard({
+  theme,
+  tag,
+  quote,
+  verdict,
+  tone,
+}: {
+  theme: Theme;
+  tag: string;
+  quote: string;
+  verdict: string;
+  tone: "positive" | "negative";
+}) {
+  const color = tone === "positive" ? theme.positive : theme.negative;
+  return (
+    <div
+      style={{
+        background: theme.panel,
+        border: `1px solid ${theme.rule}`,
+        borderTop: `6px solid ${color}`,
+        padding: "44px 44px",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        gap: 28,
+      }}
+    >
+      <div
+        style={{
+          fontFamily: theme.fontMono,
+          fontSize: 16,
+          letterSpacing: "0.18em",
+          color: theme.fgSubtle,
+        }}
+      >
+        {tag}
+      </div>
+      <div
+        style={{
+          fontFamily: theme.fontHeading,
+          fontStyle: theme.id === "editorial" ? "italic" : "normal",
+          fontSize: 38,
+          fontWeight: theme.headingWeight,
+          lineHeight: 1.2,
+          letterSpacing: theme.headingTracking,
+          color: theme.fg,
+        }}
+      >
+        {quote}
+      </div>
+      <div style={{ marginTop: "auto" }}>
+        <div
+          style={{
+            display: "inline-block",
+            fontFamily: theme.fontMono,
+            fontSize: 14,
+            letterSpacing: "0.2em",
+            color,
+            border: `2px solid ${color}`,
+            padding: "8px 14px",
+          }}
+        >
+          {verdict}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// 12 — What the camps actually said (Dennis quote)
+// ============================================================================
+export function Slide12({ theme, slideNumber, total }: SlideProps) {
+  return (
+    <SlideFrame theme={theme} align="center">
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="02 · AI candidates" />
+      <div style={{ display: "flex", flexDirection: "column", gap: 36, maxWidth: 1500 }}>
+        <Kicker theme={theme}>Dennis · beta camp director · 4/22</Kicker>
+        <FadeUp delay={8}>
+          <div
+            style={{
+              fontFamily: theme.fontHeading,
+              fontStyle: theme.id === "editorial" ? "italic" : "normal",
+              fontSize: 64,
+              fontWeight: theme.headingWeight,
+              lineHeight: 1.18,
+              letterSpacing: theme.headingTracking,
+              color: theme.fg,
+            }}
+          >
+            "If you were just to put in place a system where two months out you send an email, six weeks out you send an email, and three weeks out you send texts —{" "}
+            <span style={{ color: theme.accent }}>
+              95% of your camps would be thrilled.
+            </span>
+            "
+          </div>
+        </FadeUp>
+        <FadeUp delay={42}>
+          <div
+            style={{
+              fontFamily: theme.fontMono,
+              fontSize: 18,
+              color: theme.fgMuted,
+              letterSpacing: "0.06em",
+            }}
+          >
+            They didn't want AI personalization. They wanted predictability and control.
+          </div>
+        </FadeUp>
+      </div>
+    </SlideFrame>
+  );
+}
+
+// ============================================================================
+// 13 — Two questions we ask now
+// ============================================================================
+export function Slide13({ theme, slideNumber, total }: SlideProps) {
+  return (
+    <SlideFrame theme={theme}>
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="02 · AI candidates" />
+      <div style={{ marginTop: 96, display: "flex", flexDirection: "column", gap: 20 }}>
+        <Kicker theme={theme}>Two questions we ask before building</Kicker>
+        <Title theme={theme} size={56} delay={4}>
+          Not a framework. What we learned.
+        </Title>
+      </div>
+
+      <div style={{ marginTop: 80, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56 }}>
+        <FadeUp delay={16}>
+          <DichotomyCard
+            theme={theme}
+            n="Q1"
+            left="Control"
+            right="Magic"
+            note="Camp directors want control over how they communicate with parents."
+          />
+        </FadeUp>
+        <FadeUp delay={28}>
+          <DichotomyCard
+            theme={theme}
+            n="Q2"
+            left="Replacing typing"
+            right="Replacing judgment"
+            note="Typing-replacement is low risk. Judgment-replacement is what customers don't want yet."
+          />
+        </FadeUp>
+      </div>
+
+      <FadeUp delay={48} style={{ position: "absolute", bottom: 100, left: 96, right: 96 }}>
+        <div
+          style={{
+            fontFamily: theme.fontMono,
+            fontSize: 16,
+            color: theme.fgSubtle,
+            letterSpacing: "0.04em",
+          }}
+        >
+          Still iterating. As an org we don't have a clean answer for what "more AI" actually means.
+        </div>
+      </FadeUp>
+    </SlideFrame>
+  );
+}
+
+function DichotomyCard({
+  theme,
+  n,
+  left,
+  right,
+  note,
+}: {
+  theme: Theme;
+  n: string;
+  left: string;
+  right: string;
+  note: string;
+}) {
+  return (
+    <div
+      style={{
+        background: theme.panel,
+        border: `1px solid ${theme.rule}`,
+        padding: 36,
+        display: "flex",
+        flexDirection: "column",
+        gap: 24,
+      }}
+    >
+      <div
+        style={{
+          fontFamily: theme.fontMono,
+          fontSize: 14,
+          letterSpacing: "0.2em",
+          color: theme.accent,
+        }}
+      >
+        {n}
+      </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr auto 1fr",
+          gap: 24,
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            fontFamily: theme.fontHeading,
+            fontSize: 38,
+            fontWeight: theme.headingWeight,
+            color: theme.fg,
+            letterSpacing: theme.headingTracking,
+          }}
+        >
+          {left}
+        </div>
+        <div
+          style={{
+            fontFamily: theme.fontMono,
+            fontSize: 22,
+            color: theme.accent,
+          }}
+        >
+          ↔
+        </div>
+        <div
+          style={{
+            fontFamily: theme.fontHeading,
+            fontSize: 38,
+            fontWeight: theme.headingWeight,
+            color: theme.fg,
+            textAlign: "right",
+            letterSpacing: theme.headingTracking,
+          }}
+        >
+          {right}
+        </div>
+      </div>
+      <div
+        style={{
+          fontFamily: theme.fontBody,
+          fontSize: 18,
+          color: theme.fgMuted,
+          lineHeight: 1.4,
+          paddingTop: 16,
+          borderTop: `1px solid ${theme.rule}`,
+        }}
+      >
+        {note}
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// 14 — Section 3 header
+// ============================================================================
+export function Slide14({ theme, slideNumber, total }: SlideProps) {
+  return SectionHeader({
+    theme,
+    slideNumber,
+    total,
+    n: "03",
+    title: "What we learned to pay attention to",
+    subtitle: "Once you decide an AI candidate is good-shaped, here's what surfaces.",
+  });
+}
+
+// ============================================================================
+// 15 — Cost is a product question
+// ============================================================================
+export function Slide15({ theme, slideNumber, total }: SlideProps) {
+  return (
+    <SlideFrame theme={theme} align="center">
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="03 · Pay attention" />
+      <div style={{ display: "flex", flexDirection: "column", gap: 32, maxWidth: 1500 }}>
+        <Kicker theme={theme}>Cost is a product question</Kicker>
+        <Title theme={theme} size={66} delay={4}>
+          Cost-per-conversation is a feature shape.
+        </Title>
+
+        <FadeUp delay={20}>
+          <div
+            style={{
+              marginTop: 24,
+              padding: "36px 48px",
+              borderLeft: `4px solid ${theme.accent}`,
+              background: theme.panel,
+              fontFamily: theme.fontHeading,
+              fontStyle: theme.id === "editorial" ? "italic" : "normal",
+              fontSize: 40,
+              fontWeight: theme.headingWeight,
+              lineHeight: 1.2,
+              color: theme.fg,
+            }}
+          >
+            "Who's paying for the tokens that all these parents are gonna use?"
+            <div
+              style={{
+                marginTop: 18,
+                fontFamily: theme.fontMono,
+                fontSize: 16,
+                fontStyle: "normal",
+                fontWeight: 400,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color: theme.fgMuted,
+              }}
+            >
+              — Anna · mid-prototype
+            </div>
+          </div>
+        </FadeUp>
+
+        <FadeUp delay={48}>
+          <div
+            style={{
+              marginTop: 24,
+              display: "flex",
+              gap: 32,
+              flexWrap: "wrap",
+              fontFamily: theme.fontMono,
+              fontSize: 20,
+              color: theme.fgMuted,
+            }}
+          >
+            <Pill theme={theme}>Premium tier?</Pill>
+            <Pill theme={theme}>BYO API key?</Pill>
+            <Pill theme={theme}>Free tier with limits?</Pill>
+          </div>
+        </FadeUp>
+
+        <FadeUp delay={68}>
+          <div
+            style={{
+              fontFamily: theme.fontBody,
+              fontSize: 22,
+              color: theme.fg,
+              marginTop: 12,
+            }}
+          >
+            You can't answer this <em>after</em> you build it. Cost-per-conversation shapes the product.
+          </div>
+        </FadeUp>
+      </div>
+    </SlideFrame>
+  );
+}
+
+function Pill({ theme, children }: { theme: Theme; children: React.ReactNode }) {
+  return (
+    <span
+      style={{
+        padding: "10px 20px",
+        border: `1.5px solid ${theme.rule}`,
+        background: theme.bg,
+        color: theme.fg,
+        letterSpacing: "0.04em",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+// ============================================================================
+// 16 — Hallucinations: router not filter
+// ============================================================================
+export function Slide16({ theme, slideNumber, total }: SlideProps) {
+  return (
+    <SlideFrame theme={theme}>
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="03 · Pay attention" />
+      <div style={{ marginTop: 100, display: "flex", flexDirection: "column", gap: 20 }}>
+        <Kicker theme={theme}>Hallucinations need architecture</Kicker>
+        <Title theme={theme} size={62} delay={4}>
+          Guardrails as a router, not a filter.
+        </Title>
+      </div>
+
+      <div style={{ marginTop: 64, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 36 }}>
+        {/* Bad pattern */}
+        <FadeUp delay={16}>
+          <ArchPattern
+            theme={theme}
+            label="WRONG"
+            tone="negative"
+            steps={["Question in", "Generate answer", "Check if safe", "Maybe block"]}
+            note="The model has already hallucinated. The guardrail just observes it."
+          />
+        </FadeUp>
+        {/* Good pattern */}
+        <FadeUp delay={28}>
+          <ArchPattern
+            theme={theme}
+            label="RIGHT"
+            tone="positive"
+            steps={["Question in", "Pre-flight: small router", "Route or refuse", "Then generate"]}
+            note="The main chatbot never sees the question that breaks the rules."
+            highlight={2}
+          />
+        </FadeUp>
+      </div>
+
+      <FadeUp delay={56} style={{ position: "absolute", bottom: 100, left: 96, right: 96 }}>
+        <div
+          style={{
+            fontFamily: theme.fontMono,
+            fontSize: 16,
+            color: theme.fgSubtle,
+            letterSpacing: "0.04em",
+          }}
+        >
+          ◆ Took ~1 week to land. Single biggest thing keeping Ask Camp safe in production.
+        </div>
+      </FadeUp>
+    </SlideFrame>
+  );
+}
+
+function ArchPattern({
+  theme,
+  label,
+  tone,
+  steps,
+  note,
+  highlight,
+}: {
+  theme: Theme;
+  label: string;
+  tone: "positive" | "negative";
+  steps: string[];
+  note: string;
+  highlight?: number;
+}) {
+  const color = tone === "positive" ? theme.positive : theme.negative;
+  return (
+    <div
+      style={{
+        background: theme.panel,
+        border: `1px solid ${theme.rule}`,
+        borderTop: `6px solid ${color}`,
+        padding: 36,
+        display: "flex",
+        flexDirection: "column",
+        gap: 22,
+        height: "100%",
+      }}
+    >
+      <div
+        style={{
+          display: "inline-block",
+          alignSelf: "flex-start",
+          fontFamily: theme.fontMono,
+          fontSize: 14,
+          letterSpacing: "0.2em",
+          color,
+          border: `2px solid ${color}`,
+          padding: "6px 12px",
+        }}
+      >
+        {label}
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        {steps.map((s, i) => {
+          const isLast = i === steps.length - 1;
+          const isHL = highlight === i;
+          return (
+            <React.Fragment key={i}>
+              <div
+                style={{
+                  fontFamily: theme.fontMono,
+                  fontSize: 20,
+                  padding: "14px 18px",
+                  background: isHL ? theme.accentSoft : theme.bg,
+                  border: `1px solid ${isHL ? theme.accent : theme.rule}`,
+                  color: theme.fg,
+                  fontWeight: isHL ? 600 : 400,
+                }}
+              >
+                {String(i + 1).padStart(2, "0")} · {s}
+              </div>
+              {!isLast && (
+                <div
+                  style={{
+                    fontFamily: theme.fontMono,
+                    fontSize: 16,
+                    color: theme.fgSubtle,
+                    paddingLeft: 18,
+                  }}
+                >
+                  ↓
+                </div>
+              )}
+            </React.Fragment>
+          );
+        })}
+      </div>
+      <div
+        style={{
+          marginTop: "auto",
+          fontFamily: theme.fontBody,
+          fontSize: 17,
+          color: theme.fgMuted,
+          lineHeight: 1.4,
+          paddingTop: 16,
+          borderTop: `1px solid ${theme.rule}`,
+        }}
+      >
+        {note}
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// 17 — Evals
+// ============================================================================
+export function Slide17({ theme, slideNumber, total }: SlideProps) {
+  const evals = [
+    { name: "Context relevance", q: "Did we retrieve the right docs?", score: 92 },
+    { name: "Unnecessary refusal", q: 'Did we say "I can\'t help" when we could?', score: 88 },
+    { name: "Faithfulness", q: "Did the answer use the docs we retrieved?", score: 95 },
+  ];
+
+  return (
+    <SlideFrame theme={theme}>
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="03 · Pay attention" />
+      <div style={{ marginTop: 100, display: "flex", flexDirection: "column", gap: 20 }}>
+        <Kicker theme={theme}>Evals are the boring part that matters</Kicker>
+        <Title theme={theme} size={56} delay={4}>
+          AI products fail by drifting, not by 500-ing.
+        </Title>
+      </div>
+
+      <div style={{ marginTop: 60, display: "flex", flexDirection: "column", gap: 18 }}>
+        {evals.map((e, i) => (
+          <EvalRow key={i} theme={theme} eval={e} delay={16 + i * 12} />
+        ))}
+      </div>
+
+      <FadeUp delay={70} style={{ position: "absolute", bottom: 100, left: 96, right: 96 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 24,
+            padding: "20px 24px",
+            border: `1px solid ${theme.rule}`,
+            background: theme.panel,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: theme.fontMono,
+              fontSize: 14,
+              letterSpacing: "0.18em",
+              color: theme.accent,
+            }}
+          >
+            LANGFUSE
+          </div>
+          <div
+            style={{
+              fontFamily: theme.fontBody,
+              fontSize: 19,
+              color: theme.fg,
+            }}
+          >
+            <strong style={{ fontWeight: 600 }}>22 prompts versioned.</strong>{" "}
+            <span style={{ color: theme.fgMuted }}>Roll back when an eval moves.</span>
+          </div>
+        </div>
+      </FadeUp>
+    </SlideFrame>
+  );
+}
+
+function EvalRow({
+  theme,
+  eval: e,
+  delay,
+}: {
+  theme: Theme;
+  eval: { name: string; q: string; score: number };
+  delay: number;
+}) {
+  const frame = useFrame();
+  const f = Math.max(0, frame - delay);
+  const w = interpolate(f, [0, 32], [0, e.score], { extrapolateRight: "clamp" });
+
+  return (
+    <FadeUp delay={delay}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "320px 1fr 130px",
+          gap: 32,
+          alignItems: "center",
+          padding: "20px 0",
+          borderTop: `1px solid ${theme.rule}`,
+        }}
+      >
+        <div
+          style={{
+            fontFamily: theme.fontHeading,
+            fontSize: 26,
+            fontWeight: theme.headingWeight,
+            letterSpacing: theme.headingTracking,
+            color: theme.fg,
+          }}
+        >
+          {e.name}
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div
+            style={{
+              fontFamily: theme.fontBody,
+              fontSize: 17,
+              color: theme.fgMuted,
+            }}
+          >
+            {e.q}
+          </div>
+          <div
+            style={{
+              height: 8,
+              background: theme.rule,
+              position: "relative",
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                left: 0,
+                top: 0,
+                bottom: 0,
+                width: `${w}%`,
+                background: theme.accent,
+              }}
+            />
+          </div>
+        </div>
+        <div
+          style={{
+            fontFamily: theme.fontMono,
+            fontSize: 32,
+            fontWeight: 500,
+            color: theme.fg,
+            textAlign: "right",
+            fontVariantNumeric: "tabular-nums",
+          }}
+        >
+          {Math.round(w)}
+          <span style={{ fontSize: 18, color: theme.fgSubtle }}>%</span>
+        </div>
+      </div>
+    </FadeUp>
+  );
+}
+
+// ============================================================================
+// 18 — The cost of building this fast
+// ============================================================================
+export function Slide18({ theme, slideNumber, total }: SlideProps) {
+  return (
+    <SlideFrame theme={theme} align="center">
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="03 · Pay attention" />
+      <div style={{ display: "flex", flexDirection: "column", gap: 36 }}>
+        <Kicker theme={theme}>The cost of building this fast</Kicker>
+        <Title theme={theme} size={64} delay={6}>
+          Six months of decisions,<br />compressed into six weeks.
+        </Title>
+
+        <FadeUp delay={28}>
+          <div
+            style={{
+              marginTop: 32,
+              display: "flex",
+              alignItems: "baseline",
+              gap: 32,
+            }}
+          >
+            <Counter
+              theme={theme}
+              to={42000}
+              delay={28}
+              duration={70}
+              size={220}
+              format={(v) => Math.round(v).toLocaleString()}
+            />
+            <div
+              style={{
+                fontFamily: theme.fontMono,
+                fontSize: 22,
+                color: theme.fgMuted,
+                letterSpacing: "0.04em",
+              }}
+            >
+              Claude conversations
+              <br />
+              Spencer · 6 weeks
+            </div>
+          </div>
+        </FadeUp>
+
+        <FadeUp delay={100}>
+          <div
+            style={{
+              marginTop: 32,
+              fontFamily: theme.fontBody,
+              fontSize: 24,
+              color: theme.fg,
+              maxWidth: 1100,
+              lineHeight: 1.4,
+            }}
+          >
+            Claude lets us move incredibly fast. The mental load that comes with it is real.
+            <br />
+            <span style={{ color: theme.accent }}>Worth naming. This isn't all rainbows.</span>
+          </div>
+        </FadeUp>
+      </div>
+    </SlideFrame>
+  );
+}
+
+// ============================================================================
+// 19 — Section 4 header
+// ============================================================================
+export function Slide19({ theme, slideNumber, total }: SlideProps) {
+  return SectionHeader({
+    theme,
+    slideNumber,
+    total,
+    n: "04",
+    title: "Tactics for building with Claude",
+    subtitle: "For the engineers in the room. Steal them.",
+  });
+}
+
+// ============================================================================
+// 20 — Treat Claude like a colleague who lies sometimes
+// ============================================================================
+export function Slide20({ theme, slideNumber, total }: SlideProps) {
+  const tactics = [
+    {
+      a: 'Ask "what did you build?"',
+      b: 'Ask "what\'s NOT done?"',
+    },
+    {
+      a: "Trust the AI usage claim",
+      b: 'Ask "did you actually use AI here?"',
+    },
+    {
+      a: "Try harder when stuck",
+      b: '"rethink" or "take a deep breath"',
+    },
+    {
+      a: "Argue when it gaslights you",
+      b: "Show it the screenshot",
+    },
+  ];
+
+  return (
+    <SlideFrame theme={theme}>
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="04 · Tactics" />
+      <div style={{ marginTop: 100, display: "flex", flexDirection: "column", gap: 20 }}>
+        <Kicker theme={theme}>Tactic 01</Kicker>
+        <Title theme={theme} size={62} delay={4}>
+          Treat Claude like a colleague<br />
+          <span style={{ color: theme.accent }}>who lies sometimes.</span>
+        </Title>
+      </div>
+
+      <div style={{ marginTop: 56, display: "flex", flexDirection: "column", gap: 0 }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 60px 1fr",
+            gap: 0,
+            paddingBottom: 14,
+            borderBottom: `2px solid ${theme.rule}`,
+            fontFamily: theme.fontMono,
+            fontSize: 14,
+            letterSpacing: "0.18em",
+            color: theme.fgSubtle,
+          }}
+        >
+          <div>DON'T</div>
+          <div></div>
+          <div>DO</div>
+        </div>
+        {tactics.map((t, i) => (
+          <FadeUp key={i} delay={16 + i * 10}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 60px 1fr",
+                gap: 0,
+                padding: "20px 0",
+                borderBottom: `1px solid ${theme.rule}`,
+                alignItems: "baseline",
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: theme.fontBody,
+                  fontSize: 22,
+                  color: theme.fgMuted,
+                  textDecoration: "line-through",
+                  textDecorationColor: theme.negative,
+                }}
+              >
+                {t.a}
+              </div>
+              <div
+                style={{
+                  fontFamily: theme.fontMono,
+                  fontSize: 18,
+                  color: theme.accent,
+                  textAlign: "center",
+                }}
+              >
+                →
+              </div>
+              <div
+                style={{
+                  fontFamily: theme.fontHeading,
+                  fontSize: 26,
+                  fontWeight: theme.headingWeight,
+                  color: theme.fg,
+                  letterSpacing: theme.headingTracking,
+                }}
+              >
+                {t.b}
+              </div>
+            </div>
+          </FadeUp>
+        ))}
+      </div>
+    </SlideFrame>
+  );
+}
+
+// ============================================================================
+// 21 — Multi-model + self-healing hooks
+// ============================================================================
+export function Slide21({ theme, slideNumber, total }: SlideProps) {
+  return (
+    <SlideFrame theme={theme}>
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="04 · Tactics" />
+      <div style={{ marginTop: 100, display: "flex", flexDirection: "column", gap: 20 }}>
+        <Kicker theme={theme}>Tactics 02 + 03</Kicker>
+        <Title theme={theme} size={56} delay={4}>
+          Two more.
+        </Title>
+      </div>
+
+      <div style={{ marginTop: 60, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}>
+        <FadeUp delay={16}>
+          <TacticCard
+            theme={theme}
+            label="MULTI-MODEL FALLBACK"
+            title="Switch models with fresh context."
+            body="When Claude's stuck rationalizing in a design loop, switch to Codex. Different model, different failure mode."
+            example={
+              <ModelSwapDiagram theme={theme} />
+            }
+          />
+        </FadeUp>
+        <FadeUp delay={28}>
+          <TacticCard
+            theme={theme}
+            label="SELF-HEALING HOOKS"
+            title="When a tool fails the same way, automate the recovery."
+            body="Cloud Chrome kept disconnecting on Anna. We wrote a hook to restart on failure — 90 seconds, ran for the rest of the experiment."
+            example={
+              <CodeBlock
+                theme={theme}
+                code={`hooks:
+  on_tool_error:
+    match: "chrome_disconnected"
+    run: "kill && restart"`}
+              />
+            }
+          />
+        </FadeUp>
+      </div>
+    </SlideFrame>
+  );
+}
+
+function TacticCard({
+  theme,
+  label,
+  title,
+  body,
+  example,
+}: {
+  theme: Theme;
+  label: string;
+  title: string;
+  body: string;
+  example: React.ReactNode;
+}) {
+  return (
+    <div
+      style={{
+        background: theme.panel,
+        border: `1px solid ${theme.rule}`,
+        padding: 32,
+        display: "flex",
+        flexDirection: "column",
+        gap: 18,
+        height: "100%",
+      }}
+    >
+      <div
+        style={{
+          fontFamily: theme.fontMono,
+          fontSize: 14,
+          letterSpacing: "0.18em",
+          color: theme.accent,
+        }}
+      >
+        {label}
+      </div>
+      <div
+        style={{
+          fontFamily: theme.fontHeading,
+          fontSize: 28,
+          fontWeight: theme.headingWeight,
+          letterSpacing: theme.headingTracking,
+          lineHeight: 1.2,
+          color: theme.fg,
+        }}
+      >
+        {title}
+      </div>
+      <div
+        style={{
+          fontFamily: theme.fontBody,
+          fontSize: 17,
+          color: theme.fgMuted,
+          lineHeight: 1.4,
+        }}
+      >
+        {body}
+      </div>
+      <div style={{ marginTop: "auto", paddingTop: 16 }}>{example}</div>
+    </div>
+  );
+}
+
+function ModelSwapDiagram({ theme }: { theme: Theme }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        gap: 16,
+        alignItems: "center",
+        fontFamily: theme.fontMono,
+        fontSize: 16,
+      }}
+    >
+      <span
+        style={{
+          padding: "10px 16px",
+          border: `2px solid ${theme.negative}`,
+          color: theme.negative,
+        }}
+      >
+        Claude (stuck)
+      </span>
+      <span style={{ color: theme.accent }}>→</span>
+      <span
+        style={{
+          padding: "10px 16px",
+          border: `2px solid ${theme.positive}`,
+          color: theme.positive,
+        }}
+      >
+        Codex (fresh)
+      </span>
+    </div>
+  );
+}
+
+function CodeBlock({ theme, code }: { theme: Theme; code: string }) {
+  return (
+    <pre
+      style={{
+        margin: 0,
+        padding: 16,
+        background: theme.id === "terminal" ? "#000" : "#0B0E14",
+        color: theme.id === "terminal" ? theme.accent : "#3FB950",
+        fontFamily: theme.fontMono,
+        fontSize: 14,
+        lineHeight: 1.5,
+        borderRadius: 4,
+        overflow: "hidden",
+        whiteSpace: "pre",
+      }}
+    >
+      {code}
+    </pre>
+  );
+}
+
+// ============================================================================
+// 22 — Test in the browser
+// ============================================================================
+export function Slide22({ theme, slideNumber, total }: SlideProps) {
+  return (
+    <SlideFrame theme={theme}>
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="04 · Tactics" />
+      <div style={{ marginTop: 100, display: "flex", flexDirection: "column", gap: 20 }}>
+        <Kicker theme={theme}>Tactic 04</Kicker>
+        <Title theme={theme} size={62} delay={4}>
+          Test the product, not the task list.
+        </Title>
+      </div>
+
+      <div style={{ marginTop: 56, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40 }}>
+        <FadeUp delay={16}>
+          <BrowserMock theme={theme} />
+        </FadeUp>
+        <FadeUp delay={32}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 24, paddingTop: 8 }}>
+            <div
+              style={{
+                fontFamily: theme.fontBody,
+                fontSize: 24,
+                color: theme.fg,
+                lineHeight: 1.4,
+              }}
+            >
+              Claude marks <code style={{ fontFamily: theme.fontMono, color: theme.accent }}>✅ implemented.</code> The tab is broken in the browser.
+            </div>
+            <div
+              style={{
+                fontFamily: theme.fontBody,
+                fontSize: 20,
+                color: theme.fgMuted,
+                lineHeight: 1.5,
+              }}
+            >
+              Use Chrome automation to drive the product manually.
+            </div>
+            <div
+              style={{
+                marginTop: 12,
+                padding: "20px 24px",
+                background: theme.accentSoft,
+                color: theme.id === "terminal" ? theme.accent : theme.fg,
+                fontFamily: theme.fontMono,
+                fontSize: 18,
+                letterSpacing: "0.02em",
+              }}
+            >
+              5+ UX bugs caught in one session
+            </div>
+          </div>
+        </FadeUp>
+      </div>
+    </SlideFrame>
+  );
+}
+
+function BrowserMock({ theme }: { theme: Theme }) {
+  return (
+    <div
+      style={{
+        background: theme.panel,
+        border: `1px solid ${theme.rule}`,
+        boxShadow: theme.id === "terminal" ? "none" : "0 20px 60px rgba(0,0,0,0.08)",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          padding: "12px 16px",
+          background: theme.id === "terminal" ? "#161B22" : "#F1F3F5",
+          borderBottom: `1px solid ${theme.rule}`,
+        }}
+      >
+        <div style={{ width: 12, height: 12, borderRadius: 999, background: "#FF5F57" }} />
+        <div style={{ width: 12, height: 12, borderRadius: 999, background: "#FEBC2E" }} />
+        <div style={{ width: 12, height: 12, borderRadius: 999, background: "#28C840" }} />
+        <div
+          style={{
+            marginLeft: 16,
+            fontFamily: theme.fontMono,
+            fontSize: 13,
+            color: theme.fgMuted,
+          }}
+        >
+          ask-camp.app/chat
+        </div>
+      </div>
+      <div style={{ padding: 24, display: "flex", flexDirection: "column", gap: 14 }}>
+        <BugLine theme={theme} text="Empty bubble (no copy)" />
+        <BugLine theme={theme} text="Non-clickable contact link" />
+        <BugLine theme={theme} text="Admin tab loads broken state" />
+        <BugLine theme={theme} text="Refusal copy missing fallback" />
+        <BugLine theme={theme} text="Prompt registry version not bumped" />
+      </div>
+    </div>
+  );
+}
+
+function BugLine({ theme, text }: { theme: Theme; text: string }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 12,
+        padding: "10px 14px",
+        border: `1px solid ${theme.negative}`,
+        background: theme.id === "terminal" ? "#1A0B0E" : "#FFF5F5",
+        fontFamily: theme.fontMono,
+        fontSize: 14,
+        color: theme.negative,
+      }}
+    >
+      <span>✕</span>
+      <span style={{ color: theme.fg }}>{text}</span>
+    </div>
+  );
+}
+
+// ============================================================================
+// 23 — Close
+// ============================================================================
+export function Slide23({ theme, slideNumber, total }: SlideProps) {
+  const frame = useFrame();
+  return (
+    <SlideFrame theme={theme} align="center">
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="Close" />
+      <div style={{ display: "flex", flexDirection: "column", gap: 32, maxWidth: 1500 }}>
+        <Kicker theme={theme}>Anna · launch day</Kicker>
+        <FadeUp delay={6}>
+          <div
+            style={{
+              fontFamily: theme.fontHeading,
+              fontStyle: theme.id === "editorial" ? "italic" : "normal",
+              fontSize: 80,
+              fontWeight: theme.headingWeight,
+              lineHeight: 1.12,
+              letterSpacing: theme.headingTracking,
+              color: theme.fg,
+            }}
+          >
+            "Six weeks from idea, discovery, build, launch —{" "}
+            <span style={{ color: theme.accent }}>
+              five days before the expected prototype date."
+            </span>
+          </div>
+        </FadeUp>
+
+        <FadeUp delay={42}>
+          <div
+            style={{
+              marginTop: 32,
+              fontFamily: theme.fontMono,
+              fontSize: 18,
+              letterSpacing: "0.06em",
+              color: theme.fgMuted,
+            }}
+          >
+            None of it happens without that pace. None of it was free.
+          </div>
+        </FadeUp>
+
+        <FadeUp delay={64}>
+          <div
+            style={{
+              marginTop: 40,
+              fontFamily: theme.fontHeading,
+              fontSize: 36,
+              fontWeight: theme.headingWeight,
+              color: theme.accent,
+              letterSpacing: theme.headingTracking,
+            }}
+          >
+            Thanks.
+          </div>
+        </FadeUp>
+
+        <div
+          style={{
+            position: "absolute",
+            bottom: 96,
+            right: 96,
+            width: 320,
+          }}
+        >
+          <div
+            style={{
+              height: 4,
+              background: theme.accent,
+              width: `${interpolate(frame, [70, 100], [0, 100], { extrapolateRight: "clamp" })}%`,
+            }}
+          />
+        </div>
+      </div>
+    </SlideFrame>
+  );
+}
+
+// Registry export
+export const SLIDES = [
+  Slide01, Slide02, Slide03, Slide04, Slide05, Slide06,
+  Slide07, Slide08, Slide09, Slide10, Slide11, Slide12,
+  Slide13, Slide14, Slide15, Slide16, Slide17, Slide18,
+  Slide19, Slide20, Slide21, Slide22, Slide23,
+];
+
