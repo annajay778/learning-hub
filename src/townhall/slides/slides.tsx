@@ -1639,20 +1639,24 @@ export function Slide19({ theme, slideNumber, total }: SlideProps) {
 export function Slide20({ theme, slideNumber, total }: SlideProps) {
   const tactics = [
     {
-      a: 'Ask "what did you build?"',
+      a: 'Trust "all done."',
       b: 'Ask "what\'s NOT done?"',
     },
     {
-      a: "Trust the AI usage claim",
-      b: 'Ask "did you actually use AI here?"',
+      a: "Accept the work at face value.",
+      b: 'Ask "did you actually use AI here?" — and why if not.',
     },
     {
-      a: "Try harder when stuck",
-      b: '"rethink" or "take a deep breath"',
+      a: "Argue when it insists it's right.",
+      b: "Drop in the screenshot.",
     },
     {
-      a: "Argue when it gaslights you",
-      b: "Show it the screenshot",
+      a: "Force Claude back onto a wrong path.",
+      b: "Abandon the context. Start a fresh session.",
+    },
+    {
+      a: "Blame the model for bad output.",
+      b: "Fix your prompt — bad output is bad input.",
     },
   ];
 
