@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Campminder — Logo &amp; Marks</title>
+<link rel="stylesheet" href="../tokens.css">
+<style>
+  body { background: var(--cm-white); padding: 56px 72px; }
+  .wrap { max-width: 1120px; margin: 0 auto; }
+  .eyebrow { font-family: var(--cm-font-display); font-size: 12px; letter-spacing: var(--cm-tr-tagline); text-transform: uppercase; color: var(--cm-purple); font-weight: 600; margin: 0 0 12px; }
+  h1 { font-family: var(--cm-font-display); font-size: 64px; font-weight: 600; letter-spacing: var(--cm-tr-display); line-height: var(--cm-lh-tight); margin: 0 0 14px; }
+  .lede { font-size: 18px; color: var(--cm-slate-600); margin: 0 0 48px; max-width: 640px; line-height: 1.5; }
+
+  .grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 20px; margin-bottom: 40px; }
+  .mark-card { border-radius: var(--cm-radius-lg); padding: 48px; display: flex; align-items: center; justify-content: center; min-height: 240px; position: relative; }
+  .mark-card.paper { background: var(--cm-paper); }
+  .mark-card.purple { background: var(--cm-purple); }
+  .mark-card.ink { background: var(--cm-ink); }
+  .mark-card img { max-width: 100%; max-height: 100%; }
+  .mark-card .tag { position: absolute; bottom: 14px; left: 18px; font-family: var(--cm-font-mono); font-size: 11px; letter-spacing: .08em; color: rgba(0,0,0,.5); text-transform: uppercase; }
+  .mark-card.purple .tag, .mark-card.ink .tag { color: rgba(255,255,255,.7); }
+
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px; }
+
+  .section-title { font-family: var(--cm-font-display); font-size: 22px; font-weight: 600; margin: 56px 0 20px; letter-spacing: var(--cm-tr-display); }
+
+  /* Corner bracket demo */
+  .bracket-demo {
+    position: relative; background: var(--cm-paper); border-radius: var(--cm-radius-lg);
+    padding: 72px 56px; min-height: 280px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .bracket-demo::before, .bracket-demo::after,
+  .bracket-demo .bl, .bracket-demo .br {
+    content: ""; position: absolute; width: 40px; height: 40px;
+    border: 0 solid var(--cm-purple);
+  }
+  .bracket-demo::before { top: 20px; left: 20px; border-top-width: 4px; border-left-width: 4px; }
+  .bracket-demo::after  { top: 20px; right: 20px; border-top-width: 4px; border-right-width: 4px; }
+  .bracket-demo .bl { bottom: 20px; left: 20px; border-bottom-width: 4px; border-left-width: 4px; }
+  .bracket-demo .br { bottom: 20px; right: 20px; border-bottom-width: 4px; border-right-width: 4px; }
+  .bracket-demo .inner { font-family: var(--cm-font-display); font-size: 64px; font-weight: 600; letter-spacing: var(--cm-tr-display); color: var(--cm-purple); }
+
+  .don-do { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .don-do .tile { background: var(--cm-paper); border-radius: var(--cm-radius-md); padding: 28px; min-height: 140px; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid var(--cm-slate-200); }
+  .don-do .tile img { max-width: 80%; max-height: 60px; }
+  .don-do .tile .label { position: absolute; top: 10px; left: 12px; font-family: var(--cm-font-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--cm-slate-600); }
+  .don-do .tile.bad::after { content: ""; position: absolute; inset: 0; border-radius: inherit; border: 2px solid var(--cm-clay); }
+  .don-do .tile.bad .label { color: var(--cm-clay); }
+
+  .clearspace {
+    position: relative; background: var(--cm-paper); border-radius: var(--cm-radius-lg); padding: 48px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .clearspace .mono { position: relative; padding: 60px; }
+  .clearspace .mono img { width: 280px; display: block; }
+  .clearspace .mono .guide { position: absolute; border: 1.5px dashed var(--cm-purple-300); }
+  .clearspace .t { top: 0; left: 0; right: 0; height: 60px; border-bottom: 1.5px dashed var(--cm-purple-300); }
+  .clearspace .b { bottom: 0; left: 0; right: 0; height: 60px; border-top: 1.5px dashed var(--cm-purple-300); }
+  .clearspace .l { left: 0; top: 0; bottom: 0; width: 60px; border-right: 1.5px dashed var(--cm-purple-300); }
+  .clearspace .r { right: 0; top: 0; bottom: 0; width: 60px; border-left: 1.5px dashed var(--cm-purple-300); }
+  .clearspace .x {
+    position: absolute; width: 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--cm-purple); color: #fff; border-radius: 50%;
+    font-family: var(--cm-font-mono); font-size: 13px; font-weight: 700;
+  }
+  .clearspace .xa { top: 14px; left: 14px; }
+  .clearspace .xb { bottom: 14px; right: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Foundations · Logo &amp; Marks</p>
+  <h1>One wordmark,<br>two companions.</h1>
+  <p class="lede">The Campminder lockup is always lowercase, always one word, always inside its corner-bracket frame. The <b>cm</b> monogram appears in confined spaces. The tagline <b>UNPACK POSSIBLE</b> is a horizontal companion — never a replacement.</p>
+
+  <h2 class="section-title">Primary lockup</h2>
+  <div class="grid">
+    <div class="mark-card paper"><img src="../assets/campminder-logo-purple.png" alt="Wordmark on paper"><span class="tag">On Paper · Preferred</span></div>
+    <div class="mark-card purple">
+      <!-- White-washed wordmark: use CSS filter to approximate a white lock-up stand-in -->
+      <img src="../assets/campminder-logo-purple.png" alt="Wordmark on purple" style="filter: brightness(0) invert(1);">
+      <span class="tag">Knockout · White</span>
+    </div>
+    <div class="mark-card ink"><img src="../assets/campminder-logo-purple.png" alt="Wordmark on ink" style="filter: brightness(0) invert(1);"><span class="tag">On Ink</span></div>
+  </div>
+
+  <h2 class="section-title">Monogram</h2>
+  <div class="row">
+    <div class="mark-card paper" style="min-height: 280px;"><img src="../assets/campminder-monogram-purple.png" alt="cm monogram" style="max-width: 320px;"><span class="tag">Monogram · Paper</span></div>
+    <div class="mark-card purple" style="min-height: 280px;"><img src="../assets/campminder-monogram-purple.png" alt="cm monogram knockout" style="filter: brightness(0) invert(1); max-width: 320px;"><span class="tag">Monogram · Knockout</span></div>
+  </div>
+
+  <h2 class="section-title">Tagline lockup</h2>
+  <div class="row">
+    <div class="mark-card paper" style="min-height: 180px; padding: 56px 72px;"><img src="../assets/campminder-tagline-wide-purple.png" alt="Unpack Possible tagline" style="max-width: 100%;"><span class="tag">UNPACK POSSIBLE · Paper</span></div>
+    <div class="mark-card ink" style="min-height: 180px; padding: 56px 72px;">
+      <img src="../assets/campminder-tagline-wide-purple.png" alt="Unpack Possible tagline knockout" style="max-width: 100%;">
+      <span class="tag">UNPACK POSSIBLE · Ink</span>
+    </div>
+  </div>
+
+  <h2 class="section-title">The bracket motif</h2>
+  <p style="color: var(--cm-slate-600); margin: 0 0 20px; max-width: 640px; line-height: 1.5;">The four corner brackets surrounding the wordmark are a reusable framing device — a viewfinder for the camp moment. Use it to frame any single focal element, never as decoration.</p>
+  <div class="bracket-demo">
+    <span class="inner">cm</span>
+    <span class="bl"></span><span class="br"></span>
+  </div>
+
+  <h2 class="section-title">Clearspace</h2>
+  <p style="color: var(--cm-slate-600); margin: 0 0 20px; max-width: 640px; line-height: 1.5;">Minimum clearspace around the wordmark is equal to the height of the lowercase "a" (x-height). No other mark, image edge, or text may enter the bracket frame.</p>
+  <div class="clearspace">
+    <div class="mono">
+      <span class="guide t"></span>
+      <span class="guide b"></span>
+      <span class="guide l"></span>
+      <span class="guide r"></span>
+      <img src="../assets/campminder-logo-purple.png" alt="Wordmark clearspace">
+      <span class="x xa">x</span>
+      <span class="x xb">x</span>
+    </div>
+  </div>
+
+  <h2 class="section-title">Don't</h2>
+  <div class="don-do">
+    <div class="tile bad"><span class="label">Don't recolor</span><img src="../assets/campminder-logo-purple.png" style="filter: hue-rotate(140deg) saturate(1.4);"></div>
+    <div class="tile bad"><span class="label">Don't stretch</span><img src="../assets/campminder-logo-purple.png" style="transform: scaleY(1.7);"></div>
+    <div class="tile bad" style="background: var(--cm-sun);"><span class="label">No busy bg</span><img src="../assets/campminder-logo-purple.png"></div>
+    <div class="tile bad"><span class="label">Don't outline</span><img src="../assets/campminder-logo-purple.png" style="filter: drop-shadow(0 0 2px #000) drop-shadow(0 0 2px #000);"></div>
+  </div>
+</div>
+</body>
+</html>

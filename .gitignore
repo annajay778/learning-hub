@@ -44,3 +44,6 @@ next-env.d.ts
 /*.png
 .playwright-mcp/
 
+# brand-kit transient uploads (large/internal content, not part of the kit itself)
+/brand-kit/uploads/
+

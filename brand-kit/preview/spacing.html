@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Campminder — Spacing</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components.css">
+<style>
+  body { padding: 48px; background: #fff; }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  .title { font-size: 44px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 8px; }
+  .sub { color: var(--cm-ink-500); font-size: 17px; max-width: 620px; margin: 0 0 48px; line-height: 1.55; }
+  .group-title { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cm-ink-400); font-weight: 500; margin: 40px 0 16px; }
+  .scale { display: grid; grid-template-columns: 80px 1fr 80px; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--cm-border); }
+  .scale .name { font-size: 13px; color: var(--cm-ink-500); font-feature-settings:"tnum"; }
+  .scale .val  { font-size: 13px; color: var(--cm-ink-900); font-weight: 600; text-align: right; font-feature-settings:"tnum"; }
+  .bar { height: 12px; background: var(--cm-purple-500); border-radius: 2px; }
+  .radii { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .r { border: 1px solid var(--cm-border); padding: 24px; text-align: center; background: #fff; }
+  .r .swatch { height: 80px; background: var(--cm-purple-100); border: 2px solid var(--cm-purple-500); margin: 0 auto 10px; width: 80%; }
+  .r .label { font-size: 13px; color: var(--cm-ink-500); font-feature-settings: "tnum"; }
+  .r .val { font-size: 13px; color: var(--cm-ink-900); font-weight: 600; margin-top: 2px; font-feature-settings: "tnum"; }
+  .shadows { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .sh { background: #fff; padding: 32px; border-radius: 12px; text-align: center; font-size: 13px; color: var(--cm-ink-500); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 class="title">Spacing, Radii &amp; Elevation</h1>
+  <p class="sub">A 4px base. Tight corner radii. A restrained elevation scale. The brand feels architectural — not floaty.</p>
+
+  <p class="group-title">Spacing scale · 4px base</p>
+  <div>
+    <div class="scale"><span class="name">s-1</span><div class="bar" style="width:4px"></div><span class="val">4px</span></div>
+    <div class="scale"><span class="name">s-2</span><div class="bar" style="width:8px"></div><span class="val">8px</span></div>
+    <div class="scale"><span class="name">s-3</span><div class="bar" style="width:12px"></div><span class="val">12px</span></div>
+    <div class="scale"><span class="name">s-4</span><div class="bar" style="width:16px"></div><span class="val">16px</span></div>
+    <div class="scale"><span class="name">s-5</span><div class="bar" style="width:20px"></div><span class="val">20px</span></div>
+    <div class="scale"><span class="name">s-6</span><div class="bar" style="width:24px"></div><span class="val">24px</span></div>
+    <div class="scale"><span class="name">s-8</span><div class="bar" style="width:32px"></div><span class="val">32px</span></div>
+    <div class="scale"><span class="name">s-10</span><div class="bar" style="width:40px"></div><span class="val">40px</span></div>
+    <div class="scale"><span class="name">s-12</span><div class="bar" style="width:48px"></div><span class="val">48px</span></div>
+    <div class="scale"><span class="name">s-16</span><div class="bar" style="width:64px"></div><span class="val">64px</span></div>
+    <div class="scale"><span class="name">s-20</span><div class="bar" style="width:80px"></div><span class="val">80px</span></div>
+    <div class="scale"><span class="name">s-24</span><div class="bar" style="width:96px"></div><span class="val">96px</span></div>
+    <div class="scale"><span class="name">s-32</span><div class="bar" style="width:128px"></div><span class="val">128px</span></div>
+  </div>
+
+  <p class="group-title">Radii — tight corners only</p>
+  <div class="radii">
+    <div class="r"><div class="swatch" style="border-radius:4px;"></div><div class="label">r-sm</div><div class="val">4px</div></div>
+    <div class="r"><div class="swatch" style="border-radius:8px;"></div><div class="label">r-md</div><div class="val">8px</div></div>
+    <div class="r"><div class="swatch" style="border-radius:12px;"></div><div class="label">r-lg</div><div class="val">12px</div></div>
+    <div class="r"><div class="swatch" style="border-radius:16px;"></div><div class="label">r-xl</div><div class="val">16px</div></div>
+  </div>
+  <p style="font-size:13px;color:var(--cm-ink-500);margin-top:12px;max-width:680px;line-height:1.5;">No pills, no fully-rounded buttons. The logo has sharp bracket corners; the system mirrors that restraint.</p>
+
+  <p class="group-title">Elevation — very light</p>
+  <div class="shadows">
+    <div class="sh" style="box-shadow: var(--cm-sh-1);">sh-1 · hairline</div>
+    <div class="sh" style="box-shadow: var(--cm-sh-2);">sh-2 · card</div>
+    <div class="sh" style="box-shadow: var(--cm-sh-3);">sh-3 · pop-over</div>
+  </div>
+</div>
+</body>
+</html>

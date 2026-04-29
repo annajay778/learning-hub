@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Campminder — Components</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components.css">
+<style>
+  body { padding: 48px; background: #fff; }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+  .title { font-size: 44px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 8px; }
+  .sub { color: var(--cm-ink-500); font-size: 17px; max-width: 640px; margin: 0 0 48px; line-height: 1.55; }
+  .group-title { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cm-ink-400); font-weight: 500; margin: 48px 0 16px; }
+  .row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; padding: 24px; border: 1px solid var(--cm-border); border-radius: 12px; margin-bottom: 12px; background: #fff; }
+  .row--dark { background: var(--cm-ink-900); border-color: var(--cm-ink-900); }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .cm-card h4 { margin: 0 0 8px; font-size: 20px; font-weight: 600; letter-spacing:-.005em;}
+  .cm-card p { margin: 0; font-size: 15px; color: var(--cm-ink-500); line-height: 1.55;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 class="title">Components</h1>
+  <p class="sub">Buttons, cards, forms, badges. Minimal by choice — Campminder's restraint is its voice.</p>
+
+  <p class="group-title">Buttons</p>
+  <div class="row">
+    <a class="cm-btn cm-btn--primary cm-btn--lg" href="#">Request a demo</a>
+    <a class="cm-btn cm-btn--primary" href="#">Get started</a>
+    <a class="cm-btn cm-btn--secondary" href="#">See how it works</a>
+    <a class="cm-btn cm-btn--ghost" href="#">Learn more →</a>
+    <button class="cm-btn cm-btn--primary cm-btn--sm">Save</button>
+  </div>
+  <div class="row row--dark">
+    <a class="cm-btn cm-btn--primary" href="#">Request a demo</a>
+    <a class="cm-btn" href="#" style="background:transparent;color:#fff;border-color:#fff;">See how it works</a>
+  </div>
+
+  <p class="group-title">Badges &amp; Eyebrows</p>
+  <div class="row">
+    <span class="cm-badge">Outline</span>
+    <span class="cm-badge cm-badge--purple">Brand</span>
+    <span class="cm-badge cm-badge--solid">Solid</span>
+    <span class="cm-eyebrow" style="margin:0;">The Hero Brand</span>
+  </div>
+
+  <p class="group-title">Cards</p>
+  <div class="grid">
+    <div class="cm-card">
+      <h4>Applications</h4>
+      <p>Every form, every family, every season — in one place your team can actually move through.</p>
+    </div>
+    <div class="cm-card cm-card--feature">
+      <h4>Where camp comes together.</h4>
+      <p>From forms to staffing to summer memories, everything flows in one place.</p>
+    </div>
+    <div class="cm-card cm-card--flat">
+      <h4>Payments</h4>
+      <p>Fewer reconciliation spreadsheets. More time with the people who showed up.</p>
+    </div>
+  </div>
+
+  <p class="group-title">Forms</p>
+  <div class="row" style="gap: 32px;">
+    <div class="cm-field" style="flex:1;min-width:240px;">
+      <label class="cm-label" for="e1">Camp name</label>
+      <input class="cm-input" id="e1" type="text" placeholder="Camp Wabanaki">
+    </div>
+    <div class="cm-field" style="flex:1;min-width:240px;">
+      <label class="cm-label" for="e2">Your email</label>
+      <input class="cm-input" id="e2" type="email" placeholder="director@wabanaki.org">
+    </div>
+    <div class="cm-field" style="flex: 2 1 100%;">
+      <label class="cm-label" for="e3">What would a better season look like?</label>
+      <textarea class="cm-textarea" id="e3" placeholder="One sentence. The big one."></textarea>
+    </div>
+  </div>
+
+  <p class="group-title">Tagline treatment</p>
+  <div class="row" style="justify-content:center;padding:72px;">
+    <p class="cm-tagline" style="font-size:44px;margin:0;">UNPACK&nbsp;&nbsp;POSSIBLE</p>
+  </div>
+
+</div>
+</body>
+</html>

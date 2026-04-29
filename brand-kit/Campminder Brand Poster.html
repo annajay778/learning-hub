@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Campminder — Brand at a Glance</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  :root {
+    --grid-gap: 20px;
+  }
+  html, body { background: var(--cm-ink-50); }
+  body {
+    padding: 48px;
+    font-family: var(--cm-font-sans);
+  }
+  .poster {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: min-content;
+    gap: var(--grid-gap);
+  }
+  .panel {
+    background: #fff;
+    border: 1px solid var(--cm-border);
+    border-radius: 16px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .panel .eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cm-ink-400);
+    margin: 0 0 20px;
+  }
+
+  /* HERO header */
+  .hero {
+    grid-column: span 12;
+    background: var(--cm-ink-900);
+    color: #fff;
+    padding: 64px 64px 56px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 56px;
+    align-items: end;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before, .hero::after {
+    content: ""; position: absolute;
+    width: 64px; height: 64px;
+    border-color: var(--cm-purple-500);
+    border-style: solid;
+    pointer-events: none;
+  }
+  .hero::before { top: 24px; left: 24px; border-width: 4px 0 0 4px; }
+  .hero::after  { bottom: 24px; right: 24px; border-width: 0 4px 4px 0; }
+  .hero h1 {
+    font-size: 92px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 0.98;
+    margin: 0 0 28px;
+  }
+  .hero h1 .muted { color: var(--cm-ink-400); font-weight: 400; }
+  .hero p.lede {
+    font-size: 20px;
+    line-height: 1.5;
+    max-width: 540px;
+    color: var(--cm-ink-300);
+    margin: 0;
+  }
+  .hero .right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 28px;
+  }
+  .hero img.logo {
+    height: 56px;
+    filter: brightness(0) invert(1);
+  }
+  .hero .tagline {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--cm-purple-400);
+  }
+  .hero .meta-row {
+    display: flex;
+    gap: 28px;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cm-ink-400);
+  }
+  .hero .meta-row span strong { display:block; color:#fff; font-size: 15px; font-weight: 600; letter-spacing: 0; text-transform: none; margin-top: 2px; }
+
+  /* Panel layouts */
+  .p-positioning  { grid-column: span 7; }
+  .p-color        { grid-column: span 5; }
+  .p-type         { grid-column: span 7; }
+  .p-motif        { grid-column: span 5; }
+  .p-voice        { grid-column: span 8; }
+  .p-donts        { grid-column: span 4; }
+  .p-headlines    { grid-column: span 12; background: var(--cm-purple-500); color: #fff; border-color: var(--cm-purple-500); }
+  .p-foot         { grid-column: span 12; background: transparent; border: none; padding: 8px 32px 0; display:flex; justify-content: space-between; align-items:center; font-size: 12px; color: var(--cm-ink-400); letter-spacing: 0.08em; text-transform: uppercase;}
+
+  /* Positioning panel */
+  .positioning-big {
+    font-size: 44px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    margin: 0 0 24px;
+    color: var(--cm-ink-900);
+  }
+  .positioning-big em {
+    color: var(--cm-purple-500);
+    font-style: normal;
+  }
+  .triplet {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 28px;
+  }
+  .triplet .cell {
+    padding: 16px 18px;
+    background: var(--cm-ink-50);
+    border-radius: 10px;
+  }
+  .triplet .cell h4 {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cm-ink-400);
+    margin: 0 0 6px;
+    font-weight: 500;
+  }
+  .triplet .cell p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.45;
+    color: var(--cm-ink-900);
+    font-weight: 500;
+  }
+
+  /* Color panel */
+  .color-big {
+    height: 140px;
+    border-radius: 10px;
+    background: var(--cm-purple-500);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 18px;
+    color: #fff;
+    margin-bottom: 14px;
+  }
+  .color-big .hex { font-size: 24px; font-weight: 700; letter-spacing: -0.01em;}
+  .color-big .label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.85; }
+  .color-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 12px; }
+  .color-row .c { height: 60px; border-radius: 6px; position: relative; border: 1px solid var(--cm-border);}
+  .color-row .c .hex { position: absolute; bottom: 6px; left: 8px; font-size: 10px; color: #fff; font-weight: 600; letter-spacing: 0.04em;}
+  .color-row .c.light .hex { color: var(--cm-ink-900); }
+  .color-caption { font-size: 13px; color: var(--cm-ink-500); line-height: 1.5; margin: 0; }
+
+  /* Type panel */
+  .type-specimen {
+    font-size: 140px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 0.9;
+    margin: 0 0 16px;
+    color: var(--cm-ink-900);
+  }
+  .type-specimen .purple { color: var(--cm-purple-500); }
+  .type-meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--cm-border);
+  }
+  .type-meta .w {
+    font-weight: 600; font-size: 22px; color: var(--cm-ink-900);
+  }
+  .type-meta .w small {
+    display: block; font-size: 11px; color: var(--cm-ink-400); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; margin-top: 4px;
+  }
+
+  /* Motif panel */
+  .motif-showcase {
+    background: var(--cm-ink-50);
+    border-radius: 12px;
+    padding: 40px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+  }
+  .motif-showcase .cm-frame {
+    --cm-bracket-length: 36px;
+    --cm-bracket-weight: 4px;
+    padding: 28px 36px;
+    background: #fff;
+    border-radius: 4px;
+  }
+  .motif-showcase img { display: block; height: 32px; }
+  .motif-caption { font-size: 13px; color: var(--cm-ink-500); line-height: 1.5; margin: 0; }
+
+  /* Voice panel */
+  .voice-shift {
+    display: grid;
+    grid-template-columns: 1fr 28px 1fr;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .voice-shift .from, .voice-shift .to {
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  .voice-shift .from {
+    background: #fdeaea;
+    color: #6a2121;
+    text-decoration: line-through;
+    text-decoration-color: #c85454;
+    text-decoration-thickness: 1px;
+  }
+  .voice-shift .to {
+    background: var(--cm-purple-50);
+    color: var(--cm-purple-600);
+    font-weight: 500;
+  }
+  .voice-shift .arrow { color: var(--cm-ink-300); font-size: 20px; text-align: center; }
+
+  /* Donts */
+  .donts-list { list-style: none; padding: 0; margin: 0;}
+  .donts-list li {
+    padding: 12px 0;
+    border-top: 1px solid var(--cm-border);
+    font-size: 14px;
+    color: var(--cm-ink-700);
+    line-height: 1.45;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .donts-list li:first-child { border-top: 0; padding-top: 0; }
+  .donts-list li::before {
+    content: "✕";
+    color: #c85454;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+    width: 14px;
+    line-height: 1.5;
+  }
+
+  /* Headlines panel */
+  .p-headlines .eyebrow { color: rgba(255,255,255,0.7); }
+  .headlines-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .headlines-grid .h {
+    padding: 28px 24px;
+    background: var(--cm-purple-500);
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    min-height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .headlines-grid .h small {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+    opacity: 0.7;
+    margin-bottom: 14px;
+  }
+
+  @media (max-width: 1100px) {
+    .poster { gap: 16px; }
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 40px; }
+    .hero h1 { font-size: 56px; }
+    .p-positioning, .p-color, .p-type, .p-motif, .p-voice, .p-donts { grid-column: span 12; }
+    .headlines-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <h1>You make camp better.<br><span class="muted">Campminder helps you&nbsp;do&nbsp;it.</span></h1>
+      <p class="lede">The brand, in two lines. Campminder is a Hero brand — the camp is the protagonist; we are the trusted ally.</p>
+    </div>
+    <div class="right">
+      <img class="logo" src="assets/campminder-logo-purple.png" alt="Campminder">
+      <div class="tagline">UNPACK&nbsp;&nbsp;POSSIBLE</div>
+      <div class="meta-row">
+        <span>Brand · Identity<strong>V1.0</strong></span>
+        <span>Archetype<strong>The Hero</strong></span>
+        <span>Source<strong>FY26 Marketing Plan</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- POSITIONING -->
+  <div class="panel p-positioning">
+    <p class="eyebrow">01 · Positioning</p>
+    <h2 class="positioning-big">Nike, BMW, Marvel, Patagonia — and <em>Campminder</em>. Hero brands celebrate who the customer becomes, not what the product does.</h2>
+    <div class="triplet">
+      <div class="cell">
+        <h4>Protagonist</h4>
+        <p>The camp director. The counselor. The coordinator.</p>
+      </div>
+      <div class="cell">
+        <h4>Ally</h4>
+        <p>Campminder — invisible infrastructure, confident enabler.</p>
+      </div>
+      <div class="cell">
+        <h4>Outcome</h4>
+        <p>Calm, confidence, and connection in the world of camp.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLOR -->
+  <div class="panel p-color">
+    <p class="eyebrow">02 · Color</p>
+    <div class="color-big">
+      <span class="label">Campminder Purple</span>
+      <span class="hex">#773DBE</span>
+    </div>
+    <div class="color-row">
+      <div class="c" style="background:#5E2E97;"><span class="hex">600</span></div>
+      <div class="c" style="background:#9062D0;"><span class="hex">400</span></div>
+      <div class="c light" style="background:#EFE6FB;"><span class="hex">100</span></div>
+      <div class="c light" style="background:#F7F2FD;"><span class="hex">50</span></div>
+      <div class="c" style="background:#0E0F12;"><span class="hex">INK</span></div>
+    </div>
+    <div class="color-row" style="grid-template-columns: repeat(6, 1fr);">
+      <div class="c" style="background:#2A2C31;"><span class="hex">700</span></div>
+      <div class="c" style="background:#6F7278;"><span class="hex">500</span></div>
+      <div class="c" style="background:#91969C;"><span class="hex">400</span></div>
+      <div class="c light" style="background:#B1B3B9;"><span class="hex">300</span></div>
+      <div class="c light" style="background:#D8DAE2;"><span class="hex">200</span></div>
+      <div class="c light" style="background:#F6F7F9;"><span class="hex">50</span></div>
+    </div>
+    <p class="color-caption">One hue carries the load. The restraint <em>is</em> the brand.</p>
+  </div>
+
+  <!-- TYPE -->
+  <div class="panel p-type">
+    <p class="eyebrow">03 · Typography</p>
+    <div class="type-specimen">Host<br>Grotes<span class="purple">k</span>.</div>
+    <div class="type-meta">
+      <div class="w">300<small>Light</small></div>
+      <div class="w">400<small>Regular</small></div>
+      <div class="w" style="color:var(--cm-purple-500);">600<small>Semibold</small></div>
+      <div class="w">700<small>Bold</small></div>
+    </div>
+  </div>
+
+  <!-- MOTIF -->
+  <div class="panel p-motif">
+    <p class="eyebrow">04 · The bracket motif</p>
+    <div class="motif-showcase">
+      <div class="cm-frame">
+        <img src="assets/campminder-monogram-purple.png" alt="cm monogram">
+      </div>
+    </div>
+    <p class="motif-caption">The film-frame brackets wrap both the logo and the monogram — Campminder's signature container. Use diagonally (TL + BR, <em>or</em> TR + BL), 3px stroke, always purple. Reserve for spotlight moments: a hero quote, a featured image, a key stat. Never a border style.</p>
+  </div>
+
+  <!-- VOICE -->
+  <div class="panel p-voice">
+    <p class="eyebrow">05 · Voice · From → To</p>
+    <div class="voice-shift">
+      <div class="from">Forms are hard to track down.</div>
+      <div class="arrow">→</div>
+      <div class="to">Every form, in one place, so your team can move.</div>
+    </div>
+    <div class="voice-shift">
+      <div class="from">Hiring is hard.</div>
+      <div class="arrow">→</div>
+      <div class="to">Build the staff roster your camp deserves.</div>
+    </div>
+    <div class="voice-shift">
+      <div class="from">Our tools aren't connected.</div>
+      <div class="arrow">→</div>
+      <div class="to">Where camp comes together.</div>
+    </div>
+    <div class="voice-shift">
+      <div class="from">Campminder does X, Y, and Z for you.</div>
+      <div class="arrow">→</div>
+      <div class="to">You make camp better, and Campminder helps you do it.</div>
+    </div>
+  </div>
+
+  <!-- DON'TS -->
+  <div class="panel p-donts">
+    <p class="eyebrow">06 · Never</p>
+    <ul class="donts-list">
+      <li>Pain-point openers. Camps live their pain daily.</li>
+      <li>Performative empathy. No therapist voice.</li>
+      <li>Unverifiable stats. Sources or silence.</li>
+      <li>Generic vendor lines competitors could copy.</li>
+      <li>Sentences that start with "Campminder."</li>
+      <li>Icon rows in place of real language.</li>
+      <li>Gradients, drop shadows, pill buttons.</li>
+    </ul>
+  </div>
+
+  <!-- HEADLINES -->
+  <div class="panel p-headlines">
+    <p class="eyebrow">07 · Working headlines — lift as needed</p>
+    <div class="headlines-grid">
+      <div class="h"><small>Connection</small>Where camp comes together.</div>
+      <div class="h"><small>Craft</small>Engineered for the way you run camp.</div>
+      <div class="h"><small>Progress</small>Make every summer count.</div>
+      <div class="h"><small>Creation</small>Build the camp experience you imagine.</div>
+      <div class="h"><small>Enablement</small>The power behind every camp hero.</div>
+      <div class="h"><small>Flexibility</small>Your camp. Your systems. Your way.</div>
+      <div class="h"><small>Tagline</small>Unpack possible.</div>
+      <div class="h"><small>Positioning</small>You make camp better. Campminder helps you do it.</div>
+    </div>
+  </div>
+
+  <!-- FOOT -->
+  <div class="p-foot">
+    <span>Campminder · Design System · V1.0</span>
+    <span>Derived from the FY26 Marketing Plan Review</span>
+  </div>
+
+</div>
+</body>
+</html>

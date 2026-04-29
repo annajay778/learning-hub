@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Campminder — Typography</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components.css">
+<!-- Free fallbacks closest in character to the licensed fonts:
+     · Spezia Wide (Luzi Type, paid) → Big Shoulders Inline Text is too stylised.
+       Chivo is the closest free wide-ish grotesque on Google Fonts.
+     · TWK Lausanne (Weltkern, paid) → Inter is the closest free neo-grotesque. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chivo:wght@500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Type stack — Spezia Wide for display, TWK Lausanne for body */
+  :root {
+    --font-display: 'Spezia Wide', 'Chivo', 'Host Grotesk', system-ui, sans-serif;
+    --font-body:    'TWK Lausanne', 'Inter', 'Host Grotesk', system-ui, sans-serif;
+  }
+  /* Widen the Chivo fallback so it reads closer to Spezia Wide */
+  .display-face { font-family: var(--font-display); font-stretch: 125%; }
+  .body-face    { font-family: var(--font-body); }
+
+  body { padding: 48px; background: #fff; font-family: var(--font-body); }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+  .title { font-family: var(--font-display); font-stretch: 125%; font-size: 44px; font-weight: 500; letter-spacing: -0.01em; margin: 0 0 8px; }
+  .sub { font-family: var(--font-body); color: var(--cm-ink-500); font-size: 17px; max-width: 680px; margin: 0 0 48px; line-height: 1.55; font-weight: 400; }
+  .sub .pair { color: var(--cm-ink-900); font-weight: 500; }
+
+  .license-banner {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 16px 20px; border: 1px solid var(--cm-border); border-radius: 10px;
+    background: var(--cm-ink-50); margin-bottom: 32px;
+    font-family: var(--font-body); font-size: 13px; color: var(--cm-ink-500); line-height: 1.55;
+  }
+  .license-banner strong { color: var(--cm-ink-900); font-weight: 500; display: block; margin-bottom: 2px; font-size: 14px; }
+  .license-banner .dot { flex-shrink:0; width: 8px; height: 8px; border-radius: 50%; background: var(--cm-purple-500); margin-top: 8px;}
+
+  .row { display: grid; grid-template-columns: 140px 1fr; gap: 32px; padding: 22px 0; border-top: 1px solid var(--cm-border); align-items: baseline; }
+  .label { font-family: var(--font-body); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--cm-ink-400); font-weight: 500; }
+  .specs { font-family: var(--font-body); font-size: 12px; color: var(--cm-ink-500); margin-top: 10px; font-feature-settings: "tnum"; }
+  .sample { margin: 0; }
+  .group-title { font-family: var(--font-body); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cm-ink-400); font-weight: 500; margin: 56px 0 0; }
+
+  /* DISPLAY — Spezia Wide Medium */
+  .d1 { font-family: var(--font-display); font-stretch: 125%; font-size: 96px; font-weight: 500; line-height: 1.02; letter-spacing: -0.015em; margin: 0; }
+  .d2 { font-family: var(--font-display); font-stretch: 125%; font-size: 72px; font-weight: 500; line-height: 1.05; letter-spacing: -0.01em; margin: 0; }
+  .h1 { font-family: var(--font-display); font-stretch: 125%; font-size: 56px; font-weight: 500; line-height: 1.1;  letter-spacing: -0.005em; margin: 0; }
+  .h2 { font-family: var(--font-display); font-stretch: 125%; font-size: 40px; font-weight: 500; line-height: 1.15; margin: 0; }
+  .h3 { font-family: var(--font-display); font-stretch: 125%; font-size: 28px; font-weight: 500; line-height: 1.2;  margin: 0; }
+  .h4 { font-family: var(--font-display); font-stretch: 125%; font-size: 22px; font-weight: 500; line-height: 1.25; margin: 0; }
+
+  /* BODY — TWK Lausanne */
+  .body-lg { font-family: var(--font-body); font-size: 20px; font-weight: 400; line-height: 1.55; color: var(--cm-ink-700); margin: 0; }
+  .body    { font-family: var(--font-body); font-size: 17px; font-weight: 400; line-height: 1.6;  color: var(--cm-ink-900); margin: 0; max-width: 640px;}
+  .caption { font-family: var(--font-body); font-size: 13px; font-weight: 400; line-height: 1.55; color: var(--cm-ink-500); margin: 0; }
+  .eyebrow { font-family: var(--font-body); font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--cm-ink-400); margin: 0; }
+  .tagline { font-family: var(--font-display); font-stretch: 125%; font-size: 24px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cm-purple-500); margin: 0; }
+
+  .aa { font-family: var(--font-display); font-stretch: 125%; font-size: 220px; font-weight: 500; letter-spacing: -0.02em; line-height: 1; margin: 0 0 8px; color: var(--cm-purple-500); }
+  .aa-meta { font-family: var(--font-body); font-size: 14px; color: var(--cm-ink-500); font-weight: 400; margin: 0 0 40px;}
+  .aa-meta strong { color: var(--cm-ink-900); font-weight: 500;}
+
+  .pair-card {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border: 1px solid var(--cm-border); border-radius: 16px; overflow: hidden;
+    margin: 16px 0 24px;
+  }
+  .pair-card > div { padding: 32px; }
+  .pair-card .pair-display { border-right: 1px solid var(--cm-border); background: #fff; }
+  .pair-card .pair-body    { background: var(--cm-ink-50); }
+  .pair-card h3 { margin: 0 0 4px; font-family: var(--font-body); font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--cm-ink-400); }
+  .pair-card .face-name { font-family: var(--font-body); font-size: 18px; font-weight: 500; color: var(--cm-ink-900); margin: 0 0 16px;}
+  .pair-card .face-name em { color: var(--cm-purple-500); font-style: normal; font-weight: 500;}
+  .pair-card .showcase-display { font-family: var(--font-display); font-stretch: 125%; font-size: 80px; font-weight: 500; line-height: 0.95; letter-spacing: -0.02em; color: var(--cm-ink-900); margin: 0;}
+  .pair-card .showcase-body { font-family: var(--font-body); font-size: 17px; line-height: 1.6; color: var(--cm-ink-900); margin: 0; max-width: 360px;}
+  .pair-card .face-license { font-family: var(--font-body); font-size: 11px; letter-spacing: .04em; color: var(--cm-ink-400); margin-top: 16px; font-feature-settings: "tnum";}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 class="title">Typography</h1>
+  <p class="sub">A two-face system. <span class="pair">Spezia Wide Medium</span> for display — wide, assured, a confident grotesque built for headlines. <span class="pair">TWK Lausanne</span> for paragraphs — a clean Swiss neo-grotesque that holds text at long length without calling attention to itself.</p>
+
+  <div class="license-banner">
+    <span class="dot"></span>
+    <div>
+      <strong>Licensed foundry fonts</strong>
+      Spezia Wide is licensed from Luzi Type; TWK Lausanne from Weltkern. Install both for production artifacts. Previews below fall back to <em>Chivo</em> (display) and <em>Inter</em> (body) via Google Fonts — the closest free matches for quick review in this environment.
+    </div>
+  </div>
+
+  <p class="aa">Aa</p>
+  <p class="aa-meta"><strong>Spezia Wide Medium</strong> · display · letter-stretch widened to approximate the wide cut · paired with <strong>TWK Lausanne</strong> for body copy.</p>
+
+  <div class="pair-card">
+    <div class="pair-display">
+      <h3>Display</h3>
+      <p class="face-name"><em>Spezia Wide</em> Medium</p>
+      <p class="showcase-display">Unpack possible.</p>
+      <p class="face-license">Luzi Type · 500 weight · tracking −0.02em</p>
+    </div>
+    <div class="pair-body">
+      <h3>Body</h3>
+      <p class="face-name"><em>TWK Lausanne</em> Regular</p>
+      <p class="showcase-body">Campminder is the space where your team, campers, and families connect effortlessly. From forms to staffing to summer memories — everything flows in one place, so you can focus on the moments that matter most.</p>
+      <p class="face-license">Weltkern · 400 weight · 17 / 26 · tracking 0</p>
+    </div>
+  </div>
+
+  <p class="group-title">Display &amp; Heading scale · Spezia Wide Medium</p>
+  <div class="row"><div><div class="label">Display 1</div><div class="specs">96 / 98 · Medium · −0.015em</div></div>
+    <p class="sample d1">Unpack&nbsp;possible.</p></div>
+  <div class="row"><div><div class="label">Display 2</div><div class="specs">72 / 76 · Medium · −0.01em</div></div>
+    <p class="sample d2">Where camp comes together.</p></div>
+  <div class="row"><div><div class="label">H1</div><div class="specs">56 / 62 · Medium · −0.005em</div></div>
+    <p class="sample h1">Make every summer count.</p></div>
+  <div class="row"><div><div class="label">H2</div><div class="specs">40 / 46 · Medium</div></div>
+    <p class="sample h2">You make camp better. We help you do it.</p></div>
+  <div class="row"><div><div class="label">H3</div><div class="specs">28 / 34 · Medium</div></div>
+    <p class="sample h3">Engineered for the way you run camp.</p></div>
+  <div class="row"><div><div class="label">H4</div><div class="specs">22 / 28 · Medium</div></div>
+    <p class="sample h4">Build the camp experience you imagine.</p></div>
+
+  <p class="group-title">Body &amp; support · TWK Lausanne</p>
+  <div class="row"><div><div class="label">Body Large</div><div class="specs">20 / 31 · Regular</div></div>
+    <p class="sample body-lg">Campminder is the space where your team, campers, and families connect effortlessly — from forms to staffing to summer memories, everything in one place.</p></div>
+  <div class="row"><div><div class="label">Body</div><div class="specs">17 / 27 · Regular</div></div>
+    <p class="sample body">We don't remind camps that running a season is hard. They know. We show them what becomes possible when the logistics stop getting in the way.</p></div>
+  <div class="row"><div><div class="label">Caption</div><div class="specs">13 / 20 · Regular · Ink 500</div></div>
+    <p class="sample caption">Photo — camp director, first day of session</p></div>
+  <div class="row"><div><div class="label">Eyebrow</div><div class="specs">13 · Medium · 0.08em · UPPER</div></div>
+    <p class="sample eyebrow">The Hero Brand</p></div>
+  <div class="row"><div><div class="label">Tagline</div><div class="specs">Spezia Wide · Bold · 0.22em · UPPER</div></div>
+    <p class="sample tagline">UNPACK POSSIBLE</p></div>
+
+  <p class="group-title">Rules</p>
+  <ul class="body" style="color:var(--cm-ink-700);max-width:680px;padding-left:20px;margin-top:16px;">
+    <li><strong>Two faces, one role each.</strong> Spezia Wide is for display only. TWK Lausanne is for body only. Never swap them.</li>
+    <li><strong>Medium is the display weight.</strong> Not Regular, not Bold. The "Wide Medium" cut is the system's voice.</li>
+    <li><strong>No italics for emphasis.</strong> Use weight, color, or size.</li>
+    <li><strong>Tracking is negative on display</strong> (−0.005 to −0.02em), neutral on body.</li>
+    <li><strong>The 0.22em tagline tracking</strong> is reserved for UNPACK POSSIBLE treatments — not decoration for regular headings.</li>
+  </ul>
+</div>
+</body>
+</html>

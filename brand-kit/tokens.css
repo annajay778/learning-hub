@@ -1,0 +1,152 @@
+/* =========================================================================
+   Campminder — Design Tokens
+   ---------------------------------------------------------------------------
+   Color, type, spacing. Single source of truth. Load this first on every
+   page in this system. Do not invent new values — if you need one, add it
+   here and document it in README.md.
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   Typography — Host Grotesk + Host Grotesk Mono
+   Host Grotesk ships on Google Fonts as a variable family (wght 300–800).
+   Prefer 300 / 400 / 500 / 600 / 700 weights in UI.
+   ------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap');
+
+:root {
+  /* ---- Brand color — PRIMARY ------------------------------------------- */
+  --cm-purple-500: #773DBE; /* Core brand purple — logo color. */
+  --cm-purple-600: #5E2E97; /* Hover / pressed for interactive purple. */
+  --cm-purple-400: #9062D0; /* Softer purple — accents, secondary text on white. */
+  --cm-purple-100: #EFE6FB; /* Tinted surface — subtle purple wash. */
+  --cm-purple-50:  #F7F2FD; /* Near-white purple wash — section backgrounds. */
+
+  /* Shorthand — use --cm-purple when you mean "the brand". */
+  --cm-purple: var(--cm-purple-500);
+
+  /* ---- Neutrals — cool-gray family ------------------------------------- */
+  /* Extracted from deck master / layouts. 91969C anchors mid-gray; the ramp
+     extends around it. Use for body text, borders, quiet surfaces. */
+  --cm-ink-900: #0E0F12; /* Primary text on light surfaces. Near-black, warmer than pure. */
+  --cm-ink-700: #2A2C31; /* Secondary text. */
+  --cm-ink-500: #6F7278; /* Tertiary / caption text. Dimmed. */
+  --cm-ink-400: #91969C; /* Subtitle color from the deck — "muted heading" pairings. */
+  --cm-ink-300: #B1B3B9; /* Disabled / placeholder text. */
+  --cm-ink-200: #D8DAE2; /* Hairline borders. */
+  --cm-ink-100: #EEEFF2; /* Surface divider / quiet card bg. */
+  --cm-ink-50:  #F6F7F9; /* Default canvas background. */
+  --cm-white:   #FFFFFF;
+  --cm-black:   #000000;
+
+  /* ---- Semantic (limited, brand-first) --------------------------------- */
+  --cm-bg:            var(--cm-white);
+  --cm-bg-muted:      var(--cm-ink-50);
+  --cm-bg-contrast:   var(--cm-ink-900); /* Use sparingly — statement sections. */
+  --cm-text:          var(--cm-ink-900);
+  --cm-text-muted:    var(--cm-ink-500);
+  --cm-text-quiet:    var(--cm-ink-400);
+  --cm-border:        var(--cm-ink-200);
+  --cm-border-strong: var(--cm-ink-300);
+  --cm-accent:        var(--cm-purple-500);
+
+  /* ---- Typography stack ------------------------------------------------ */
+  /* Two-face system. Spezia Wide Medium (Luzi Type, licensed) for display;
+     TWK Lausanne (Weltkern, licensed) for body. Free fallbacks: Chivo
+     (widened via font-stretch) and Inter, both available on Google Fonts. */
+  --cm-font-display: 'Spezia Wide', 'Chivo', 'Host Grotesk', system-ui, sans-serif;
+  --cm-font-body:    'TWK Lausanne', 'Inter', 'Host Grotesk', system-ui, sans-serif;
+  --cm-font-sans:    var(--cm-font-body); /* legacy alias */
+  --cm-font-mono:    ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Weights we use. Stick to these. */
+  --cm-wt-light:   300;
+  --cm-wt-regular: 400;
+  --cm-wt-medium:  500;
+  --cm-wt-semibold:600;
+  --cm-wt-bold:    700;
+
+  /* Display/title scale — tight, slightly compressed tracking. */
+  --cm-type-display-1: 96px;
+  --cm-type-display-2: 72px;
+  --cm-type-h1:        56px;
+  --cm-type-h2:        40px;
+  --cm-type-h3:        28px;
+  --cm-type-h4:        22px;
+  --cm-type-body-lg:   20px;
+  --cm-type-body:      17px;
+  --cm-type-body-sm:   15px;
+  --cm-type-caption:   13px;
+  --cm-type-micro:     11px;
+
+  --cm-lh-tight:   1.05;
+  --cm-lh-heading: 1.15;
+  --cm-lh-body:    1.55;
+  --cm-lh-loose:   1.7;
+
+  --cm-track-tight:  -0.02em;
+  --cm-track-normal: -0.005em;
+  --cm-track-wide:   0.08em;   /* for small caps / eyebrows */
+  --cm-track-xwide:  0.22em;   /* for tagline-style UNPACK POSSIBLE treatment */
+
+  /* ---- Spacing — 4px base ---------------------------------------------- */
+  --cm-s-1:  4px;
+  --cm-s-2:  8px;
+  --cm-s-3:  12px;
+  --cm-s-4:  16px;
+  --cm-s-5:  20px;
+  --cm-s-6:  24px;
+  --cm-s-8:  32px;
+  --cm-s-10: 40px;
+  --cm-s-12: 48px;
+  --cm-s-16: 64px;
+  --cm-s-20: 80px;
+  --cm-s-24: 96px;
+  --cm-s-32: 128px;
+
+  /* ---- Radii ----------------------------------------------------------- */
+  /* The brand mark uses sharp corner brackets. We mirror that restraint —
+     no pillbox / fully-rounded shapes, and a tight radius on surfaces. */
+  --cm-r-sm: 4px;
+  --cm-r-md: 8px;
+  --cm-r-lg: 12px;
+  --cm-r-xl: 16px;
+
+  /* ---- Elevation ------------------------------------------------------- */
+  /* Very light. The brand skews flat + confident, not drop-shadowed. */
+  --cm-sh-1: 0 1px 2px rgba(14, 15, 18, 0.05);
+  --cm-sh-2: 0 2px 8px rgba(14, 15, 18, 0.06), 0 1px 2px rgba(14, 15, 18, 0.04);
+  --cm-sh-3: 0 8px 24px rgba(14, 15, 18, 0.08), 0 2px 6px rgba(14, 15, 18, 0.04);
+
+  /* ---- Motion ---------------------------------------------------------- */
+  --cm-ease:    cubic-bezier(.2, .7, .2, 1);
+  --cm-dur-xs:  120ms;
+  --cm-dur-sm:  180ms;
+  --cm-dur-md:  260ms;
+  --cm-dur-lg:  420ms;
+
+  /* ---- Layout ---------------------------------------------------------- */
+  --cm-container: 1200px;
+  --cm-gutter:    var(--cm-s-8);
+
+  /* ---- Brand motif — corner brackets ----------------------------------- */
+  /* The logo and monogram both sit inside a "film-frame" bracket. This is
+     the strongest brand signature. Expose it as a reusable motif. */
+  --cm-bracket-weight: 3px;
+  --cm-bracket-length: 28px;
+  --cm-bracket-color:  var(--cm-purple-500);
+}
+
+/* Baseline — every page inherits this. */
+html, body {
+  font-family: var(--cm-font-sans);
+  color: var(--cm-text);
+  background: var(--cm-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+body {
+  font-size: var(--cm-type-body);
+  line-height: var(--cm-lh-body);
+  margin: 0;
+}
+*, *::before, *::after { box-sizing: border-box; }

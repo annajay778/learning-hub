@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Campminder — Logo &amp; Brackets</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components.css">
+<style>
+  body { padding: 48px; background: #fff; }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+  .title { font-size: 44px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 8px; }
+  .sub { color: var(--cm-ink-500); font-size: 17px; max-width: 640px; margin: 0 0 48px; line-height: 1.55; }
+  .group-title { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cm-ink-400); font-weight: 500; margin: 48px 0 16px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .box { border: 1px solid var(--cm-border); border-radius: 12px; padding: 40px; display: flex; align-items: center; justify-content: center; min-height: 180px; }
+  .box--dark { background: var(--cm-ink-900); }
+  .box--purple { background: var(--cm-purple-500); }
+  .box img { max-width: 72%; height: auto; }
+  .caption { font-size: 12px; color: var(--cm-ink-500); margin-top: 10px; letter-spacing: .04em; text-transform: uppercase; font-weight: 500; }
+  .frame-demo { position: relative; padding: 64px; background: var(--cm-ink-50); border-radius: 12px; }
+  .frame-demo .cm-frame { padding: 56px 40px; text-align: center; background: #fff; border-radius: 4px; }
+  .frame-demo h2 { margin: 0; font-size: 32px; font-weight: 600; letter-spacing: -0.01em; }
+  .rules { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .rules li { padding: 16px 20px; border: 1px solid var(--cm-border); border-radius: 10px; font-size: 15px; line-height: 1.5; display: flex; gap: 14px; align-items: flex-start; }
+  .rules li .tag { flex-shrink: 0; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; }
+  .tag--do { background: var(--cm-purple-50); color: var(--cm-purple-500); }
+  .tag--dont { background: #fdeaea; color: #a12727; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 class="title">Logo &amp; Brand Motif</h1>
+  <p class="sub">The wordmark lives inside a film-frame of corner brackets. Those brackets are the single strongest visual element Campminder owns after the purple.</p>
+
+  <p class="group-title">Lockups</p>
+  <div class="grid">
+    <div>
+      <div class="box"><img src="../assets/campminder-logo-purple.png" alt="Campminder logo"></div>
+      <p class="caption">Primary — purple on light</p>
+    </div>
+    <div>
+      <div class="box box--dark"><img src="../assets/campminder-logo-purple.png" alt="Campminder logo" style="filter: brightness(0) invert(1);"></div>
+      <p class="caption">Reversed — white on Ink 900</p>
+    </div>
+    <div>
+      <div class="box box--purple"><img src="../assets/campminder-logo-purple.png" alt="Campminder logo" style="filter: brightness(0) invert(1);"></div>
+      <p class="caption">Reversed — white on purple</p>
+    </div>
+    <div>
+      <div class="box"><img src="../assets/campminder-monogram-purple.png" alt="Campminder monogram" style="max-width:48%;"></div>
+      <p class="caption">Monogram — app icons, small surfaces</p>
+    </div>
+    <div>
+      <div class="box"><img src="../assets/campminder-tagline-wide-purple.png" alt="Unpack Possible tagline"></div>
+      <p class="caption">Tagline lockup — UNPACK POSSIBLE</p>
+    </div>
+    <div>
+      <div class="box" style="background:#F7F2FD;"><img src="../assets/campminder-monogram-purple.png" alt="Monogram" style="max-width:42%;"></div>
+      <p class="caption">Monogram on Purple 50 wash</p>
+    </div>
+  </div>
+
+  <p class="group-title">The bracket motif — <code>.cm-frame</code></p>
+  <div class="frame-demo">
+    <div class="cm-frame" style="--cm-bracket-length:40px;--cm-bracket-weight:4px;">
+      <h2>You make camp better.<br>Campminder helps you do it.</h2>
+    </div>
+  </div>
+
+  <p class="group-title">Rules</p>
+  <ul class="rules">
+    <li><span class="tag tag--do">Do</span><span>Place diagonally — top-left + bottom-right, <em>or</em> top-right + bottom-left. Never all four corners.</span></li>
+    <li><span class="tag tag--dont">Don't</span><span>Rotate or skew the brackets. They are orthogonal. Always.</span></li>
+    <li><span class="tag tag--do">Do</span><span>Maintain 3px stroke at marketing scale. Never scale below 2px.</span></li>
+    <li><span class="tag tag--dont">Don't</span><span>Tint them gray, teal, or anything other than brand purple (or white on dark).</span></li>
+    <li><span class="tag tag--do">Do</span><span>Use brackets to mark <em>spotlight</em> moments — a hero quote, a key stat, a featured image.</span></li>
+    <li><span class="tag tag--dont">Don't</span><span>Wrap every card on a page in brackets. They are a signature, not a border style.</span></li>
+  </ul>
+</div>
+</body>
+</html>

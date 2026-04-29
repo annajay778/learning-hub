@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Campminder — Colors</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components.css">
+<style>
+  body { padding: 48px; background: #fff; }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+  h1.title { font-size: 44px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 8px; }
+  .sub { color: var(--cm-ink-500); font-size: 17px; max-width: 620px; margin: 0 0 40px; line-height: 1.55; }
+  .group { margin: 48px 0 24px; }
+  .group-title { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cm-ink-400); font-weight: 500; margin: 0 0 16px; }
+  .swatches { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+  .sw { border-radius: 8px; overflow: hidden; border: 1px solid var(--cm-border); }
+  .chip { height: 104px; }
+  .meta { padding: 12px 14px; background: #fff; }
+  .name { font-size: 13px; font-weight: 600; margin: 0 0 2px; }
+  .hex { font-size: 12px; color: var(--cm-ink-500); font-feature-settings: "tnum"; }
+  .big { grid-column: span 2; }
+  .big .chip { height: 180px; }
+  .note { font-size: 13px; color: var(--cm-ink-500); margin-top: 10px; max-width: 600px; line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 class="title">Color</h1>
+  <p class="sub">One brand hue does the work. Everything else is a cool-gray ramp. This restraint <em>is</em> the brand — a hero-archetype palette, not a toolbox palette.</p>
+
+  <div class="group">
+    <p class="group-title">Brand — Campminder Purple</p>
+    <div class="swatches">
+      <div class="sw big"><div class="chip" style="background:#773DBE"></div><div class="meta"><p class="name">Purple 500 · Core</p><p class="hex">#773DBE</p></div></div>
+      <div class="sw"><div class="chip" style="background:#5E2E97"></div><div class="meta"><p class="name">Purple 600</p><p class="hex">#5E2E97</p></div></div>
+      <div class="sw"><div class="chip" style="background:#9062D0"></div><div class="meta"><p class="name">Purple 400</p><p class="hex">#9062D0</p></div></div>
+      <div class="sw"><div class="chip" style="background:#EFE6FB"></div><div class="meta"><p class="name">Purple 100</p><p class="hex">#EFE6FB</p></div></div>
+      <div class="sw"><div class="chip" style="background:#F7F2FD"></div><div class="meta"><p class="name">Purple 50</p><p class="hex">#F7F2FD</p></div></div>
+    </div>
+    <p class="note">Purple 500 is taken directly from the logo. Purple 600 is reserved for interactive pressed/hover states; 400/100/50 are for accents and tinted surfaces — never for body text.</p>
+  </div>
+
+  <div class="group">
+    <p class="group-title">Ink — cool neutrals</p>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#0E0F12"></div><div class="meta"><p class="name">Ink 900</p><p class="hex">#0E0F12</p></div></div>
+      <div class="sw"><div class="chip" style="background:#2A2C31"></div><div class="meta"><p class="name">Ink 700</p><p class="hex">#2A2C31</p></div></div>
+      <div class="sw"><div class="chip" style="background:#6F7278"></div><div class="meta"><p class="name">Ink 500</p><p class="hex">#6F7278</p></div></div>
+      <div class="sw"><div class="chip" style="background:#91969C"></div><div class="meta"><p class="name">Ink 400 · Muted</p><p class="hex">#91969C</p></div></div>
+      <div class="sw"><div class="chip" style="background:#B1B3B9"></div><div class="meta"><p class="name">Ink 300</p><p class="hex">#B1B3B9</p></div></div>
+      <div class="sw"><div class="chip" style="background:#D8DAE2"></div><div class="meta"><p class="name">Ink 200 · Hairline</p><p class="hex">#D8DAE2</p></div></div>
+      <div class="sw"><div class="chip" style="background:#EEEFF2"></div><div class="meta"><p class="name">Ink 100</p><p class="hex">#EEEFF2</p></div></div>
+      <div class="sw"><div class="chip" style="background:#F6F7F9"></div><div class="meta"><p class="name">Ink 50 · Canvas</p><p class="hex">#F6F7F9</p></div></div>
+      <div class="sw"><div class="chip" style="background:#FFFFFF;border-right:1px solid #eee;"></div><div class="meta"><p class="name">White</p><p class="hex">#FFFFFF</p></div></div>
+      <div class="sw"><div class="chip" style="background:#000000"></div><div class="meta"><p class="name">Black</p><p class="hex">#000000</p></div></div>
+    </div>
+    <p class="note">Ink 400 <code>#91969C</code> is the muted-subtitle gray used in the source deck (<em>"Response to Feedback"</em>). Reach for it when a heading needs to whisper rather than announce.</p>
+  </div>
+
+  <div class="group">
+    <p class="group-title">Not in the palette</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <span class="cm-badge">No red</span>
+      <span class="cm-badge">No green</span>
+      <span class="cm-badge">No yellow</span>
+      <span class="cm-badge">No teal</span>
+      <span class="cm-badge">No gradients</span>
+      <span class="cm-badge">No dark mode (yet)</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

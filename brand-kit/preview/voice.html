@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Campminder — Voice</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components.css">
+<style>
+  body { padding: 48px; background: #fff; }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  .title { font-size: 44px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 8px; }
+  .sub { color: var(--cm-ink-500); font-size: 17px; max-width: 680px; margin: 0 0 48px; line-height: 1.55; }
+  .group-title { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cm-ink-400); font-weight: 500; margin: 48px 0 16px; }
+
+  .shift { display: grid; grid-template-columns: 1fr 40px 1fr; gap: 20px; align-items: stretch; margin-bottom: 14px; }
+  .shift .col { padding: 22px 24px; border-radius: 10px; }
+  .shift .col h5 { margin: 0 0 6px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600;}
+  .shift .col p { margin: 0; font-size: 17px; line-height: 1.45; }
+  .from { background: #fdeaea; border: 1px solid #f6c9c9;}
+  .from h5 { color: #a12727; }
+  .to   { background: var(--cm-purple-50); border: 1px solid var(--cm-purple-400);}
+  .to h5 { color: var(--cm-purple-500); }
+  .arrow { display: flex; align-items: center; justify-content: center; font-size: 22px; color: var(--cm-ink-300); }
+
+  .hero-quote { padding: 56px; border-radius: 16px; background: var(--cm-ink-900); color: #fff; position: relative; margin: 16px 0 8px; }
+  .hero-quote blockquote { margin: 0; font-size: 36px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2; }
+  .hero-quote cite { display:block; margin-top: 22px; font-size: 13px; font-style: normal; letter-spacing: .08em; text-transform: uppercase; color: var(--cm-ink-300); }
+
+  .dials { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .dial { border: 1px solid var(--cm-border); border-radius: 10px; padding: 18px; }
+  .dial h4 { margin: 0 0 6px; font-size: 15px; font-weight: 600; }
+  .dial p { margin: 0; font-size: 13px; color: var(--cm-ink-500); line-height: 1.5; }
+
+  .avoid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .avoid li { list-style: none; padding: 16px 18px; border: 1px solid var(--cm-border); border-radius: 10px; font-size: 15px; line-height: 1.5; }
+  .avoid li strong { display:block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #a12727; margin-bottom: 4px; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 class="title">Voice &amp; Copy</h1>
+  <p class="sub">Campminder is a Hero brand. The camp is the protagonist; we are the trusted ally. Every sentence should pass that test.</p>
+
+  <div class="hero-quote cm-frame cm-frame--white" style="--cm-bracket-length:32px;--cm-bracket-weight:3px;">
+    <blockquote>You make camp better.<br>Campminder helps you do it.</blockquote>
+    <cite>The story, in two lines</cite>
+  </div>
+
+  <p class="group-title">The five dials</p>
+  <div class="dials">
+    <div class="dial"><h4>Confident</h4><p>Not boastful. Show pace of innovation; let clients do the bragging.</p></div>
+    <div class="dial"><h4>Warm</h4><p>Not sentimental. We love camp; we don't manufacture nostalgia.</p></div>
+    <div class="dial"><h4>Precise</h4><p>Not jargony. "Applications, payments, staffing" beats "end-to-end platform."</p></div>
+    <div class="dial"><h4>Aspirational</h4><p>Not performative. Promise outcomes, not effort.</p></div>
+    <div class="dial"><h4>Spacious</h4><p>Short sentences. Real paragraphs. White space = breathing room.</p></div>
+  </div>
+
+  <p class="group-title">From → To</p>
+  <div class="shift"><div class="col from"><h5>From</h5><p>"Forms are hard to track down."</p></div><div class="arrow">→</div><div class="col to"><h5>To</h5><p>"Every form, in one place, so your team can move."</p></div></div>
+  <div class="shift"><div class="col from"><h5>From</h5><p>"Hiring is hard."</p></div><div class="arrow">→</div><div class="col to"><h5>To</h5><p>"Build the staff roster your camp deserves."</p></div></div>
+  <div class="shift"><div class="col from"><h5>From</h5><p>"Campminder does X, Y, and Z for you."</p></div><div class="arrow">→</div><div class="col to"><h5>To</h5><p>"You make camp better, and Campminder helps you do it."</p></div></div>
+  <div class="shift"><div class="col from"><h5>From</h5><p>"Our tools aren't connected."</p></div><div class="arrow">→</div><div class="col to"><h5>To</h5><p>"Where camp comes together."</p></div></div>
+
+  <p class="group-title">Never do this</p>
+  <ul class="avoid" style="padding:0;margin:0;">
+    <li><strong>No pain-point marketing</strong>Camps live their pain every day. Echoing it back creates fatigue and reminds them how long we took to solve it.</li>
+    <li><strong>No therapist voice</strong>Empathetic tone is fine. Performatively sympathetic isn't.</li>
+    <li><strong>No unverifiable stats</strong>If a number is on the page, it must be defensible. See: "5X investment."</li>
+    <li><strong>No generic vendor lines</strong>"Software that makes your camp the best it can be" is Campwise-grade. Anything a competitor could say, they will.</li>
+    <li><strong>No product-at-center sentences</strong>If the sentence starts with "Campminder," rewrite it.</li>
+    <li><strong>No bullet-list features</strong>A hero brand uses language, not icon rows.</li>
+  </ul>
+</div>
+</body>
+</html>

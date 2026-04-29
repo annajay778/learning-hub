@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Campminder — Typography</title>
+<link rel="stylesheet" href="../tokens.css">
+<style>
+  body { background: var(--cm-paper); padding: 56px 72px; }
+  .wrap { max-width: 1120px; margin: 0 auto; }
+  .eyebrow { font-family: var(--cm-font-display); font-size: var(--cm-fs-12); letter-spacing: var(--cm-tr-tagline); text-transform: uppercase; color: var(--cm-purple); font-weight: 600; margin: 0 0 12px; }
+  h1 { font-family: var(--cm-font-display); font-size: 64px; font-weight: 600; letter-spacing: var(--cm-tr-display); line-height: var(--cm-lh-tight); margin: 0 0 14px; }
+  .lede { font-size: 18px; color: var(--cm-slate-600); margin: 0 0 48px; max-width: 640px; line-height: 1.5; }
+
+  .spec-card {
+    background: var(--cm-white);
+    border-radius: var(--cm-radius-lg);
+    padding: 40px 48px;
+    margin-bottom: 20px;
+    border: 1px solid var(--cm-slate-200);
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .spec-card .meta { color: var(--cm-slate-600); font-family: var(--cm-font-display); font-size: 13px; line-height: 1.5; }
+  .spec-card .meta .label { text-transform: uppercase; letter-spacing: .14em; color: var(--cm-purple); font-weight: 600; font-size: 11px; display: block; margin-bottom: 8px; }
+  .spec-card .meta .token { display: block; margin-top: 4px; font-family: var(--cm-font-mono); font-size: 11px; color: var(--cm-ink); }
+
+  .display {
+    font-family: var(--cm-font-display);
+    font-weight: 600;
+    font-size: 96px;
+    line-height: var(--cm-lh-tight);
+    letter-spacing: var(--cm-tr-display);
+    margin: 0;
+  }
+  .h1-sample { font-family: var(--cm-font-display); font-weight: 600; font-size: 56px; line-height: var(--cm-lh-snug); letter-spacing: var(--cm-tr-display); margin: 0; }
+  .h2-sample { font-family: var(--cm-font-display); font-weight: 600; font-size: 40px; line-height: var(--cm-lh-snug); letter-spacing: var(--cm-tr-display); margin: 0; }
+  .h3-sample { font-family: var(--cm-font-display); font-weight: 600; font-size: 24px; line-height: 1.2; letter-spacing: -0.01em; margin: 0; }
+  .lede-sample { font-family: var(--cm-font-body); font-weight: 400; font-size: 20px; line-height: 1.45; margin: 0; color: var(--cm-ink); }
+  .body-sample { font-family: var(--cm-font-body); font-weight: 400; font-size: 16px; line-height: 1.55; margin: 0; color: var(--cm-ink); }
+  .caption-sample { font-family: var(--cm-font-display); font-weight: 600; font-size: 12px; letter-spacing: var(--cm-tr-tagline); text-transform: uppercase; color: var(--cm-purple); margin: 0; }
+  .tagline-sample { font-family: var(--cm-font-display); font-weight: 700; font-size: 32px; letter-spacing: var(--cm-tr-tagline); text-transform: uppercase; color: var(--cm-purple); margin: 0; }
+
+  .stack {
+    background: var(--cm-white); padding: 36px 40px; border-radius: var(--cm-radius-lg);
+    border: 1px solid var(--cm-slate-200); margin-top: 32px;
+    display: grid; gap: 18px;
+  }
+  .stack h3 { font-family: var(--cm-font-display); font-size: 18px; font-weight: 600; margin: 0 0 4px; letter-spacing: var(--cm-tr-display); }
+  .stack p { margin: 0; color: var(--cm-slate-600); font-size: 15px; line-height: 1.5; }
+  .stack code { font-family: var(--cm-font-mono); font-size: 12px; background: var(--cm-purple-50); color: var(--cm-purple-700); padding: 2px 6px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Foundations · Type</p>
+  <h1>Host Grotesk,<br>set with confidence.</h1>
+  <p class="lede">Host Grotesk is the voice of the brand — the same family embedded in the deck and paired with the wordmark. Clean, modern, slightly warm. One family carries display and body; we just change weight and tracking.</p>
+
+  <div class="spec-card">
+    <div class="meta">
+      <span class="label">Display</span>
+      96 / 91 · 600<br>-0.02em<br><span class="token">--cm-fs-96</span>
+    </div>
+    <p class="display">Every camp changes&nbsp;lives.</p>
+  </div>
+
+  <div class="spec-card">
+    <div class="meta"><span class="label">H1</span>56 / 61 · 600<br>-0.02em<br><span class="token">--cm-fs-56</span></div>
+    <p class="h1-sample">Where camp comes together.</p>
+  </div>
+
+  <div class="spec-card">
+    <div class="meta"><span class="label">H2</span>40 / 44 · 600<br>-0.02em<br><span class="token">--cm-fs-40</span></div>
+    <p class="h2-sample">Engineered for the way you run camp.</p>
+  </div>
+
+  <div class="spec-card">
+    <div class="meta"><span class="label">H3</span>24 / 29 · 600<br><span class="token">--cm-fs-24</span></div>
+    <p class="h3-sample">Build the camp experience you imagine.</p>
+  </div>
+
+  <div class="spec-card">
+    <div class="meta"><span class="label">Lede</span>20 / 29 · 400<br><span class="token">--cm-fs-20</span></div>
+    <p class="lede-sample">Campminder provides tools to the people who make camp happen — the late-night planners, the problem-solvers, the mentors.</p>
+  </div>
+
+  <div class="spec-card">
+    <div class="meta"><span class="label">Body</span>16 / 25 · 400<br><span class="token">--cm-fs-16</span></div>
+    <p class="body-sample">You focus on your mission. We'll take care of the logistics that make it possible. Every process, every feature, and every update is designed for speed, precision, and confidence — helping you move through the season with total control.</p>
+  </div>
+
+  <div class="spec-card">
+    <div class="meta"><span class="label">Eyebrow</span>12 · 600<br>tracking 0.22em<br><span class="token">--cm-fs-12</span></div>
+    <p class="caption-sample">Campminder · Unpack Possible</p>
+  </div>
+
+  <div class="spec-card">
+    <div class="meta"><span class="label">Tagline Lockup</span>32 · 700<br>tracking 0.22em<br>uppercase</div>
+    <p class="tagline-sample">UNPACK · POSSIBLE</p>
+  </div>
+
+  <div class="stack">
+    <div>
+      <h3>Weights in rotation</h3>
+      <p>Light 300 · Regular 400 · Medium 500 · Semibold 600 · Bold 700. The deck leans on <code>400</code> for body and <code>600</code> for display. Bold 700 is reserved for the tagline and any eyebrow microtype.</p>
+    </div>
+    <div>
+      <h3>Fallback stack</h3>
+      <p><code>'Host Grotesk', 'Helvetica Neue', Arial, sans-serif</code>. Helvetica Neue is embedded alongside Host Grotesk in the source deck and is the authorized system fallback.</p>
+    </div>
+    <div>
+      <h3>Tracking rules</h3>
+      <p>Display and headings use <code>-0.02em</code> (tight, like the wordmark). Eyebrows and the tagline use <code>0.22em</code> uppercase — the same spacing as the "UNPACK POSSIBLE" lockup. Body copy stays at <code>0</code>.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
