@@ -1727,7 +1727,8 @@ function CodeBlock({ theme, code }: { theme: Theme; code: string }) {
         padding: 16,
         background: theme.id === "terminal" ? "#000" : "#0B0E14",
         color: theme.id === "terminal" ? theme.accent : "#3FB950",
-        fontFamily: theme.fontMono,
+        // Code stays monospace regardless of theme.
+        fontFamily: '"JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace',
         fontSize: 14,
         lineHeight: 1.5,
         borderRadius: 4,

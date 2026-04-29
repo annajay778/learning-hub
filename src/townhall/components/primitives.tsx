@@ -201,7 +201,8 @@ export function SlideFrame({
   );
 }
 
-// Slide chrome footer/header (optional).
+// Slide chrome footer/header. On the Brand theme we inset enough to clear
+// the corner brackets that frame the slide.
 export function SlideChrome({
   theme,
   slideNumber,
@@ -213,19 +214,27 @@ export function SlideChrome({
   total: number;
   section?: string;
 }) {
+  const isBrand = theme.id === "brand";
+  // On brand, position chrome inside the bracket frame (brackets at inset 40,
+  // arm length 96 → chrome must clear ~144 from each affected edge).
+  const topY = isBrand ? 56 : 32;
+  const sideX = isBrand ? 160 : 96;
+  const fontWeight = isBrand ? 500 : 400;
+
   return (
     <>
       <div
         style={{
           position: "absolute",
-          top: 32,
-          left: 96,
-          right: 96,
+          top: topY,
+          left: sideX,
+          right: sideX,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           fontFamily: theme.fontMono,
           fontSize: 13,
+          fontWeight,
           letterSpacing: "0.14em",
           textTransform: "uppercase",
           color: theme.fgSubtle,
@@ -237,15 +246,17 @@ export function SlideChrome({
       <div
         style={{
           position: "absolute",
-          bottom: 32,
-          left: 96,
-          right: 96,
+          bottom: topY,
+          left: sideX,
+          right: sideX,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           fontFamily: theme.fontMono,
           fontSize: 13,
+          fontWeight,
           letterSpacing: "0.14em",
+          textTransform: isBrand ? "uppercase" : "none",
           color: theme.fgSubtle,
         }}
       >

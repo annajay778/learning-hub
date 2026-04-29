@@ -160,8 +160,47 @@ function SlideStage({
         }}
       >
         {children}
+        {theme.id === "brand" && <BrandBrackets accent={theme.accent} />}
       </div>
     </div>
+  );
+}
+
+// The Campminder corner-bracket motif — diagonal pair (top-left + bottom-right).
+// Per the brand kit: 3px stroke, ~8-12% of shorter edge, always purple.
+function BrandBrackets({ accent }: { accent: string }) {
+  const inset = 40;
+  const armLen = 96;
+  const stroke = 5;
+  return (
+    <>
+      {/* Top-left */}
+      <div
+        style={{
+          position: "absolute",
+          top: inset,
+          left: inset,
+          width: armLen,
+          height: armLen,
+          borderTop: `${stroke}px solid ${accent}`,
+          borderLeft: `${stroke}px solid ${accent}`,
+          pointerEvents: "none",
+        }}
+      />
+      {/* Bottom-right */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: inset,
+          right: inset,
+          width: armLen,
+          height: armLen,
+          borderBottom: `${stroke}px solid ${accent}`,
+          borderRight: `${stroke}px solid ${accent}`,
+          pointerEvents: "none",
+        }}
+      />
+    </>
   );
 }
 
