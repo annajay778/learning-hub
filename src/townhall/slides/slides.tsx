@@ -631,17 +631,33 @@ export function Slide08({ theme, slideNumber, total }: SlideProps) {
 // ============================================================================
 export function Slide09({ theme, slideNumber, total }: SlideProps) {
   const items = [
-    { kw: "Dictate", t: "Don't type.", s: "Monologue the problem in technical detail." },
-    { kw: "Lead with the problem", t: "Not the solution.", s: '"RAG quality is mostly a document-processing problem."' },
-    { kw: "Research first", t: "Then plan.", s: "Ask Claude to map the problem space and report back." },
-    { kw: "Correct, then build", t: "Don't accept the first plan.", s: "Point out what it missed, what's wrong." },
+    {
+      n: "01",
+      title: "Speak the problem out loud — don't type.",
+      body: "Long monologues give Claude the framing it needs to plan well. Short prompts are how you get short answers.",
+    },
+    {
+      n: "02",
+      title: "Lead with the problem, not the solution.",
+      body: 'Frame it like you would for a teammate: "RAG quality is mostly a document-processing problem."',
+    },
+    {
+      n: "03",
+      title: "Research before you plan.",
+      body: "Ask Claude to map the problem space first. Only after it reports back do I let it propose an approach.",
+    },
+    {
+      n: "04",
+      title: "Don't accept the first plan.",
+      body: "Point out what it missed and what's wrong. Make it iterate before any code gets written.",
+    },
   ];
   return (
     <SlideFrame theme={theme}>
       <SlideChrome theme={theme} slideNumber={slideNumber} total={total} />
-      <div style={{ marginTop: 100, display: "flex", flexDirection: "column", gap: 24 }}>
+      <div style={{ marginTop: 96, display: "flex", flexDirection: "column", gap: 18 }}>
         <Kicker theme={theme}>How I drive Claude</Kicker>
-        <Title theme={theme} size={62} delay={4}>
+        <Title theme={theme} size={58} delay={4}>
           The pattern that worked<br />on hard problems.
         </Title>
         <FadeUp delay={10}>
@@ -654,56 +670,56 @@ export function Slide09({ theme, slideNumber, total }: SlideProps) {
               lineHeight: 1.4,
             }}
           >
-            Steal what works. The four moves I lean on every session.
+            Four moves I lean on every session. Steal what works.
           </div>
         </FadeUp>
       </div>
 
-      <div style={{ marginTop: 72, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28 }}>
+      <div style={{ marginTop: 56, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
         {items.map((it, i) => (
           <FadeUp key={i} delay={14 + i * 10}>
             <div
               style={{
-                padding: "28px 32px",
+                padding: "26px 30px",
                 borderLeft: `4px solid ${theme.accent}`,
                 background: theme.panel,
                 display: "flex",
                 flexDirection: "column",
                 gap: 10,
+                height: "100%",
               }}
             >
               <div
                 style={{
                   fontFamily: theme.fontMono,
-                  fontSize: 14,
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
+                  fontSize: 13,
+                  letterSpacing: "0.2em",
                   color: theme.accent,
                 }}
               >
-                {it.kw}
+                {it.n}
               </div>
               <div
                 style={{
                   fontFamily: theme.fontHeading,
-                  fontSize: 32,
+                  fontSize: 28,
                   fontWeight: theme.headingWeight,
                   letterSpacing: theme.headingTracking,
                   color: theme.fg,
                   lineHeight: 1.2,
                 }}
               >
-                {it.t}
+                {it.title}
               </div>
               <div
                 style={{
                   fontFamily: theme.fontBody,
                   fontSize: 18,
                   color: theme.fgMuted,
-                  lineHeight: 1.4,
+                  lineHeight: 1.45,
                 }}
               >
-                {it.s}
+                {it.body}
               </div>
             </div>
           </FadeUp>
@@ -734,10 +750,10 @@ export function Slide11({ theme, slideNumber, total }: SlideProps) {
   return (
     <SlideFrame theme={theme}>
       <SlideChrome theme={theme} slideNumber={slideNumber} total={total} />
-      <div style={{ marginTop: 96, display: "flex", flexDirection: "column", gap: 20 }}>
-        <Kicker theme={theme}>Two products, two shapes</Kicker>
+      <div style={{ marginTop: 96, display: "flex", flexDirection: "column", gap: 18 }}>
+        <Kicker theme={theme}>What we built</Kicker>
         <Title theme={theme} size={56} delay={4}>
-          Same team. Same tools. Different problems.
+          Two products. One live, one in eval.
         </Title>
         <FadeUp delay={10}>
           <div
@@ -750,29 +766,27 @@ export function Slide11({ theme, slideNumber, total }: SlideProps) {
               lineHeight: 1.4,
             }}
           >
-            Two AI candidates. The shape of the problem decided how fast we could move.
+            Six weeks of building, two products in front of real users. Here&apos;s what each one does.
           </div>
         </FadeUp>
       </div>
 
       <div style={{ marginTop: 56, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40 }}>
         <FadeUp delay={16}>
-          <ShapeCard
+          <ProductCard
             theme={theme}
-            tag="AI PARENT HANDBOOK"
-            shape="Information retrieval"
-            why="Wrong answer? Try again. Recovery is cheap."
-            move="Ship-fast was the right call."
-            status="LIVE IN PRODUCTION"
+            tag="ASK CAMP"
+            tagline="A chatbot for parents."
+            body="Drops into a camp's site. Answers parent questions from their own handbook and camp data. Ship-fast was the right call — when an answer is off, recovery is cheap."
+            status="LIVE WITH REAL PARENTS"
           />
         </FadeUp>
         <FadeUp delay={28}>
-          <ShapeCard
+          <ProductCard
             theme={theme}
             tag="SMART NUDGES"
-            shape="Sensitive parent comms"
-            why="Wrong tone has real cost. Recovery is expensive."
-            move="Eval rigor first. Slower on purpose."
+            tagline="Automated parent comms."
+            body="Anna rebuilt it from scratch in week 3 after AI Lab feedback — clients wanted workflow automation, not more features. Sensitive channel, so eval rigor came first."
             status="IN ACTIVE EVAL"
           />
         </FadeUp>
@@ -781,19 +795,17 @@ export function Slide11({ theme, slideNumber, total }: SlideProps) {
   );
 }
 
-function ShapeCard({
+function ProductCard({
   theme,
   tag,
-  shape,
-  why,
-  move,
+  tagline,
+  body,
   status,
 }: {
   theme: Theme;
   tag: string;
-  shape: string;
-  why: string;
-  move: string;
+  tagline: string;
+  body: string;
   status: string;
 }) {
   return (
@@ -822,34 +834,24 @@ function ShapeCard({
       <div
         style={{
           fontFamily: theme.fontHeading,
-          fontSize: 34,
+          fontSize: 36,
           fontWeight: theme.headingWeight,
           lineHeight: 1.2,
           letterSpacing: theme.headingTracking,
           color: theme.fg,
         }}
       >
-        {shape}
+        {tagline}
       </div>
       <div
         style={{
           fontFamily: theme.fontBody,
           fontSize: 19,
           color: theme.fgMuted,
-          lineHeight: 1.45,
+          lineHeight: 1.5,
         }}
       >
-        {why}
-      </div>
-      <div
-        style={{
-          fontFamily: theme.fontBody,
-          fontSize: 19,
-          color: theme.fg,
-          lineHeight: 1.45,
-        }}
-      >
-        {move}
+        {body}
       </div>
       <div style={{ marginTop: "auto" }}>
         <div
