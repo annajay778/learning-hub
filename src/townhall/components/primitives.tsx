@@ -201,6 +201,39 @@ export function SlideFrame({
   );
 }
 
+export type Speaker = "S" | "A" | "S+A";
+
+// Speaker per slide. Spencer (S), Anna (A), or shared (S+A).
+// Driven by the manuscript "Splitting who speaks" notes:
+// - Anna: 5–7 (workflow), 10 + 12 (camp-facing)
+// - Spencer: 1–3 (open), 8–9 (his approach), 14–18 (eng meat), 19–22 (tactics), 23 (close)
+// - Shared: 4 (sec1), 11 (two tracks), 13 (control/magic)
+const SLIDE_SPEAKERS: Record<number, Speaker> = {
+  1: "S",
+  2: "S",
+  3: "S",
+  4: "S+A",
+  5: "A",
+  6: "A",
+  7: "A",
+  8: "S",
+  9: "S",
+  10: "A",
+  11: "S+A",
+  12: "A",
+  13: "S+A",
+  14: "S",
+  15: "S",
+  16: "S",
+  17: "S",
+  18: "S",
+  19: "S",
+  20: "S",
+  21: "S",
+  22: "S",
+  23: "S",
+};
+
 // Slide chrome footer/header. On the Brand theme we inset enough to clear
 // the corner brackets that frame the slide.
 export function SlideChrome({
@@ -208,12 +241,15 @@ export function SlideChrome({
   slideNumber,
   total,
   section,
+  speaker,
 }: {
   theme: Theme;
   slideNumber: number;
   total: number;
   section?: string;
+  speaker?: Speaker;
 }) {
+  const resolvedSpeaker = speaker ?? SLIDE_SPEAKERS[slideNumber];
   const isBrand = theme.id === "brand";
   // On brand, position chrome inside the bracket frame (brackets at inset 40,
   // arm length 96 → chrome must clear ~144 from each affected edge).
@@ -265,7 +301,43 @@ export function SlideChrome({
           {String(slideNumber).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </span>
       </div>
+      {/* Speaker indicator — bottom-right corner, off the chrome row. */}
+      {resolvedSpeaker && <SpeakerBadge theme={theme} speaker={resolvedSpeaker} />}
     </>
+  );
+}
+
+function SpeakerBadge({ theme, speaker }: { theme: Theme; speaker: Speaker }) {
+  const isBrand = theme.id === "brand";
+  // On brand, sit just above the bottom-right bracket; otherwise hug the corner.
+  const inset = isBrand ? 56 : 36;
+  const label = speaker === "S+A" ? "S · A" : speaker;
+  return (
+    <div
+      style={{
+        position: "absolute",
+        right: inset,
+        bottom: isBrand ? 160 : inset,
+        width: 40,
+        height: 40,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        border: `1.5px solid ${theme.accent}`,
+        borderRadius: speaker === "S+A" ? 4 : 999,
+        color: theme.accent,
+        fontFamily: theme.fontMono,
+        fontSize: speaker === "S+A" ? 11 : 16,
+        fontWeight: 600,
+        letterSpacing: speaker === "S+A" ? "0.04em" : "0",
+        background: theme.bg,
+        padding: speaker === "S+A" ? "0 8px" : 0,
+        minWidth: speaker === "S+A" ? 56 : 40,
+      }}
+      title={speaker === "S" ? "Spencer" : speaker === "A" ? "Anna" : "Shared"}
+    >
+      {label}
+    </div>
   );
 }
 
