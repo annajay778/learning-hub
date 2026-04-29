@@ -2196,7 +2196,7 @@ export function SlideEnd({ theme, slideNumber, total }: SlideProps) {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 40,
+          gap: 28,
           textAlign: "center",
         }}
       >
@@ -2214,25 +2214,27 @@ export function SlideEnd({ theme, slideNumber, total }: SlideProps) {
         <FadeUp delay={28}>
           <div
             style={{
-              fontFamily: theme.fontMono,
-              fontSize: 22,
+              fontFamily: theme.fontHeading,
+              fontStyle: "italic",
+              fontSize: 40,
+              fontWeight: 400,
               color: theme.fgMuted,
-              letterSpacing: "0.16em",
-              textTransform: "uppercase",
-              marginTop: 24,
+              letterSpacing: theme.headingTracking,
+              lineHeight: 1.3,
+              marginTop: 16,
             }}
           >
-            Questions?
+            (Or, more likely, just the beginning.)
           </div>
         </FadeUp>
-        <FadeUp delay={48}>
+        <FadeUp delay={56}>
           <div
             style={{
               fontFamily: theme.fontMono,
               fontSize: 16,
               color: theme.fgSubtle,
               letterSpacing: "0.08em",
-              marginTop: 16,
+              marginTop: 32,
             }}
           >
             Spencer Mroczek + Anna · CampCo
