@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { SLIDES } from "./slides/slides";
 import { THEMES, THEME_ORDER, type ThemeId, type Theme } from "./themes";
 import { FrameProvider } from "./components/frame";
@@ -10,6 +10,8 @@ const FRAMES_PER_SLIDE = 180; // 6 seconds — covers all entry animations
 
 const SLIDE_W = 1920;
 const SLIDE_H = 1080;
+
+const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export default function Deck() {
   const [themeId, setThemeId] = useState<ThemeId>("editorial");
@@ -94,8 +96,9 @@ export default function Deck() {
   );
 }
 
-// Auto-scaling 16:9 stage. The slide content is laid out at 1920x1080 logical
-// pixels and visually scaled to fit the viewport.
+// Auto-scaling 16:9 stage. Slide content is laid out at 1920x1080 and visually
+// scaled to fit. Uses ResizeObserver on the container itself (not window), so
+// it's correct regardless of viewport, browser zoom, or any layout shifts.
 function SlideStage({
   children,
   theme,
@@ -103,46 +106,57 @@ function SlideStage({
   children: React.ReactNode;
   theme: Theme;
 }) {
-  const [scale, setScale] = useState(1);
-  useEffect(() => {
-    function onResize() {
-      const padding = 24;
-      const bottomBar = 56;
-      const availW = window.innerWidth - padding * 2;
-      const availH = window.innerHeight - padding * 2 - bottomBar;
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [scale, setScale] = useState(0);
+
+  useIsoLayoutEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const padding = 24;
+    function recalc(width: number, height: number) {
+      const availW = Math.max(0, width - padding * 2);
+      const availH = Math.max(0, height - padding * 2);
+      if (availW === 0 || availH === 0) return;
       const s = Math.min(availW / SLIDE_W, availH / SLIDE_H);
       setScale(s);
     }
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
+    // Initial measure
+    const r = el.getBoundingClientRect();
+    recalc(r.width, r.height);
+    const ro = new ResizeObserver((entries) => {
+      const cr = entries[0].contentRect;
+      recalc(cr.width, cr.height);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
   }, []);
 
   return (
     <div
+      ref={containerRef}
       style={{
         flex: 1,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 24,
-        paddingBottom: 24,
+        position: "relative",
         background: "#08080A",
+        overflow: "hidden",
       }}
     >
       <div
         style={{
+          position: "absolute",
+          left: "50%",
+          top: "50%",
           width: SLIDE_W,
           height: SLIDE_H,
+          marginLeft: -SLIDE_W / 2,
+          marginTop: -SLIDE_H / 2,
           transform: `scale(${scale})`,
           transformOrigin: "center center",
-          flexShrink: 0,
-          flexGrow: 0,
           boxShadow: "0 30px 80px rgba(0,0,0,0.5)",
           outline: `1px solid ${theme.rule}`,
           background: theme.bg,
-          position: "relative",
           overflow: "hidden",
+          opacity: scale > 0 ? 1 : 0,
         }}
       >
         {children}
