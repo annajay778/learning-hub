@@ -369,10 +369,10 @@ function SectionHeader({
 export function Slide05({ theme, slideNumber, total }: SlideProps) {
   return (
     <SlideFrame theme={theme} align="center">
-      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="01 · The workflow" />
-      <div style={{ display: "flex", flexDirection: "column", gap: 48 }}>
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} />
+      <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
         <Kicker theme={theme}>The shift</Kicker>
-        <Title theme={theme} size={84} delay={6}>
+        <Title theme={theme} size={76} delay={6}>
           The PM is in the build loop.
         </Title>
         <FadeUp delay={20}>
@@ -2184,18 +2184,78 @@ export function SlideClose({ theme, slideNumber, total }: SlideProps) {
   );
 }
 
-// Registry — tightened 8-slide deck for the CampCo Tech Town Hall.
-// Older slide functions (Slide04..Slide08, Slide10, Slide12..Slide17, Slide19,
-// Slide21, Slide22, Slide23) are retained in this file as inventory but not in
-// the deck.
+// ============================================================================
+// END — The end. (Spencer + Anna)
+// ============================================================================
+export function SlideEnd({ theme, slideNumber, total }: SlideProps) {
+  return (
+    <SlideFrame theme={theme} align="center">
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 40,
+          textAlign: "center",
+        }}
+      >
+        <Title theme={theme} size={180} delay={4}>
+          The{" "}
+          <span
+            style={{
+              color: theme.accent,
+              fontStyle: theme.id === "editorial" ? "italic" : "normal",
+            }}
+          >
+            end.
+          </span>
+        </Title>
+        <FadeUp delay={28}>
+          <div
+            style={{
+              fontFamily: theme.fontMono,
+              fontSize: 22,
+              color: theme.fgMuted,
+              letterSpacing: "0.16em",
+              textTransform: "uppercase",
+              marginTop: 24,
+            }}
+          >
+            Questions?
+          </div>
+        </FadeUp>
+        <FadeUp delay={48}>
+          <div
+            style={{
+              fontFamily: theme.fontMono,
+              fontSize: 16,
+              color: theme.fgSubtle,
+              letterSpacing: "0.08em",
+              marginTop: 16,
+            }}
+          >
+            Spencer Mroczek + Anna · CampCo
+          </div>
+        </FadeUp>
+      </div>
+    </SlideFrame>
+  );
+}
+
+// Registry — 9-slide deck for the CampCo Tech Town Hall.
+// Older slide functions (Slide04, Slide06..Slide08, Slide10, Slide12..Slide17,
+// Slide19, Slide20, Slide21, Slide22, Slide23) are retained in this file as
+// inventory but not in the deck.
 export const SLIDES = [
   Slide01,    // 1 Title — The Epic AI Experiment (S)
   Slide02,    // 2 Plan vs reality (S)
-  Slide03,    // 3 Six-week timeline (S)
+  Slide03,    // 3 Six-week timeline (A)
   Slide11,    // 4 What we built (A)
   Slide09,    // 5 How I drive Claude (S)
   Slide18,    // 6 What it took — by the receipts (S)
-  Slide20,    // 7 The mental load is real (S)
+  Slide05,    // 7 PM in the build loop (A)
   SlideClose, // 8 What shipped — Anna's close (A)
+  SlideEnd,   // 9 The end (S+A)
 ];
 
