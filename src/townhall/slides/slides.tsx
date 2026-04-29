@@ -86,28 +86,30 @@ export function Slide01({ theme, slideNumber, total }: SlideProps) {
 export function Slide02({ theme, slideNumber, total }: SlideProps) {
   return (
     <SlideFrame theme={theme}>
-      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="The frame" />
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} />
       <div style={{ marginTop: 96, display: "flex", flexDirection: "column", gap: 56 }}>
         <Kicker theme={theme}>Plan vs. reality</Kicker>
 
         <Row
           theme={theme}
-          label="The plan, by week 6"
+          label="The plan"
           value={
             <>
-              Have a sense of what we{" "}
-              <span style={{ color: theme.fgMuted }}>might</span> build into production.
+              Spend six weeks{" "}
+              <span style={{ color: theme.fgMuted }}>exploring</span> Claude.
+              Maybe build something real later.
             </>
           }
           delay={6}
         />
         <Row
           theme={theme}
-          label="The reality, by week 4"
+          label="What actually happened"
           value={
             <>
-              We were already building{" "}
-              <span style={{ color: theme.accent, fontWeight: 700 }}>in</span> production.
+              By week 4 we&apos;d{" "}
+              <span style={{ color: theme.accent, fontWeight: 700 }}>committed to ship</span> —
+              and brought Jeremy on to help land it.
             </>
           }
           delay={22}
@@ -123,7 +125,7 @@ export function Slide02({ theme, slideNumber, total }: SlideProps) {
             letterSpacing: "0.04em",
           }}
         >
-          ◆ Ask Camp shipped to real parents. Smart Nudges scoped down and shipped.
+          ◆ AI Parent Handbook live with real parents. Smart Nudges in active eval.
         </div>
       </FadeUp>
     </SlideFrame>
@@ -187,22 +189,22 @@ function Row({
 export function Slide03({ theme, slideNumber, total }: SlideProps) {
   const frame = useFrame();
   const weeks = [
-    { w: "Week 1", e: "Kickoff. Parent Handbook Lesson at the camp. RAG pilot." },
+    { w: "Week 1", e: "Kickoff. Parent Handbook lesson at the camp. RAG pilot." },
     { w: "Week 2", e: "First prototype in customer hands." },
-    { w: "Week 3", e: "AI Lab #1: Smart Nudges feedback exposes the personalization problem." },
-    { w: "Week 4", e: "Ask Camp ships to production.", flag: true },
+    { w: "Week 3", e: "AI Lab: Smart Nudges feedback exposes the personalization problem." },
+    { w: "Week 4", e: "Production push starts. Jeremy joins to help land it." },
     { w: "Week 5", e: "Evals + prompt registry online. Three LLM-as-judge graders running." },
-    { w: "Week 6", e: "Smart Nudges scoped down. Live with real parents." },
+    { w: "Week 6", e: "AI Parent Handbook live with real parents. Smart Nudges in eval.", flag: true },
   ];
   const lineProgress = interpolate(frame, [10, 80], [0, 1], { extrapolateRight: "clamp" });
 
   return (
     <SlideFrame theme={theme}>
-      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="Timeline" />
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} />
       <div style={{ marginTop: 100, display: "flex", flexDirection: "column", gap: 32 }}>
         <Kicker theme={theme}>Six weeks</Kicker>
         <Title theme={theme} size={64} delay={4}>
-          The pace mattered.
+          How it actually went.
         </Title>
       </div>
 
@@ -290,7 +292,7 @@ export function Slide03({ theme, slideNumber, total }: SlideProps) {
             letterSpacing: "0.06em",
           }}
         >
-          ◆ Production ship at week 4 — five days ahead of the prototype date.
+          ◆ Two products shipped — five days ahead of the expected prototype date.
         </div>
       </FadeUp>
     </SlideFrame>
@@ -636,12 +638,25 @@ export function Slide09({ theme, slideNumber, total }: SlideProps) {
   ];
   return (
     <SlideFrame theme={theme}>
-      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="How we worked" />
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} />
       <div style={{ marginTop: 100, display: "flex", flexDirection: "column", gap: 24 }}>
         <Kicker theme={theme}>How I drive Claude</Kicker>
         <Title theme={theme} size={62} delay={4}>
-          My pattern with Claude<br />on hard problems.
+          The pattern that worked<br />on hard problems.
         </Title>
+        <FadeUp delay={10}>
+          <div
+            style={{
+              fontFamily: theme.fontBody,
+              fontSize: 22,
+              color: theme.fgMuted,
+              maxWidth: 1300,
+              lineHeight: 1.4,
+            }}
+          >
+            Steal what works. The four moves I lean on every session.
+          </div>
+        </FadeUp>
       </div>
 
       <div style={{ marginTop: 72, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28 }}>
@@ -718,31 +733,47 @@ export function Slide10({ theme, slideNumber, total }: SlideProps) {
 export function Slide11({ theme, slideNumber, total }: SlideProps) {
   return (
     <SlideFrame theme={theme}>
-      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="02 · AI candidates" />
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} />
       <div style={{ marginTop: 96, display: "flex", flexDirection: "column", gap: 20 }}>
-        <Kicker theme={theme}>Two tracks. Same six weeks. Same clients.</Kicker>
+        <Kicker theme={theme}>Two products, two shapes</Kicker>
         <Title theme={theme} size={56} delay={4}>
-          Same team. Same workflow. Different fits.
+          Same team. Same tools. Different problems.
         </Title>
+        <FadeUp delay={10}>
+          <div
+            style={{
+              marginTop: 4,
+              fontFamily: theme.fontBody,
+              fontSize: 22,
+              color: theme.fgMuted,
+              maxWidth: 1300,
+              lineHeight: 1.4,
+            }}
+          >
+            Two AI candidates. The shape of the problem decided how fast we could move.
+          </div>
+        </FadeUp>
       </div>
 
-      <div style={{ marginTop: 72, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40 }}>
+      <div style={{ marginTop: 56, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40 }}>
         <FadeUp delay={16}>
-          <TrackCard
+          <ShapeCard
             theme={theme}
-            tag="ASK CAMP"
-            quote='"This feels right. Good usage of AI."'
-            verdict="VALIDATED"
-            tone="positive"
+            tag="AI PARENT HANDBOOK"
+            shape="Information retrieval"
+            why="Wrong answer? Try again. Recovery is cheap."
+            move="Ship-fast was the right call."
+            status="LIVE IN PRODUCTION"
           />
         </FadeUp>
         <FadeUp delay={28}>
-          <TrackCard
+          <ShapeCard
             theme={theme}
             tag="SMART NUDGES"
-            quote='"Too sensitive a channel. Too much AI in the wrong place."'
-            verdict="REJECTED"
-            tone="negative"
+            shape="Sensitive parent comms"
+            why="Wrong tone has real cost. Recovery is expensive."
+            move="Eval rigor first. Slower on purpose."
+            status="IN ACTIVE EVAL"
           />
         </FadeUp>
       </div>
@@ -750,37 +781,38 @@ export function Slide11({ theme, slideNumber, total }: SlideProps) {
   );
 }
 
-function TrackCard({
+function ShapeCard({
   theme,
   tag,
-  quote,
-  verdict,
-  tone,
+  shape,
+  why,
+  move,
+  status,
 }: {
   theme: Theme;
   tag: string;
-  quote: string;
-  verdict: string;
-  tone: "positive" | "negative";
+  shape: string;
+  why: string;
+  move: string;
+  status: string;
 }) {
-  const color = tone === "positive" ? theme.positive : theme.negative;
   return (
     <div
       style={{
         background: theme.panel,
         border: `1px solid ${theme.rule}`,
-        borderTop: `6px solid ${color}`,
-        padding: "44px 44px",
+        borderTop: `6px solid ${theme.accent}`,
+        padding: "36px 36px",
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        gap: 28,
+        gap: 20,
       }}
     >
       <div
         style={{
           fontFamily: theme.fontMono,
-          fontSize: 16,
+          fontSize: 14,
           letterSpacing: "0.18em",
           color: theme.fgSubtle,
         }}
@@ -790,29 +822,48 @@ function TrackCard({
       <div
         style={{
           fontFamily: theme.fontHeading,
-          fontStyle: theme.id === "editorial" ? "italic" : "normal",
-          fontSize: 38,
+          fontSize: 34,
           fontWeight: theme.headingWeight,
           lineHeight: 1.2,
           letterSpacing: theme.headingTracking,
           color: theme.fg,
         }}
       >
-        {quote}
+        {shape}
+      </div>
+      <div
+        style={{
+          fontFamily: theme.fontBody,
+          fontSize: 19,
+          color: theme.fgMuted,
+          lineHeight: 1.45,
+        }}
+      >
+        {why}
+      </div>
+      <div
+        style={{
+          fontFamily: theme.fontBody,
+          fontSize: 19,
+          color: theme.fg,
+          lineHeight: 1.45,
+        }}
+      >
+        {move}
       </div>
       <div style={{ marginTop: "auto" }}>
         <div
           style={{
             display: "inline-block",
             fontFamily: theme.fontMono,
-            fontSize: 14,
+            fontSize: 13,
             letterSpacing: "0.2em",
-            color,
-            border: `2px solid ${color}`,
+            color: theme.accent,
+            border: `2px solid ${theme.accent}`,
             padding: "8px 14px",
           }}
         >
-          {verdict}
+          {status}
         </div>
       </div>
     </div>
@@ -1417,110 +1468,98 @@ function EvalRow({
 // ============================================================================
 export function Slide18({ theme, slideNumber, total }: SlideProps) {
   return (
-    <SlideFrame theme={theme} align="center">
+    <SlideFrame theme={theme}>
       <SlideChrome theme={theme} slideNumber={slideNumber} total={total} />
-      <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
-        <Kicker theme={theme}>The cost of building this fast</Kicker>
-        <Title theme={theme} size={56} delay={6}>
-          Six months of decisions,<br />compressed into six weeks.
+      <div style={{ marginTop: 88, display: "flex", flexDirection: "column", gap: 20 }}>
+        <Kicker theme={theme}>What it took</Kicker>
+        <Title theme={theme} size={56} delay={4}>
+          Six weeks of building, by the receipts.
         </Title>
-
-        {/* Hero: total cost */}
-        <FadeUp delay={20}>
+        <FadeUp delay={10}>
           <div
             style={{
-              marginTop: 12,
-              display: "flex",
-              alignItems: "baseline",
-              gap: 28,
-            }}
-          >
-            <Counter
-              theme={theme}
-              to={7767.28}
-              delay={20}
-              duration={70}
-              size={180}
-              format={(v) =>
-                "$" +
-                v.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })
-              }
-            />
-            <div
-              style={{
-                fontFamily: theme.fontMono,
-                fontSize: 20,
-                color: theme.fgMuted,
-                letterSpacing: "0.04em",
-                lineHeight: 1.4,
-              }}
-            >
-              Ask Camp + AI Parent Handbook
-              <br />
-              25 active days · $310.69 / day
-            </div>
-          </div>
-        </FadeUp>
-
-        {/* Stats grid */}
-        <FadeUp delay={48}>
-          <div
-            style={{
-              marginTop: 16,
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: 24,
-              borderTop: `1px solid ${theme.rule}`,
-              paddingTop: 24,
-              maxWidth: 1500,
-            }}
-          >
-            <StatCell
-              theme={theme}
-              label="Assistant msgs"
-              value="19,078"
-              sub="5,911 user msgs"
-            />
-            <StatCell
-              theme={theme}
-              label="Sessions"
-              value="144"
-              sub="132.5 msgs / session"
-            />
-            <StatCell
-              theme={theme}
-              label="Cache hit rate"
-              value="98.1%"
-              sub="3.75B cache reads"
-            />
-            <StatCell
-              theme={theme}
-              label="Avg / session"
-              value="$53.94"
-              sub="$0.41 per message"
-            />
-          </div>
-        </FadeUp>
-
-        <FadeUp delay={80}>
-          <div
-            style={{
-              marginTop: 12,
               fontFamily: theme.fontBody,
               fontSize: 22,
-              color: theme.fg,
+              color: theme.fgMuted,
               maxWidth: 1300,
               lineHeight: 1.4,
             }}
           >
-            Claude lets us move incredibly fast. The mental load that comes with it is real.{" "}
-            <span style={{ color: theme.accent }}>This isn&apos;t all rainbows.</span>
+            Every Claude message I sent and every response I got, across every session.
           </div>
         </FadeUp>
       </div>
+
+      {/* Hero: user messages */}
+      <FadeUp delay={22}>
+        <div
+          style={{
+            marginTop: 44,
+            display: "grid",
+            gridTemplateColumns: "auto 1fr",
+            gap: 44,
+            alignItems: "baseline",
+          }}
+        >
+          <Counter
+            theme={theme}
+            to={5911}
+            delay={22}
+            duration={60}
+            size={180}
+            format={(v) => Math.round(v).toLocaleString()}
+          />
+          <div
+            style={{
+              fontFamily: theme.fontMono,
+              fontSize: 22,
+              color: theme.fgMuted,
+              letterSpacing: "0.04em",
+              lineHeight: 1.4,
+              paddingBottom: 24,
+            }}
+          >
+            messages I sent to Claude
+            <br />
+            <span style={{ color: theme.fg }}>
+              19,078 responses back · ≈3.2× leverage on every message
+            </span>
+          </div>
+        </div>
+      </FadeUp>
+
+      {/* Stats grid */}
+      <FadeUp delay={56}>
+        <div
+          style={{
+            marginTop: 36,
+            display: "grid",
+            gridTemplateColumns: "repeat(5, 1fr)",
+            gap: 20,
+            borderTop: `1px solid ${theme.rule}`,
+            paddingTop: 24,
+          }}
+        >
+          <StatCell theme={theme} label="Total cost" value="$7,767" sub="$310.69 / active day" />
+          <StatCell theme={theme} label="Sessions" value="144" sub="132.5 msgs / session" />
+          <StatCell theme={theme} label="Active days" value="25" sub="of the 6-week window" />
+          <StatCell theme={theme} label="Cache hit rate" value="98.1%" sub="3.75B cache reads" />
+          <StatCell theme={theme} label="Per session" value="$53.94" sub="$0.41 per message" />
+        </div>
+      </FadeUp>
+
+      <FadeUp delay={88} style={{ position: "absolute", left: 96, bottom: 110, right: 96 }}>
+        <div
+          style={{
+            fontFamily: theme.fontMono,
+            fontSize: 18,
+            color: theme.fgMuted,
+            letterSpacing: "0.04em",
+          }}
+        >
+          ◆ Six months of decisions, compressed into 25 active days.
+        </div>
+      </FadeUp>
     </SlideFrame>
   );
 }
@@ -1617,13 +1656,26 @@ export function Slide20({ theme, slideNumber, total }: SlideProps) {
 
   return (
     <SlideFrame theme={theme}>
-      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="04 · Tactics" />
-      <div style={{ marginTop: 100, display: "flex", flexDirection: "column", gap: 20 }}>
-        <Kicker theme={theme}>Tactic 01</Kicker>
-        <Title theme={theme} size={62} delay={4}>
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} />
+      <div style={{ marginTop: 96, display: "flex", flexDirection: "column", gap: 18 }}>
+        <Kicker theme={theme}>The mental load is real</Kicker>
+        <Title theme={theme} size={58} delay={4}>
           Treat Claude like a colleague<br />
           <span style={{ color: theme.accent }}>who lies sometimes.</span>
         </Title>
+        <FadeUp delay={10}>
+          <div
+            style={{
+              fontFamily: theme.fontBody,
+              fontSize: 22,
+              color: theme.fgMuted,
+              maxWidth: 1300,
+              lineHeight: 1.4,
+            }}
+          >
+            Claude is fast — and confidently wrong sometimes. The cost of moving this fast is staying alert.
+          </div>
+        </FadeUp>
       </div>
 
       <div style={{ marginTop: 56, display: "flex", flexDirection: "column", gap: 0 }}>
@@ -1700,79 +1752,97 @@ export function Slide20({ theme, slideNumber, total }: SlideProps) {
 // 21 — Multi-model + self-healing hooks
 // ============================================================================
 export function Slide21({ theme, slideNumber, total }: SlideProps) {
+  const patterns = [
+    {
+      label: "MULTI-MODEL ROUTING",
+      title: "Match the model to the job.",
+      body: "Opus to plan, Sonnet to execute, Haiku to lint. Cost and speed both fall.",
+    },
+    {
+      label: "SELF-HEALING HOOKS",
+      title: "Once you see it twice, hook it.",
+      body: "When a tool fails the same way, automate recovery. Chrome reconnect saved us 90s × every run.",
+    },
+    {
+      label: "PLANNING SUB-AGENTS",
+      title: "Spawn a worktree. Merge the plan.",
+      body: "Let an agent explore in isolation, then bring back the strategy — not the code.",
+    },
+    {
+      label: "EVALS AS TESTS",
+      title: "Treat prompts like code.",
+      body: "Lock behavior with assertion suites. Catch regressions before parents do.",
+    },
+  ];
   return (
     <SlideFrame theme={theme}>
-      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="04 · Tactics" />
-      <div style={{ marginTop: 100, display: "flex", flexDirection: "column", gap: 20 }}>
-        <Kicker theme={theme}>Tactics 02 + 03</Kicker>
-        <Title theme={theme} size={56} delay={4}>
-          Two more.
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} />
+      <div style={{ marginTop: 88, display: "flex", flexDirection: "column", gap: 18 }}>
+        <Kicker theme={theme}>What you can take back to your team</Kicker>
+        <Title theme={theme} size={54} delay={4}>
+          Four patterns that earned their slide.
         </Title>
+        <FadeUp delay={10}>
+          <div
+            style={{
+              fontFamily: theme.fontBody,
+              fontSize: 22,
+              color: theme.fgMuted,
+              maxWidth: 1300,
+              lineHeight: 1.4,
+            }}
+          >
+            Tactics from six weeks of building — useable Monday morning, no special permission required.
+          </div>
+        </FadeUp>
       </div>
 
-      <div style={{ marginTop: 60, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}>
-        <FadeUp delay={16}>
-          <TacticCard
-            theme={theme}
-            label="MULTI-MODEL FALLBACK"
-            title="Switch models with fresh context."
-            body="When Claude's stuck rationalizing in a design loop, switch to Codex. Different model, different failure mode."
-            example={
-              <ModelSwapDiagram theme={theme} />
-            }
-          />
-        </FadeUp>
-        <FadeUp delay={28}>
-          <TacticCard
-            theme={theme}
-            label="SELF-HEALING HOOKS"
-            title="When a tool fails the same way, automate the recovery."
-            body="Cloud Chrome kept disconnecting on Anna. We wrote a hook to restart on failure — 90 seconds, ran for the rest of the experiment."
-            example={
-              <CodeBlock
-                theme={theme}
-                code={`hooks:
-  on_tool_error:
-    match: "chrome_disconnected"
-    run: "kill && restart"`}
-              />
-            }
-          />
-        </FadeUp>
+      <div
+        style={{
+          marginTop: 48,
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: 24,
+        }}
+      >
+        {patterns.map((p, i) => (
+          <FadeUp key={i} delay={20 + i * 8}>
+            <PatternCard theme={theme} label={p.label} title={p.title} body={p.body} />
+          </FadeUp>
+        ))}
       </div>
     </SlideFrame>
   );
 }
 
-function TacticCard({
+function PatternCard({
   theme,
   label,
   title,
   body,
-  example,
 }: {
   theme: Theme;
   label: string;
   title: string;
   body: string;
-  example: React.ReactNode;
 }) {
   return (
     <div
       style={{
         background: theme.panel,
         border: `1px solid ${theme.rule}`,
-        padding: 32,
+        borderLeft: `4px solid ${theme.accent}`,
+        padding: "26px 30px",
         display: "flex",
         flexDirection: "column",
-        gap: 18,
+        gap: 12,
         height: "100%",
       }}
     >
       <div
         style={{
           fontFamily: theme.fontMono,
-          fontSize: 14,
+          fontSize: 13,
           letterSpacing: "0.18em",
           color: theme.accent,
         }}
@@ -1794,71 +1864,14 @@ function TacticCard({
       <div
         style={{
           fontFamily: theme.fontBody,
-          fontSize: 17,
+          fontSize: 18,
           color: theme.fgMuted,
-          lineHeight: 1.4,
+          lineHeight: 1.45,
         }}
       >
         {body}
       </div>
-      <div style={{ marginTop: "auto", paddingTop: 16 }}>{example}</div>
     </div>
-  );
-}
-
-function ModelSwapDiagram({ theme }: { theme: Theme }) {
-  return (
-    <div
-      style={{
-        display: "flex",
-        gap: 16,
-        alignItems: "center",
-        fontFamily: theme.fontMono,
-        fontSize: 16,
-      }}
-    >
-      <span
-        style={{
-          padding: "10px 16px",
-          border: `2px solid ${theme.negative}`,
-          color: theme.negative,
-        }}
-      >
-        Claude (stuck)
-      </span>
-      <span style={{ color: theme.accent }}>→</span>
-      <span
-        style={{
-          padding: "10px 16px",
-          border: `2px solid ${theme.positive}`,
-          color: theme.positive,
-        }}
-      >
-        Codex (fresh)
-      </span>
-    </div>
-  );
-}
-
-function CodeBlock({ theme, code }: { theme: Theme; code: string }) {
-  return (
-    <pre
-      style={{
-        margin: 0,
-        padding: 16,
-        background: theme.id === "terminal" ? "#000" : "#0B0E14",
-        color: theme.id === "terminal" ? theme.accent : "#3FB950",
-        // Code stays monospace regardless of theme.
-        fontFamily: '"JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace',
-        fontSize: 14,
-        lineHeight: 1.5,
-        borderRadius: 4,
-        overflow: "hidden",
-        whiteSpace: "pre",
-      }}
-    >
-      {code}
-    </pre>
   );
 }
 
@@ -2072,21 +2085,34 @@ export function Slide23({ theme, slideNumber, total }: SlideProps) {
 // ============================================================================
 export function SlideClose({ theme, slideNumber, total }: SlideProps) {
   const items = [
-    { k: "Ask Camp", v: "live in production, real parents" },
-    { k: "Smart Nudges", v: "scoped down and shipped" },
+    { k: "AI Parent Handbook", v: "live with real parents" },
+    { k: "Smart Nudges", v: "scoped down and in active eval" },
     { k: "3 evals", v: "running on every conversation" },
     { k: "22 prompts", v: "versioned in Langfuse" },
-    { k: "1 self-healing hook", v: "" },
-    { k: "2 weeks", v: "ahead of the ask" },
+    { k: "1 self-healing hook", v: "running for the rest of the experiment" },
+    { k: "2 weeks", v: "ahead of the original ask" },
   ];
   return (
     <SlideFrame theme={theme}>
-      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="Close" />
-      <div style={{ marginTop: 96, display: "flex", flexDirection: "column", gap: 20 }}>
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} />
+      <div style={{ marginTop: 96, display: "flex", flexDirection: "column", gap: 18 }}>
         <Kicker theme={theme}>What shipped from the experiment</Kicker>
         <Title theme={theme} size={56} delay={4}>
-          Six weeks. Two tracks. Live.
+          Six weeks. Two products. Live.
         </Title>
+        <FadeUp delay={10}>
+          <div
+            style={{
+              fontFamily: theme.fontBody,
+              fontSize: 22,
+              color: theme.fgMuted,
+              maxWidth: 1300,
+              lineHeight: 1.4,
+            }}
+          >
+            Real artifacts, real users. What CampCo actually got out of this experiment.
+          </div>
+        </FadeUp>
       </div>
 
       <div style={{ marginTop: 64, display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px 56px" }}>
@@ -2146,27 +2172,18 @@ export function SlideClose({ theme, slideNumber, total }: SlideProps) {
   );
 }
 
-// Registry export — new 17-slide order per the 2026-04-29 manuscript revision.
-// Cuts from old deck: section headers (4, 10, 14, 19), "in six weeks Anna" list (6),
-// Spencer product-first (8), old close (23). Old slide functions retained but
-// reordered.
+// Registry — tightened 9-slide deck for the CampCo Tech Town Hall.
+// Older slide functions (Slide04..Slide08, Slide10, Slide12..Slide17, Slide19,
+// Slide22, Slide23) are retained in this file as inventory but not in the deck.
 export const SLIDES = [
-  Slide01, // 01 Title — The Epic AI Experiment (S)
-  Slide02, // 02 Plan vs reality (S)
-  Slide03, // 03 Six-week timeline (S)
-  Slide05, // 04 Anna build-loop quote (A)
-  Slide07, // 05 Anna week-4 quote (A)
-  Slide09, // 06 How I drive Claude (S)
-  Slide11, // 07 Two tracks (A)
-  Slide12, // 08 Dennis quote (S)
-  Slide13, // 09 Two questions (S)
-  Slide15, // 10 Cost is a product question (A)
-  Slide16, // 11 Hallucinations: router (S)
-  Slide17, // 12 Evals (S)
-  Slide18, // 13 42K mental load (S)
-  Slide20, // 14 Treat Claude like colleague who lies (S)
-  Slide21, // 15 Multi-model + hooks (S)
-  Slide22, // 16 Test the product (S)
-  SlideClose, // 17 What shipped — Anna's close (A)
+  Slide01,    // 1 Title — The Epic AI Experiment (S)
+  Slide02,    // 2 Plan vs reality (S)
+  Slide03,    // 3 Six-week timeline (S)
+  Slide11,    // 4 Two products, two shapes (A)
+  Slide09,    // 5 How I drive Claude (S)
+  Slide18,    // 6 What it took — by the receipts (S)
+  Slide20,    // 7 The mental load is real (S)
+  Slide21,    // 8 What you can take back to your team (S)
+  SlideClose, // 9 What shipped — Anna's close (A)
 ];
 
