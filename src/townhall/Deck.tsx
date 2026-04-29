@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { SLIDES } from "./slides/slides";
-import { THEMES, THEME_ORDER, type ThemeId, type Theme } from "./themes";
+import { THEMES, type Theme } from "./themes";
 import { FrameProvider } from "./components/frame";
 
 const FPS = 30;
@@ -14,10 +14,9 @@ const SLIDE_H = 1080;
 const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export default function Deck() {
-  const [themeId, setThemeId] = useState<ThemeId>("brand");
   const [slideIndex, setSlideIndex] = useState(0);
   const total = SLIDES.length;
-  const theme = THEMES[themeId];
+  const theme = THEMES.brand;
   const Slide = SLIDES[slideIndex];
 
   const next = useCallback(() => {
@@ -43,12 +42,6 @@ export default function Deck() {
         goto(0);
       } else if (e.key === "End") {
         goto(total - 1);
-      } else if (e.key === "1") {
-        setThemeId("editorial");
-      } else if (e.key === "2") {
-        setThemeId("terminal");
-      } else if (e.key === "3") {
-        setThemeId("brand");
       } else if (e.key === "f" || e.key === "F") {
         if (document.fullscreenElement) {
           document.exitFullscreen();
@@ -61,8 +54,8 @@ export default function Deck() {
     return () => window.removeEventListener("keydown", onKey);
   }, [next, prev, goto, total]);
 
-  // Replay animations on slide / theme change
-  const playKey = `${themeId}-${slideIndex}`;
+  // Replay animations on slide change
+  const playKey = `${slideIndex}`;
 
   return (
     <div
@@ -89,8 +82,6 @@ export default function Deck() {
         onPrev={prev}
         onNext={next}
         onGoto={goto}
-        themeId={themeId}
-        onThemeChange={setThemeId}
       />
     </div>
   );
@@ -211,8 +202,6 @@ function ControlBar({
   onPrev,
   onNext,
   onGoto,
-  themeId,
-  onThemeChange,
 }: {
   theme: Theme;
   slideIndex: number;
@@ -220,8 +209,6 @@ function ControlBar({
   onPrev: () => void;
   onNext: () => void;
   onGoto: (i: number) => void;
-  themeId: ThemeId;
-  onThemeChange: (t: ThemeId) => void;
 }) {
   const [hint, setHint] = useState(true);
   useEffect(() => {
@@ -267,56 +254,8 @@ function ControlBar({
         />
       </div>
 
-      {/* Left: theme switcher */}
-      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <span
-          style={{
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            color: "#8B949E",
-            paddingRight: 8,
-          }}
-        >
-          Theme
-        </span>
-        {THEME_ORDER.map((id, i) => {
-          const t = THEMES[id];
-          const isActive = id === themeId;
-          return (
-            <button
-              key={id}
-              onClick={() => onThemeChange(id)}
-              style={{
-                appearance: "none",
-                border: `1px solid ${isActive ? "#E6EDF3" : "rgba(255,255,255,0.16)"}`,
-                background: isActive ? "#E6EDF3" : "transparent",
-                color: isActive ? "#0B0E14" : "#E6EDF3",
-                padding: "6px 12px",
-                fontSize: 12,
-                cursor: "pointer",
-                letterSpacing: "0.06em",
-                fontFamily: "inherit",
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-              }}
-              title={t.tagline}
-            >
-              <span
-                style={{
-                  display: "inline-block",
-                  width: 10,
-                  height: 10,
-                  background: t.accent,
-                  border: `1px solid ${isActive ? "#0B0E14" : "rgba(255,255,255,0.3)"}`,
-                }}
-              />
-              <span>{t.name}</span>
-              <span style={{ opacity: 0.5, fontSize: 10 }}>({i + 1})</span>
-            </button>
-          );
-        })}
-      </div>
+      {/* Left: spacer (theme switcher removed) */}
+      <div />
 
       {/* Middle: slide nav */}
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -370,10 +309,10 @@ function ControlBar({
       <div style={{ display: "flex", alignItems: "center", gap: 16, color: "#8B949E" }}>
         {hint ? (
           <span style={{ color: theme.accent }}>
-            ← / → · 1·2·3 themes · F fullscreen
+            ← / → navigate · F fullscreen
           </span>
         ) : (
-          <span>← → · 1 2 3 · F</span>
+          <span>← → · F</span>
         )}
       </div>
     </div>
