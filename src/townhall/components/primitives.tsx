@@ -203,19 +203,18 @@ export function SlideFrame({
 
 export type Speaker = "S" | "A" | "S+A";
 
-// Speaker per slide (9-slide deck, 2026-04-29 revision).
+// Speaker per slide (8-slide deck, 2026-04-29 revision).
 // One speaker per slide — no shared mic, no mid-slide handoffs.
-// Anna: 4, 9. Spencer: 1, 2, 3, 5, 6, 7, 8.
+// Anna: 4, 8. Spencer: 1, 2, 3, 5, 6, 7.
 const SLIDE_SPEAKERS: Record<number, Speaker> = {
   1: "S", // Title — Epic AI Experiment
   2: "S", // Plan vs reality
   3: "S", // Six-week timeline
-  4: "A", // Two products, two shapes
+  4: "A", // What we built
   5: "S", // How I drive Claude
   6: "S", // What it took — receipts
   7: "S", // The mental load is real
-  8: "S", // Transferable patterns
-  9: "A", // What shipped — Anna's close
+  8: "A", // What shipped — Anna's close
 };
 
 // Slide chrome footer/header. On the Brand theme we inset enough to clear

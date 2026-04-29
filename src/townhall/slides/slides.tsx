@@ -2091,12 +2091,12 @@ export function Slide23({ theme, slideNumber, total }: SlideProps) {
 // ============================================================================
 export function SlideClose({ theme, slideNumber, total }: SlideProps) {
   const items = [
-    { k: "AI Parent Handbook", v: "live with real parents" },
-    { k: "Smart Nudges", v: "scoped down and in active eval" },
-    { k: "3 evals", v: "running on every conversation" },
-    { k: "22 prompts", v: "versioned in Langfuse" },
-    { k: "1 self-healing hook", v: "running for the rest of the experiment" },
-    { k: "2 weeks", v: "ahead of the original ask" },
+    { k: "Ask Camp", v: "live with 22 parents at 6 beta camps" },
+    { k: "Smart Nudges", v: "pivoted to scheduled cadence after AI Lab feedback" },
+    { k: "3 evals", v: "running in production (context, refusal, faithfulness)" },
+    { k: "22 prompts", v: "moved out of code into LangFuse registry" },
+    { k: "~$0.03", v: "all-in cost per parent conversation" },
+    { k: "5 days", v: "ahead of the expected prototype date" },
   ];
   return (
     <SlideFrame theme={theme}>
@@ -2104,7 +2104,7 @@ export function SlideClose({ theme, slideNumber, total }: SlideProps) {
       <div style={{ marginTop: 96, display: "flex", flexDirection: "column", gap: 18 }}>
         <Kicker theme={theme}>What shipped from the experiment</Kicker>
         <Title theme={theme} size={56} delay={4}>
-          Six weeks. Two products. Live.
+          Six weeks. Two products live.<br />Real parents on the other end.
         </Title>
         <FadeUp delay={10}>
           <div
@@ -2116,7 +2116,7 @@ export function SlideClose({ theme, slideNumber, total }: SlideProps) {
               lineHeight: 1.4,
             }}
           >
-            Real artifacts, real users. What CampCo actually got out of this experiment.
+            What the experiment actually produced — and the part the org now has to figure out.
           </div>
         </FadeUp>
       </div>
@@ -2162,34 +2162,40 @@ export function SlideClose({ theme, slideNumber, total }: SlideProps) {
         ))}
       </div>
 
-      <FadeUp delay={80} style={{ position: "absolute", left: 96, bottom: 110, right: 96 }}>
+      <FadeUp delay={80} style={{ position: "absolute", left: 96, bottom: 100, right: 96 }}>
         <div
           style={{
             fontFamily: theme.fontMono,
             fontSize: 18,
             color: theme.fgMuted,
             letterSpacing: "0.04em",
+            lineHeight: 1.5,
           }}
         >
           ◆ Plus one tired PM and one tired engineer.
+          <br />
+          <span style={{ color: theme.fg }}>
+            One PM running this way. One engineer who knows the full AI stack in production.
+            That&apos;s a real thing for the org to figure out.
+          </span>
         </div>
       </FadeUp>
     </SlideFrame>
   );
 }
 
-// Registry — tightened 9-slide deck for the CampCo Tech Town Hall.
+// Registry — tightened 8-slide deck for the CampCo Tech Town Hall.
 // Older slide functions (Slide04..Slide08, Slide10, Slide12..Slide17, Slide19,
-// Slide22, Slide23) are retained in this file as inventory but not in the deck.
+// Slide21, Slide22, Slide23) are retained in this file as inventory but not in
+// the deck.
 export const SLIDES = [
   Slide01,    // 1 Title — The Epic AI Experiment (S)
   Slide02,    // 2 Plan vs reality (S)
   Slide03,    // 3 Six-week timeline (S)
-  Slide11,    // 4 Two products, two shapes (A)
+  Slide11,    // 4 What we built (A)
   Slide09,    // 5 How I drive Claude (S)
   Slide18,    // 6 What it took — by the receipts (S)
   Slide20,    // 7 The mental load is real (S)
-  Slide21,    // 8 What you can take back to your team (S)
-  SlideClose, // 9 What shipped — Anna's close (A)
+  SlideClose, // 8 What shipped — Anna's close (A)
 ];
 
