@@ -203,35 +203,27 @@ export function SlideFrame({
 
 export type Speaker = "S" | "A" | "S+A";
 
-// Speaker per slide. Spencer (S), Anna (A), or shared (S+A).
-// Driven by the manuscript "Splitting who speaks" notes:
-// - Anna: 5–7 (workflow), 10 + 12 (camp-facing)
-// - Spencer: 1–3 (open), 8–9 (his approach), 14–18 (eng meat), 19–22 (tactics), 23 (close)
-// - Shared: 4 (sec1), 11 (two tracks), 13 (control/magic)
+// Speaker per slide (17-slide manuscript, 2026-04-29 revision).
+// One speaker per slide — no shared mic, no mid-slide handoffs.
+// Anna: 4, 5, 7, 10, 17. Spencer: 1, 2, 3, 6, 8, 9, 11, 12, 13, 14, 15, 16.
 const SLIDE_SPEAKERS: Record<number, Speaker> = {
-  1: "S",
-  2: "S",
-  3: "S",
-  4: "S+A",
-  5: "A",
-  6: "A",
-  7: "A",
-  8: "S",
-  9: "S",
-  10: "A",
-  11: "S+A",
-  12: "A",
-  13: "S+A",
-  14: "S",
-  15: "S",
-  16: "S",
-  17: "S",
-  18: "S",
-  19: "S",
-  20: "S",
-  21: "S",
-  22: "S",
-  23: "S",
+  1: "S",   // Title — Epic AI Experiment
+  2: "S",   // Plan vs reality
+  3: "S",   // Six-week timeline
+  4: "A",   // Anna build-loop quote
+  5: "A",   // Anna week-4 quote
+  6: "S",   // How I drive Claude
+  7: "A",   // Two tracks
+  8: "S",   // Dennis quote
+  9: "S",   // Two questions
+  10: "A",  // Cost is a product question
+  11: "S",  // Hallucinations / router
+  12: "S",  // Evals
+  13: "S",  // 42K mental load
+  14: "S",  // Treat Claude like colleague who lies
+  15: "S",  // Multi-model + hooks
+  16: "S",  // Test the product
+  17: "A",  // What shipped (close)
 };
 
 // Slide chrome footer/header. On the Brand theme we inset enough to clear

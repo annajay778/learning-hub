@@ -28,14 +28,15 @@ export function Slide01({ theme, slideNumber, total }: SlideProps) {
       <SlideChrome theme={theme} slideNumber={slideNumber} total={total} />
       <div style={{ display: "flex", flexDirection: "column", gap: 36, paddingLeft: 0 }}>
         <Kicker theme={theme} delay={0}>
-          A build-to-learn experiment · CampCo
+          Tech Town Hall · 2026-04-29
         </Kicker>
         <Rule theme={theme} delay={6} thickness={2} />
-        <Title theme={theme} size={128} delay={10}>
-          Six weeks of building<br />
+        <Title theme={theme} size={144} delay={10}>
+          The{" "}
           <span style={{ color: theme.accent, fontStyle: theme.id === "editorial" ? "italic" : "normal" }}>
-            AI in production.
+            Epic AI
           </span>
+          <br />Experiment.
         </Title>
         <FadeUp delay={28}>
           <div
@@ -80,31 +81,51 @@ export function Slide01({ theme, slideNumber, total }: SlideProps) {
 }
 
 // ============================================================================
-// 02 — The ask, the timeframe, what shipped
+// 02 — The plan vs. the reality
 // ============================================================================
 export function Slide02({ theme, slideNumber, total }: SlideProps) {
   return (
     <SlideFrame theme={theme}>
-      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="The setup" />
-      <div style={{ marginTop: 100, display: "flex", flexDirection: "column", gap: 44 }}>
-        <Kicker theme={theme}>The frame</Kicker>
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="The frame" />
+      <div style={{ marginTop: 96, display: "flex", flexDirection: "column", gap: 56 }}>
+        <Kicker theme={theme}>Plan vs. reality</Kicker>
 
-        <Row theme={theme} label="The ask" value="Ship a parent-facing AI experience." delay={6} />
-        <Row theme={theme} label="The timeframe" value="Six weeks." delay={20} />
         <Row
           theme={theme}
-          label="What shipped"
+          label="The plan, by week 6"
           value={
             <>
-              <span>Ask Camp — live with real parents at our beta camps. </span>
-              <span style={{ color: theme.accent, fontWeight: 600 }}>
-                Hit production at week 4 — five days before the prototype date we'd circled.
-              </span>
+              Have a sense of what we{" "}
+              <span style={{ color: theme.fgMuted }}>might</span> build into production.
             </>
           }
-          delay={34}
+          delay={6}
+        />
+        <Row
+          theme={theme}
+          label="The reality, by week 4"
+          value={
+            <>
+              We were already building{" "}
+              <span style={{ color: theme.accent, fontWeight: 700 }}>in</span> production.
+            </>
+          }
+          delay={22}
         />
       </div>
+
+      <FadeUp delay={42} style={{ position: "absolute", left: 96, bottom: 110, right: 96 }}>
+        <div
+          style={{
+            fontFamily: theme.fontMono,
+            fontSize: 18,
+            color: theme.fgMuted,
+            letterSpacing: "0.04em",
+          }}
+        >
+          ◆ Ask Camp shipped to real parents. Smart Nudges scoped down and shipped.
+        </div>
+      </FadeUp>
     </SlideFrame>
   );
 }
@@ -615,11 +636,11 @@ export function Slide09({ theme, slideNumber, total }: SlideProps) {
   ];
   return (
     <SlideFrame theme={theme}>
-      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="01 · The workflow" />
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="How we worked" />
       <div style={{ marginTop: 100, display: "flex", flexDirection: "column", gap: 24 }}>
-        <Kicker theme={theme}>My pattern with Claude</Kicker>
+        <Kicker theme={theme}>How I drive Claude</Kicker>
         <Title theme={theme} size={62} delay={4}>
-          The single biggest time-saver I learned.
+          My pattern with Claude<br />on hard problems.
         </Title>
       </div>
 
@@ -1397,63 +1418,163 @@ function EvalRow({
 export function Slide18({ theme, slideNumber, total }: SlideProps) {
   return (
     <SlideFrame theme={theme} align="center">
-      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="03 · Pay attention" />
-      <div style={{ display: "flex", flexDirection: "column", gap: 36 }}>
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} />
+      <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
         <Kicker theme={theme}>The cost of building this fast</Kicker>
-        <Title theme={theme} size={64} delay={6}>
+        <Title theme={theme} size={56} delay={6}>
           Six months of decisions,<br />compressed into six weeks.
         </Title>
 
-        <FadeUp delay={28}>
+        {/* Hero: total cost */}
+        <FadeUp delay={20}>
           <div
             style={{
-              marginTop: 32,
+              marginTop: 12,
               display: "flex",
               alignItems: "baseline",
-              gap: 32,
+              gap: 28,
             }}
           >
             <Counter
               theme={theme}
-              to={42000}
-              delay={28}
+              to={7767.28}
+              delay={20}
               duration={70}
-              size={220}
-              format={(v) => Math.round(v).toLocaleString()}
+              size={180}
+              format={(v) =>
+                "$" +
+                v.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })
+              }
             />
             <div
               style={{
                 fontFamily: theme.fontMono,
-                fontSize: 22,
+                fontSize: 20,
                 color: theme.fgMuted,
                 letterSpacing: "0.04em",
+                lineHeight: 1.4,
               }}
             >
-              Claude conversations
+              Ask Camp + AI Parent Handbook
               <br />
-              Spencer · 6 weeks
+              25 active days · $310.69 / day
             </div>
           </div>
         </FadeUp>
 
-        <FadeUp delay={100}>
+        {/* Stats grid */}
+        <FadeUp delay={48}>
           <div
             style={{
-              marginTop: 32,
+              marginTop: 16,
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: 24,
+              borderTop: `1px solid ${theme.rule}`,
+              paddingTop: 24,
+              maxWidth: 1500,
+            }}
+          >
+            <StatCell
+              theme={theme}
+              label="Assistant msgs"
+              value="19,078"
+              sub="5,911 user msgs"
+            />
+            <StatCell
+              theme={theme}
+              label="Sessions"
+              value="144"
+              sub="132.5 msgs / session"
+            />
+            <StatCell
+              theme={theme}
+              label="Cache hit rate"
+              value="98.1%"
+              sub="3.75B cache reads"
+            />
+            <StatCell
+              theme={theme}
+              label="Avg / session"
+              value="$53.94"
+              sub="$0.41 per message"
+            />
+          </div>
+        </FadeUp>
+
+        <FadeUp delay={80}>
+          <div
+            style={{
+              marginTop: 12,
               fontFamily: theme.fontBody,
-              fontSize: 24,
+              fontSize: 22,
               color: theme.fg,
-              maxWidth: 1100,
+              maxWidth: 1300,
               lineHeight: 1.4,
             }}
           >
-            Claude lets us move incredibly fast. The mental load that comes with it is real.
-            <br />
-            <span style={{ color: theme.accent }}>Worth naming. This isn't all rainbows.</span>
+            Claude lets us move incredibly fast. The mental load that comes with it is real.{" "}
+            <span style={{ color: theme.accent }}>This isn&apos;t all rainbows.</span>
           </div>
         </FadeUp>
       </div>
     </SlideFrame>
+  );
+}
+
+function StatCell({
+  theme,
+  label,
+  value,
+  sub,
+}: {
+  theme: Theme;
+  label: string;
+  value: string;
+  sub?: string;
+}) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+      <div
+        style={{
+          fontFamily: theme.fontMono,
+          fontSize: 12,
+          letterSpacing: "0.18em",
+          textTransform: "uppercase",
+          color: theme.fgSubtle,
+        }}
+      >
+        {label}
+      </div>
+      <div
+        style={{
+          fontFamily: theme.fontHeading,
+          fontSize: 56,
+          fontWeight: theme.headingWeight,
+          letterSpacing: theme.headingTracking,
+          lineHeight: 1,
+          color: theme.fg,
+          fontVariantNumeric: "tabular-nums",
+        }}
+      >
+        {value}
+      </div>
+      {sub && (
+        <div
+          style={{
+            fontFamily: theme.fontMono,
+            fontSize: 14,
+            color: theme.fgMuted,
+            letterSpacing: "0.02em",
+          }}
+        >
+          {sub}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -1946,11 +2067,106 @@ export function Slide23({ theme, slideNumber, total }: SlideProps) {
   );
 }
 
-// Registry export
+// ============================================================================
+// 17 — What shipped (Anna's close)
+// ============================================================================
+export function SlideClose({ theme, slideNumber, total }: SlideProps) {
+  const items = [
+    { k: "Ask Camp", v: "live in production, real parents" },
+    { k: "Smart Nudges", v: "scoped down and shipped" },
+    { k: "3 evals", v: "running on every conversation" },
+    { k: "22 prompts", v: "versioned in Langfuse" },
+    { k: "1 self-healing hook", v: "" },
+    { k: "2 weeks", v: "ahead of the ask" },
+  ];
+  return (
+    <SlideFrame theme={theme}>
+      <SlideChrome theme={theme} slideNumber={slideNumber} total={total} section="Close" />
+      <div style={{ marginTop: 96, display: "flex", flexDirection: "column", gap: 20 }}>
+        <Kicker theme={theme}>What shipped from the experiment</Kicker>
+        <Title theme={theme} size={56} delay={4}>
+          Six weeks. Two tracks. Live.
+        </Title>
+      </div>
+
+      <div style={{ marginTop: 64, display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px 56px" }}>
+        {items.map((it, i) => (
+          <FadeUp key={i} delay={14 + i * 8}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "baseline",
+                gap: 18,
+                padding: "16px 0",
+                borderTop: `1px solid ${theme.rule}`,
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: theme.fontHeading,
+                  fontSize: 36,
+                  fontWeight: theme.headingWeight,
+                  letterSpacing: theme.headingTracking,
+                  color: theme.accent,
+                  flexShrink: 0,
+                }}
+              >
+                {it.k}
+              </span>
+              {it.v && (
+                <span
+                  style={{
+                    fontFamily: theme.fontBody,
+                    fontSize: 22,
+                    color: theme.fgMuted,
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {it.v}
+                </span>
+              )}
+            </div>
+          </FadeUp>
+        ))}
+      </div>
+
+      <FadeUp delay={80} style={{ position: "absolute", left: 96, bottom: 110, right: 96 }}>
+        <div
+          style={{
+            fontFamily: theme.fontMono,
+            fontSize: 18,
+            color: theme.fgMuted,
+            letterSpacing: "0.04em",
+          }}
+        >
+          ◆ Plus one tired PM and one tired engineer.
+        </div>
+      </FadeUp>
+    </SlideFrame>
+  );
+}
+
+// Registry export — new 17-slide order per the 2026-04-29 manuscript revision.
+// Cuts from old deck: section headers (4, 10, 14, 19), "in six weeks Anna" list (6),
+// Spencer product-first (8), old close (23). Old slide functions retained but
+// reordered.
 export const SLIDES = [
-  Slide01, Slide02, Slide03, Slide04, Slide05, Slide06,
-  Slide07, Slide08, Slide09, Slide10, Slide11, Slide12,
-  Slide13, Slide14, Slide15, Slide16, Slide17, Slide18,
-  Slide19, Slide20, Slide21, Slide22, Slide23,
+  Slide01, // 01 Title — The Epic AI Experiment (S)
+  Slide02, // 02 Plan vs reality (S)
+  Slide03, // 03 Six-week timeline (S)
+  Slide05, // 04 Anna build-loop quote (A)
+  Slide07, // 05 Anna week-4 quote (A)
+  Slide09, // 06 How I drive Claude (S)
+  Slide11, // 07 Two tracks (A)
+  Slide12, // 08 Dennis quote (S)
+  Slide13, // 09 Two questions (S)
+  Slide15, // 10 Cost is a product question (A)
+  Slide16, // 11 Hallucinations: router (S)
+  Slide17, // 12 Evals (S)
+  Slide18, // 13 42K mental load (S)
+  Slide20, // 14 Treat Claude like colleague who lies (S)
+  Slide21, // 15 Multi-model + hooks (S)
+  Slide22, // 16 Test the product (S)
+  SlideClose, // 17 What shipped — Anna's close (A)
 ];
 

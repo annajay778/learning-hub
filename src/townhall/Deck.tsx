@@ -14,7 +14,7 @@ const SLIDE_H = 1080;
 const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export default function Deck() {
-  const [themeId, setThemeId] = useState<ThemeId>("editorial");
+  const [themeId, setThemeId] = useState<ThemeId>("brand");
   const [slideIndex, setSlideIndex] = useState(0);
   const total = SLIDES.length;
   const theme = THEMES[themeId];
