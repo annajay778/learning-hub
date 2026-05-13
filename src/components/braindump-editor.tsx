@@ -107,27 +107,53 @@ export function BraindumpEditor({ entries }: { entries: Entry[] }) {
     setSaving(true);
     setSaved(false);
 
-    const formData = new FormData();
-    formData.set("body", value);
-    formData.set("author", "Anna");
-    await createBraindumpEntry(formData);
+    const bodyToSave = value;
+    let dbOk = false;
+    let notionResult: { ok: boolean; error?: string } = { ok: false };
 
     try {
-      await fetch("/api/braindump", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ body: value, author: "Anna" }),
-      });
-    } catch {
-      // Notion save is best-effort
-    }
+      const formData = new FormData();
+      formData.set("body", bodyToSave);
+      formData.set("author", "Anna");
+      try {
+        await createBraindumpEntry(formData);
+        dbOk = true;
+      } catch (err) {
+        console.error("[braindump] DB save failed:", err);
+      }
 
-    setValue("");
-    setImagePreview(null);
-    pendingImageRef.current = null;
-    setSaving(false);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+      try {
+        const res = await fetch("/api/braindump", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ body: bodyToSave, author: "Anna" }),
+        });
+        const data = await res.json().catch(() => ({}));
+        notionResult = data?.notion ?? { ok: false, error: "no response body" };
+        if (!notionResult.ok) {
+          console.error("[braindump] Notion save failed:", notionResult.error);
+        }
+      } catch (err) {
+        console.error("[braindump] Notion fetch failed:", err);
+        notionResult = { ok: false, error: (err as Error).message };
+      }
+
+      if (!dbOk && !notionResult.ok) {
+        alert(`Save failed.\n\nDB: failed\nNotion: ${notionResult.error ?? "failed"}`);
+      } else if (!notionResult.ok) {
+        alert(`Saved locally, but Notion sync failed:\n${notionResult.error}`);
+      }
+
+      if (dbOk || notionResult.ok) {
+        setValue("");
+        setImagePreview(null);
+        pendingImageRef.current = null;
+        setSaved(true);
+        setTimeout(() => setSaved(false), 2000);
+      }
+    } finally {
+      setSaving(false);
+    }
   }
 
   async function handleDelete(id: string) {
