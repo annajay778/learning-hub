@@ -12,10 +12,17 @@ const PROTOTYPE_COLORS: Record<string, string> = {
 };
 
 export default async function ClientsPage() {
-  const [clients, feedback] = await Promise.all([
+  const [clientsRes, feedbackRes] = await Promise.allSettled([
     getClients(),
     getClientFeedback(),
   ]);
+  const clients = clientsRes.status === "fulfilled" ? clientsRes.value : [];
+  const feedback = feedbackRes.status === "fulfilled" ? feedbackRes.value : [];
+  for (const r of [clientsRes, feedbackRes]) {
+    if (r.status === "rejected") {
+      console.error("[clients] read failed:", r.reason instanceof Error ? r.reason.message : r.reason);
+    }
+  }
 
   return (
     <main className="mx-auto w-full max-w-5xl space-y-8 px-4 py-8 sm:px-6">
