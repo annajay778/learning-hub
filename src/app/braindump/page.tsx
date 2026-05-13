@@ -4,7 +4,12 @@ import { getBraindumpEntries } from "@/lib/actions";
 import { BraindumpEditor } from "@/components/braindump-editor";
 
 export default async function BraindumpPage() {
-  const entries = await getBraindumpEntries();
+  let entries: Awaited<ReturnType<typeof getBraindumpEntries>> = [];
+  try {
+    entries = await getBraindumpEntries();
+  } catch (err) {
+    console.error("[braindump] read failed:", err instanceof Error ? err.message : err);
+  }
 
   return (
     <div className="relative min-h-svh">
